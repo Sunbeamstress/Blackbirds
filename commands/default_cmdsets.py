@@ -15,6 +15,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 """
 
 from evennia import default_cmds
+from commands.command_roleplay import *
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -33,6 +34,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         #
         # any commands you add below will overload the default ones.
         #
+        self.add(CmdEmote())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):

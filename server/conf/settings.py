@@ -42,58 +42,100 @@ TELNET_OOB_ENABLED = True
 
 MAX_CHAR_LIMIT = 10000
 
-_ANSI_UNDERLINE = "\033[4m"
-_ANSI_HILITE = "\033[1m"
-_ANSI_UNHILITE = "\033[22m"
-_ANSI_BLACK = "\033[30m"
-_ANSI_RED = "\033[31m"
-_ANSI_GREEN = "\033[32m"
-_ANSI_YELLOW = "\033[33m"
-_ANSI_BLUE = "\033[34m"
-_ANSI_MAGENTA = "\033[35m"
-_ANSI_CYAN = "\033[36m"
-_ANSI_WHITE = "\033[37m"
-_ANSI_BACK_BLACK = "\033[40m"
-_ANSI_BACK_RED = "\033[41m"
-_ANSI_BACK_GREEN = "\033[42m"
-_ANSI_BACK_YELLOW = "\033[43m"
-_ANSI_BACK_BLUE = "\033[44m"
-_ANSI_BACK_MAGENTA = "\033[45m"
-_ANSI_BACK_CYAN = "\033[46m"
-_ANSI_BACK_WHITE = "\033[47m"
+# ANSI definitions
+
+ANSI_BEEP = "\07"
+ANSI_ESCAPE = "\033"
+ANSI_NORMAL = "\033[0m"
+
+ANSI_UNDERLINE = "\033[4m"
+ANSI_HILITE = "\033[1m"
+ANSI_UNHILITE = "\033[22m"
+ANSI_BLINK = "\033[5m"
+ANSI_INVERSE = "\033[7m"
+ANSI_INV_HILITE = "\033[1;7m"
+ANSI_INV_BLINK = "\033[7;5m"
+ANSI_BLINK_HILITE = "\033[1;5m"
+ANSI_INV_BLINK_HILITE = "\033[1;5;7m"
+
+# Foreground colors
+ANSI_BLACK = "\033[30m"
+ANSI_RED = "\033[31m"
+ANSI_GREEN = "\033[32m"
+ANSI_YELLOW = "\033[33m"
+ANSI_BLUE = "\033[34m"
+ANSI_MAGENTA = "\033[35m"
+ANSI_CYAN = "\033[36m"
+ANSI_WHITE = "\033[37m"
+
+# Background colors
+ANSI_BACK_BLACK = "\033[40m"
+ANSI_BACK_RED = "\033[41m"
+ANSI_BACK_GREEN = "\033[42m"
+ANSI_BACK_YELLOW = "\033[43m"
+ANSI_BACK_BLUE = "\033[44m"
+ANSI_BACK_MAGENTA = "\033[45m"
+ANSI_BACK_CYAN = "\033[46m"
+ANSI_BACK_WHITE = "\033[47m"
+
+# Formatting Characters
+ANSI_RETURN = "\r\n"
+ANSI_TAB = "\t"
+ANSI_SPACE = " "
+
+# Escapes
+ANSI_ESCAPES = ("{{", "\\\\", "\|\|")
 
 COLOR_ANSI_EXTRA_MAP = [
-    (r'|R', _ANSI_HILITE + _ANSI_RED),
-    (r'|G', _ANSI_HILITE + _ANSI_GREEN),
-    (r'|Y', _ANSI_HILITE + _ANSI_YELLOW),
-    (r'|B', _ANSI_HILITE + _ANSI_BLUE),
-    (r'|M', _ANSI_HILITE + _ANSI_MAGENTA),
-    (r'|C', _ANSI_HILITE + _ANSI_CYAN),
-    (r'|W', _ANSI_HILITE + _ANSI_WHITE),  # pure white
-    (r'|X', _ANSI_HILITE + _ANSI_BLACK),  # dark grey
 
-    (r'|r', _ANSI_HILITE + _ANSI_RED),
-    (r'|g', _ANSI_HILITE + _ANSI_GREEN),
-    (r'|y', _ANSI_HILITE + _ANSI_YELLOW),
-    (r'|b', _ANSI_HILITE + _ANSI_BLUE),
-    (r'|m', _ANSI_HILITE + _ANSI_MAGENTA),
-    (r'|c', _ANSI_HILITE + _ANSI_CYAN),
-    (r'|w', _ANSI_HILITE + _ANSI_WHITE),  # light grey
-    (r'|x', _ANSI_HILITE + _ANSI_BLACK),  # pure black
+    # alternative |-format
+
+    (r'|n', ANSI_NORMAL),          # reset
+    (r'|/', ANSI_RETURN),          # line break
+    (r'|-', ANSI_TAB),             # tab
+    (r'|_', ANSI_SPACE),           # space
+    (r'|*', ANSI_INVERSE),         # invert
+
+    (r'|R', ANSI_HILITE + ANSI_RED),
+    (r'|G', ANSI_HILITE + ANSI_GREEN),
+    (r'|Y', ANSI_HILITE + ANSI_YELLOW),
+    (r'|B', ANSI_HILITE + ANSI_BLUE),
+    (r'|M', ANSI_HILITE + ANSI_MAGENTA),
+    (r'|C', ANSI_HILITE + ANSI_CYAN),
+    (r'|W', ANSI_HILITE + ANSI_WHITE),
+    (r'|X', ANSI_UNHILITE + ANSI_WHITE),
+
+    (r'|r', ANSI_UNHILITE + ANSI_RED),
+    (r'|g', ANSI_UNHILITE + ANSI_GREEN),
+    (r'|y', ANSI_UNHILITE + ANSI_YELLOW),
+    (r'|b', ANSI_UNHILITE + ANSI_BLUE),
+    (r'|m', ANSI_UNHILITE + ANSI_MAGENTA),
+    (r'|c', ANSI_UNHILITE + ANSI_CYAN),
+    (r'|w', ANSI_UNHILITE + ANSI_WHITE),
+    (r'|x', ANSI_HILITE + ANSI_BLACK),
 
     # hilight-able colors
-    (r'|H', _ANSI_HILITE),
-    (r'|h', _ANSI_UNHILITE),
+    (r'|H', ANSI_HILITE),
+    (r'|h', ANSI_UNHILITE),
+
+    (r'|!r', ANSI_RED),
+    (r'|!g', ANSI_GREEN),
+    (r'|!y', ANSI_YELLOW),
+    (r'|!b', ANSI_BLUE),
+    (r'|!m', ANSI_MAGENTA),
+    (r'|!c', ANSI_CYAN),
+    (r'|!w', ANSI_WHITE),  # light grey
+    (r'|!x', ANSI_BLACK),  # pure black
 
     # normal ANSI backgrounds
-    (r'|[r', _ANSI_BACK_RED),
-    (r'|[g', _ANSI_BACK_GREEN),
-    (r'|[y', _ANSI_BACK_YELLOW),
-    (r'|[b', _ANSI_BACK_BLUE),
-    (r'|[m', _ANSI_BACK_MAGENTA),
-    (r'|[c', _ANSI_BACK_CYAN),
-    (r'|[w', _ANSI_BACK_WHITE),    # light grey background
-    (r'|[x', _ANSI_BACK_BLACK),     # pure black background
+    (r'|[r', ANSI_BACK_RED),
+    (r'|[g', ANSI_BACK_GREEN),
+    (r'|[y', ANSI_BACK_YELLOW),
+    (r'|[b', ANSI_BACK_BLUE),
+    (r'|[m', ANSI_BACK_MAGENTA),
+    (r'|[c', ANSI_BACK_CYAN),
+    (r'|[w', ANSI_BACK_WHITE),    # light grey background
+    (r'|[x', ANSI_BACK_BLACK)     # pure black background
 ]
 
 COLOR_NO_DEFAULT = True
@@ -105,7 +147,7 @@ TIME_IGNORE_DOWNTIMES = True
 MULTISESSION_MODE = 2
 MAX_NR_CHARACTERS = 5
 
-CLIENT_DEFAULT_WIDTH = 0
+CLIENT_DEFAULT_WIDTH = 80
 CLIENT_DEFAULT_HEIGHT = 45
 
 
