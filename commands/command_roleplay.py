@@ -65,7 +65,17 @@ class CmdEmote(BaseCommand):
 
         # Speech detection:
         if '"' in em_msg:
-            self.caller.msg("Ding!")
+            new_em_msg = []
+            temp = em_msg.split('"')
+            for segment in temp:
+                if speech_mode:
+                    new_em_msg.append('|C"%s"|n' % segment)
+                else:
+                    new_em_msg.append(segment)
+                speech_mode = not speech_mode
+
+            em_msg = ''.join(new_em_msg)
+
 
         self.caller.msg("|xYou emote:|n")
         self.caller.location.msg_contents(text=(em_msg, {"type": "pose"}), from_obj=self.caller)
