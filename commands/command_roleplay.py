@@ -54,11 +54,18 @@ class CmdEmote(BaseCommand):
             # Prepend the emote with the player's name.
             em_msg = "%s%s" % (self.caller.name, em_msg)
 
+        # Remove superfluous whitespace.
+        em_msg = em_msg.strip()
+
         # Replace all @me tokens with our name.
         em_msg = em_msg.replace("@me", self.caller.name)
 
-        em_msg = em_msg.strip()
+        # Pass entire emote through formatter to auto-capitalize and punctuate.
         em_msg = RPFormat(em_msg)
+
+        # Speech detection:
+        if '"' in em_msg:
+            self.caller.msg("Ding!")
 
         self.caller.msg("|xYou emote:|n")
         self.caller.location.msg_contents(text=(em_msg, {"type": "pose"}), from_obj=self.caller)
