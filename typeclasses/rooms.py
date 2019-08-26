@@ -26,6 +26,11 @@ class Room(DefaultRoom):
     See examples/object.py for a list of
     properties and methods available on all Objects.
     """
+
+    def at_object_creation(self):
+        self.db.environment = "Urban"
+        self.db.temperature = 21
+
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.
         pass
@@ -61,6 +66,8 @@ class Room(DefaultRoom):
         desc = self.db.desc
 
         if desc:
+            desc = desc.replace("$p", "\n\n")
+            desc = desc.replace("$n", "\n")
             string += desc
 
         if exits:

@@ -20,4 +20,7 @@ def RPFormat(s):
     s = AutoCap(s)
     s = AutoPunc(s)
 
+    s = s.replace("$p", "\n\n")
+    s = s.replace("$n", "\n")
+
     return s
