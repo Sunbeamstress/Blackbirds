@@ -30,17 +30,23 @@ class Command(BaseCommand):
 
     """
     def __init__(self):
+        # Maintain out-of-the-box Evennia command structure.
         super().__init__()
+
+        # Add Blackbirds-custom command variables.
         self.cmd_word = []
 
     def at_pre_cmd(self):
+        # Space out everything between propmts - looks nice.
         self.caller.msg("\n")
 
     def parse(self):
+        # Process user's input, divide into words - used for various word-based getter functions below.
         cmd = (self.cmdstring + self.args).split()
         self.cmd_word = cmd.copy()
 
     def at_post_cmd(self):
+        # Fake prompt, will replace later with real one!
         HP, MP, END, WIL = 500, 500, 1500, 1500
         prompt = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
         self.caller.msg(prompt=prompt)
