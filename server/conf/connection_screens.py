@@ -20,19 +20,27 @@ of the screen is done by the unlogged-in "look" command.
 
 """
 
+SCREEN = \
+     '''
+         |CB L A C K B I R D S|n
+                 |B.-.|n
+                |M/|n |xv|n |M\\|n        |xto create an account|n
+               |M(|n|B/|n   |B\|n|M)|n       |Rcreate <username> <password>|n
+              |c=|n|M'|n|c=|n|x"|n|c=|n|x"|n|c=|n|M'|n|c=|n
+                |M'|n|B)|n |B(|n|M'|n        |xto log in|n
+                 |M'w'|n         |Rconnect <username> <password>|n
+     
+         |xTo all my friends: Blood makes the blade holy!|n
+                                           |x- Atmosphere|n
+     '''
+
 from django.conf import settings
 from evennia import utils
 
-CONNECTION_SCREEN = """
-|b==============================================================|n
- Welcome to |g{}|n, version {}!
+def connection_screen():
+     game_name = settings.SERVERNAME
+     evennia_version = utils.get_evennia_version("short")
 
- If you have an existing account, connect to it by typing:
-      |wconnect <username> <password>|n
- If you need to create an account, type (without the <>'s):
-      |wcreate <username> <password>|n
-
- If you have spaces in your username, enclose it in quotes.
- Enter |whelp|n for more info. |wlook|n will re-show this screen.
-|b==============================================================|n""" \
-    .format(settings.SERVERNAME, utils.get_evennia_version("short"))
+     s = f"         |x{game_name} powered by Evennia v{evennia_version}.|n"
+     s += f"\n\n{SCREEN}"
+     return s
