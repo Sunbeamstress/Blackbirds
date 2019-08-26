@@ -11,4 +11,3 @@ Players roleplay with one another in a quasi-medieval, high fantasy world that s
 ## Discord
 
 You can join the official Blackbirds Discord at https://discord.gg/YrzGjMf. Not that there's much to see, but I don't mind you chatting with us!
-
