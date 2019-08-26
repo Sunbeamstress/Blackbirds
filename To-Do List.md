@@ -17,7 +17,13 @@
 ### Characters
 
 - [ ] Need to implement at least a basic chargen and determine what properties a character has.
-   - [ ] Obvious: First and last name, sex/gender, pronouns, race, hair/eyes, etc.
+   - [ ] No coded sex/gender (sorry, chuds).
+      - [ ] Pronouns. As much as I'd love to make them freeform, for grammatical purposes, limited to he/she/they.
+      - [ ] Detector in our echo class that looks for verbs after "they" pronouns and depluralizes them.
+      - [ ] Specify body parts, such as breasts, that might appear in a slot-based description system.
+      - [ ] HIGHLY doubt it will ever be a thing, but specify: can get pregnant?
+   - [ ] Race. Choices pending establishment of setting. Tempted to go full human.
+   - [ ] Background - poverty, child of politician, that sort of thing.
 
 - [ ] Make a nice little tour for them to get acquainted.
 
@@ -27,7 +33,7 @@
 
 - [ ] Determine what properties rooms need. Obvious ones: Environment, area, indoors/outdoors, water, etc.
 
-### Objects
+### Items
 
 # Setting
 
