@@ -50,7 +50,7 @@ High fantasy with anachronistic modern touches; the world Aetolia tried to be bu
 
 * Officially, language is formal and archaic:
 
-        Standing atop the dead, Ashlar ejects the clip from his weapon, the blade
+        Standing atop the dead, Ashlar ejects the clip from his weapon, the gun
         smoking in his tightly-gripped fist. "Behold, the new way of things," he
         announces to the assembly.
 
@@ -58,6 +58,8 @@ High fantasy with anachronistic modern touches; the world Aetolia tried to be bu
         me with this trifle - but I tell you plainly, I would derive a full MONEY's
         worth of pleasure from placing this dog-eared pig iron into the weaver's palm.
         I'll take it!"
+
+   In practice the players can decide how they want to talk. It's up to us to build a world in which they want to do it the "correct" way.
 
 ### Clothing Conventions
 
