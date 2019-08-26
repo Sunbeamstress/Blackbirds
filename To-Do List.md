@@ -49,9 +49,15 @@ High fantasy with anachronistic modern touches; the world Aetolia tried to be bu
 ### Culture
 
 * Officially, language is formal and archaic:
-     Standing atop the dead, Ashlar ejects the clip from his weapon, the blade smoking in his tightly-gripped fist. "Behold, the way of things," he announces to the assembly.
 
-     "You call this money?" The trader asks, biting at the coin's edge. "You insult me with this trifle - but I tell you plainly, I would derive a full MONEY's worth of pleasure from placing this dog-eared pig iron into the weaver's palm. I'll take it!"
+        Standing atop the dead, Ashlar ejects the clip from his weapon, the blade
+        smoking in his tightly-gripped fist. "Behold, the new way of things," he
+        announces to the assembly.
+
+        "You call this money?" The trader asks, biting at the coin's edge. "You insult
+        me with this trifle - but I tell you plainly, I would derive a full MONEY's
+        worth of pleasure from placing this dog-eared pig iron into the weaver's palm.
+        I'll take it!"
 
 ### Clothing Conventions
 
