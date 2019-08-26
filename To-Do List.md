@@ -23,9 +23,9 @@
 
 ### Rooms
 
-[ ] Implement IRE-style building. yeah lmao it won't be that easy
+* Implement IRE-style building. yeah lmao it won't be that easy
 
-[ ] Determine what properties rooms need. Obvious ones: Environment, area, indoors/outdoors, water, etc.
+* Determine what properties rooms need. Obvious ones: Environment, area, indoors/outdoors, water, etc.
 
 ### Objects
 
