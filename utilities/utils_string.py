@@ -1,5 +1,3 @@
-import evennia
-
 def AutoCap(s):
     return "%s%s" % (s[0].upper(), s[1:])
 

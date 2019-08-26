@@ -1,7 +1,7 @@
-from evennia import Command as BaseCommand
+from commands.command import Command
 from utilities.utils_string import RPFormat
 
-class CmdEmote(BaseCommand):
+class CmdEmote(Command):
     """
     Write an emote to express an action or set of actions your character is performing, whether to scratch their nose or to belt out a love song before an audience.
 

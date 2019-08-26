@@ -37,6 +37,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdEmote())
         self.add(CmdLook())
         self.add(CmdRoom())
+        self.add(CmdReload())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):

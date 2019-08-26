@@ -54,7 +54,10 @@ class Room(DefaultRoom):
 
             # If the content is a player, add to the players list.
             elif con.has_account:
-                users.append(key)
+                if con.account.is_superuser:
+                    users.append(f"|Y{key}|n")
+                else:
+                    users.append(key)
 
             else:
                 # Goes into our generic list of items.
@@ -86,6 +89,6 @@ class Room(DefaultRoom):
 
                 thing_strings.append(key)
 
-            string += "\n|xYou see:|n\n" + list_to_string(users + thing_strings)
+            string += "\n\n|xYou see:|n\n  " + AutoPunc(list_to_string(users + thing_strings))
 
         return string

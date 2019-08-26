@@ -29,4 +29,7 @@ class Command(BaseCommand):
             every command, like prompts.
 
     """
-    pass
+    def at_post_cmd(self):
+        HP, MP, END, WIL = 500, 500, 1500, 1500
+        prompt = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
+        self.caller.msg(prompt=prompt)

@@ -1,6 +1,6 @@
-from evennia import Command as BaseCommand
+from commands.command import Command
 
-class CmdLook(BaseCommand):
+class CmdLook(Command):
     """
     If entered with no arguments, shows you the current room, vehicle, or container you happen to be in. If used with an argument, will attempt to look at certain specific things.
 
