@@ -38,3 +38,37 @@ class CmdLook(Command):
                 return
 
         self.msg((caller.at_look(target), {'type': 'look'}), options=None)
+
+class CmdSay(Command):
+    """
+    Say something aloud for other players to hear.
+
+    |xUsage:|n
+      |Rsay <message>|n
+
+    You can be heard by almost anyone in the room, as well as people who happen to be nearby and listening in.
+    """
+
+    key = "say"
+    aliases = ['"', "'"]
+    locks = "cmd:all()"
+
+    def func(self):
+        ply = self.caller
+
+        if not self.args:
+            ply.msg("You must specify something to say!")
+            return
+
+        speech = self.args
+        if not speech:
+            return
+
+        # Call any code that might fire before speaking - e.g. voice disguising, etc.
+        speech = ply.at_before_say(speech)
+
+        # Process player speech.
+        ply.at_say(speech, msg_self = True)
+
+        # Post-processing for things such as hypnotic suggestion, coded phrases, and more.
+        ply.at_after_say(speech)

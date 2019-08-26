@@ -38,6 +38,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdLook())
         self.add(CmdRoom())
         self.add(CmdReload())
+        self.add(CmdSay())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
