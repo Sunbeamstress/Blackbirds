@@ -27,7 +27,9 @@
       - [ ] Ability to describe each, freely and on the fly.
    - [ ] No coded sex/gender (sorry, chuds). You determine your biology.
       - [ ] Pronouns. As much as I'd love to make them freeform, for grammatical purposes, limited to he/she/they.
+         * This will be given the name of "sex" or "gender" in the code to make it easy to remember.
       - [ ] Detector in our echo class that looks for verbs after "they" pronouns and depluralizes them.
+         * Will likely have to hand-code a big dictionary of depluralizations; and try to rely on a generic fallback if the word isn't found.
       - [ ] Specify body parts, such as breasts, that might appear in a slot-based description system.
          * This isn't Haven, no need to code in penises or vaginas. Just write whatever's there.
       - [ ] HIGHLY doubt it will ever be a thing, but possibly specify: can get pregnant?
@@ -76,9 +78,17 @@ High fantasy with anachronistic modern touches; the world Aetolia tried to be bu
         worth of pleasure from placing this dog-eared pig iron into the weaver's palm.
         I'll take it!"
 
-   In practice the players can decide how they want to talk. It's up to us to build a world in which they want to do it the "correct" way.
+   In practice the players can decide how they want to talk. It's up to us to build a world in which they want to do it the "correct" way - and if not, that's just fine.
 
 * Music is unique to the game, but is depicated in a way that a player in today's society can understand - music might be performed in a tavern full of smelly peasants and the odd knight, but it's played on a modern-looking guitar, and might even include a drummer. That said, there are just as many people classically trained on harpsichords or shamisens.
+
+* Language is used in another context: to speak directly to the player, and subliminally enforce the fantasy aspects of the world. If we were to simply go "you live in a castle and wear t-shirts" this setting would be a failure. It has to be immersive.
+
+   - There are police, and peasants might even call them the same things you'd call police, but they're *prefects*, and respond to a *magistrate*, not a sheriff or captain or what have you.
+
+   - The citizens are revolting? The prefects roll out a tank - but it's not a *tank*, it's an *iron coalhound*.
+
+   - Guns are guns - but they come in various "classes" that determine their caliber, and these are named after blades: longsword, dagger, rapier, etc.
 
 ### Clothing Conventions
 
@@ -87,6 +97,34 @@ High fantasy with anachronistic modern touches; the world Aetolia tried to be bu
 * **Armor:** Full-on high fantasy. Field plate, sabatons, greaves, the works. Politicians wear ringmail beneath their suits to fend away assassin's blades. Even peasants might own a nice leather jerkin.
 
 * **Other anachronisms:** Aetolia-style: Kimonos, certain bits of lingerie (thongs, teddies, etc.). *Hard no* on trenchcoats, fedoras, or any other neckbeard crap.
+
+### Architecture
+
+There is one major city in which most of the gameplay occurs, so for the purposes of this heading we'll be describing that locale.
+
+* The city's layout follows a quasi-medieval structure: built over rivers and on a coast, surrounded by a wall, and characterized by things such as a town square, a square around the biggest chapel, and a clear visual hierarchy of lofty palaces and nobles's quarters, and then the lower-slung buildings of trade industry and the odd citizen's home.
+
+* The poor (and there *will* be poor, class disparity is a *huge* theme here) live in the shantytown outside the walls. This will also serve as the most likely area where players build their homes.
+
+* **Neon**. Neon is something of particular importance. Neon lighting is used very heavily to signify opulence; in churches, along the baseboards of palace halls, or even in the signage of an especially rich merchant. More about Neon below.
+
+### Neon
+
+Neon is **a thing**, and though never specified, is implied to have great power. In typical use it functions just like the real-world gas (stick in a tube, give a little electrical impulse, watch the pretty glow), but carries the mystical qualities of Aetolia's ylem. It's so much more.
+
+* Neon was discovered and studied originally by the Blackbirds. In a rare show of generosity, they made public several research journals detailing what they learned, determining that this technology would greatly improve life for all people.
+
+* Our feeble and incomplete understanding of Neon is that its skeins exist in many alternate realities at once. Prevailing neonate theory is that a skein's dimension of origin can determine its purity and power.
+
+* Things can be "infused" with Neon - in game terms, this is an enchantment system, with capabilities determined by the sort of Neon used.
+
+### The Blackbirds
+
+The hidden assassinocracy.
+
+* The Blackbirds represent a special "endgame" goal for especially powerful players - where in Aetolia you'd become a special race, or in Haven you'd achieve Tier 5, the Blackbirds take that place.
+
+* Lorewise, you are never actually part of the Blackbirds themselves. Rather, you're considered to be *in the know*, and are privy to their communiques.
 
 ### Specific Cool Things
 
