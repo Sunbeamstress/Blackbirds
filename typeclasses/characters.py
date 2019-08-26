@@ -9,6 +9,8 @@ creation commands.
 """
 from evennia import DefaultCharacter
 
+from utilities.utils_communication import ProcessSpeech
+from utilities.utils_display import Line
 
 class Character(DefaultCharacter):
     """
@@ -30,4 +32,42 @@ class Character(DefaultCharacter):
     at_post_puppet - Echoes "AccountName has entered the game" to the room.
 
     """
-    pass
+    def at_object_creation(self):
+        self.db.surname = ""
+        self.db.age = 18
+        self.db.app_age = 18
+        self.db.intro = ""
+        self.db.pronoun_he = "she"
+        self.db.pronoun_him = "her"
+        self.db.pronoun_his = "her"
+        self.db.pronoun_hiss = "hers"
+        self.db.species = "Human"
+        self.db.archetype = "Citizen"
+        self.db.background = "Pauper"
+
+    def at_before_say(self, message, **kwargs):
+        return message
+
+    def at_say(self, message, msg_self = None, msg_location = None, receivers = None, msg_receivers = None, **kwargs):
+        ProcessSpeech(self, message, msg_self, msg_location, receivers, msg_receivers, **kwargs)
+
+    def at_after_say(self, string):
+        # Any processing to be done after saying something.
+        pass
+
+    def at_desc(self, looker = None, **kwargs):
+        # Passed before the desc appears.
+        pass
+
+    def return_appearance(self, looker = None, **kwargs):
+        if not looker:
+            return ""
+
+        surname = ""
+        if self.db.surname:
+            surname = f" {self.db.surname}"
+        string = f"|xThis is |c{self.key}{surname}|n|x, a|n |c{self.db.species}|n|x.|n\n"
+        string += Line()
+        string += f"\n{self.db.desc}"
+
+        return string

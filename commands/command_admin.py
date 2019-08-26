@@ -44,3 +44,20 @@ class CmdReload(Command):
             reason = "%s" % self.args.rstrip(".")
         SESSIONS.announce_all(Notify("Game", f"The system is reloading{reason}, please be patient."))
         SESSIONS.portal_restart_server()
+
+# class CmdClassUpdate(Command):
+#   """
+#   Updates all instances of a given character class.
+#   """
+#   key = "cupdate"
+#   locks = "perm(Developer)"
+#   help_category = "Admin"
+
+#   def func(self):
+#     if not self.args:
+#       self.caller.msg("You must specify a valid object class to update.")
+#       return
+
+#     if self.args.lower() == "character" or self.args.lower() == "characters":
+#       char.at_object_creation() for char in Character.objects
+#       self.caller.msg("All characters updated.")

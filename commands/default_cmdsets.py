@@ -17,6 +17,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 from evennia import default_cmds
 from commands.command_roleplay import *
 from commands.command_general import *
+from commands.command_character import *
 from commands.command_admin import *
 
 
@@ -39,6 +40,8 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdRoom())
         self.add(CmdReload())
         self.add(CmdSay())
+        self.add(CmdDescribe())
+        # self.add(CmdClassUpdate())
 
 
 class AccountCmdSet(default_cmds.AccountCmdSet):

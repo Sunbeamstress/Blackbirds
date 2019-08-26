@@ -29,6 +29,7 @@ class CmdEmote(Command):
         the caller's name and the emote with a
         space.
         """
+        super().parse()
         args = self.args
         if args and not args[0] in ["'", ",", ":"]:
             args = " %s" % args.strip()

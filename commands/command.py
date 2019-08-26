@@ -29,7 +29,52 @@ class Command(BaseCommand):
             every command, like prompts.
 
     """
+    def __init__(self):
+        super().__init__()
+        self.cmd_word = []
+
+    def at_pre_cmd(self):
+        self.caller.msg("\n")
+
+    def parse(self):
+        cmd = (self.cmdstring + self.args).split()
+        self.cmd_word = cmd.copy()
+
     def at_post_cmd(self):
         HP, MP, END, WIL = 500, 500, 1500, 1500
         prompt = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
         self.caller.msg(prompt=prompt)
+
+    def word_count(self):
+        """
+        Usage: self.word_count()
+
+        Returns total number of words in entered command.
+        """
+        return len(self.cmd_word)
+
+    def words(self, start = 0, end = 0):
+        """
+        Usage: self.words(start, end)
+
+        Gets the specified range of words in the entered command.
+        """
+        if not start:
+            return ""
+
+        if not end:
+            end = len(self.cmd_word)
+
+        separator = " "
+        return separator.join(self.cmd_word[start:end])
+
+    def word(self, w = 0):
+        """
+        Usage: self.word(word num)
+
+        Gets the specified word from the entered command.
+        """
+        if w < 0 or (w > len(self.cmd_word) - 1):
+            return ""
+
+        return self.cmd_word[w]

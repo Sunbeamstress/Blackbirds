@@ -4,10 +4,12 @@ class echo():
         # src - source, object it emanates from (used for pronouns)
         # tar_str - what the target sees
         # src_str - what the source sees
+        pass
 
     def tar_room(self, tar, src, tar_str, src_str, room_str):
         # same as tar, but passes a third formatted message to the room
         # room_str - what the room sees
+        pass
 
     def room(self, room, str):
         # Echo to room
@@ -15,6 +17,7 @@ class echo():
 
     def game(self, str):
         # Echo to game
+        pass
 
     def func(self, ply, str):
         ply.msg(f"|w{str}|n")
@@ -28,3 +31,6 @@ def Notify(title, string):
     title = f"|c[|C{title}|c]:|n "
     output_string = title + string
     return output_string
+
+def Line(width = 80, col_string = "|B"):
+    return "%s%s|n" % (col_string, "-" * width)
