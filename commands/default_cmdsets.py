@@ -20,6 +20,7 @@ from commands.command_general import *
 from commands.command_character import *
 from commands.command_admin import *
 from commands.command_room import *
+from commands.command_ability import *
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -40,6 +41,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdLook())
         self.add(CmdSay())
         self.add(CmdDescribe())
+        self.add(CmdAbilities())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"
