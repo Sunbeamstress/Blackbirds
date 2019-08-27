@@ -27,6 +27,9 @@ put secret game- or server-specific settings in secret_settings.py.
 # Use the defaults from Evennia unless explicitly overridden
 from evennia.settings_default import *
 
+# Blackbirds extensions.
+from server.conf import color_definitions as c
+
 ######################################################################
 # Evennia base server config
 ######################################################################
@@ -42,100 +45,36 @@ TELNET_OOB_ENABLED = True
 
 MAX_CHAR_LIMIT = 10000
 
-# ANSI definitions
-
-ANSI_BEEP = "\07"
-ANSI_ESCAPE = "\033"
-ANSI_NORMAL = "\033[0m"
-
-ANSI_UNDERLINE = "\033[4m"
-ANSI_HILITE = "\033[1m"
-ANSI_UNHILITE = "\033[22m"
-ANSI_BLINK = "\033[5m"
-ANSI_INVERSE = "\033[7m"
-ANSI_INV_HILITE = "\033[1;7m"
-ANSI_INV_BLINK = "\033[7;5m"
-ANSI_BLINK_HILITE = "\033[1;5m"
-ANSI_INV_BLINK_HILITE = "\033[1;5;7m"
-
-# Foreground colors
-ANSI_BLACK = "\033[30m"
-ANSI_RED = "\033[31m"
-ANSI_GREEN = "\033[32m"
-ANSI_YELLOW = "\033[33m"
-ANSI_BLUE = "\033[34m"
-ANSI_MAGENTA = "\033[35m"
-ANSI_CYAN = "\033[36m"
-ANSI_WHITE = "\033[37m"
-
-# Background colors
-ANSI_BACK_BLACK = "\033[40m"
-ANSI_BACK_RED = "\033[41m"
-ANSI_BACK_GREEN = "\033[42m"
-ANSI_BACK_YELLOW = "\033[43m"
-ANSI_BACK_BLUE = "\033[44m"
-ANSI_BACK_MAGENTA = "\033[45m"
-ANSI_BACK_CYAN = "\033[46m"
-ANSI_BACK_WHITE = "\033[47m"
-
-# Formatting Characters
-ANSI_RETURN = "\r\n"
-ANSI_TAB = "\t"
-ANSI_SPACE = " "
-
-# Escapes
-ANSI_ESCAPES = ("{{", "\\\\", "\|\|")
-
 COLOR_ANSI_EXTRA_MAP = [
+    (r'`n', c.ANSI_NORMAL),          # reset
 
-    # alternative |-format
+    (r'`R', c.A_RED),
+    (r'`G', c.A_GREEN),
+    (r'`Y', c.A_YELLOW),
+    (r'`B', c.A_BLUE),
+    (r'`M', c.A_MAGENTA),
+    (r'`C', c.A_CYAN),
+    (r'`W', c.A_WHITE),
+    (r'`X', c.A_GREY),
 
-    (r'|n', ANSI_NORMAL),          # reset
-    (r'|/', ANSI_RETURN),          # line break
-    (r'|-', ANSI_TAB),             # tab
-    (r'|_', ANSI_SPACE),           # space
-    (r'|*', ANSI_INVERSE),         # invert
-
-    (r'|R', ANSI_HILITE + ANSI_RED),
-    (r'|G', ANSI_HILITE + ANSI_GREEN),
-    (r'|Y', ANSI_HILITE + ANSI_YELLOW),
-    (r'|B', ANSI_HILITE + ANSI_BLUE),
-    (r'|M', ANSI_HILITE + ANSI_MAGENTA),
-    (r'|C', ANSI_HILITE + ANSI_CYAN),
-    (r'|W', ANSI_HILITE + ANSI_WHITE),
-    (r'|X', ANSI_UNHILITE + ANSI_WHITE),
-
-    (r'|r', ANSI_UNHILITE + ANSI_RED),
-    (r'|g', ANSI_UNHILITE + ANSI_GREEN),
-    (r'|y', ANSI_UNHILITE + ANSI_YELLOW),
-    (r'|b', ANSI_UNHILITE + ANSI_BLUE),
-    (r'|m', ANSI_UNHILITE + ANSI_MAGENTA),
-    (r'|c', ANSI_UNHILITE + ANSI_CYAN),
-    (r'|w', ANSI_UNHILITE + ANSI_WHITE),
-    (r'|x', ANSI_HILITE + ANSI_BLACK),
-
-    # hilight-able colors
-    (r'|H', ANSI_HILITE),
-    (r'|h', ANSI_UNHILITE),
-
-    (r'|!r', ANSI_RED),
-    (r'|!g', ANSI_GREEN),
-    (r'|!y', ANSI_YELLOW),
-    (r'|!b', ANSI_BLUE),
-    (r'|!m', ANSI_MAGENTA),
-    (r'|!c', ANSI_CYAN),
-    (r'|!w', ANSI_WHITE),  # light grey
-    (r'|!x', ANSI_BLACK),  # pure black
+    (r'`r', c.A_DARKRED),
+    (r'`g', c.A_DARKGREEN),
+    (r'`y', c.A_DARKYELLOW),
+    (r'`b', c.A_DARKBLUE),
+    (r'`m', c.A_DARKMAGENTA),
+    (r'`c', c.A_DARKCYAN),
+    (r'`w', c.A_GREY),
+    (r'`x', c.A_DARKGREY),
 
     # normal ANSI backgrounds
-    (r'|[r', ANSI_BACK_RED),
-    (r'|[g', ANSI_BACK_GREEN),
-    (r'|[y', ANSI_BACK_YELLOW),
-    (r'|[b', ANSI_BACK_BLUE),
-    (r'|[m', ANSI_BACK_MAGENTA),
-    (r'|[c', ANSI_BACK_CYAN),
-    (r'|[w', ANSI_BACK_WHITE),    # light grey background
-    (r'|[x', ANSI_BACK_BLACK)     # pure black background
+    (r'`_r', c.ANSI_BACK_RED),
+    (r'`_g', c.ANSI_BACK_GREEN),
+    (r'`_y', c.ANSI_BACK_YELLOW),
+    (r'`_b', c.ANSI_BACK_BLUE),
+    (r'`_m', c.ANSI_BACK_MAGENTA),
+    (r'`_c', c.ANSI_BACK_CYAN),
+    (r'`_w', c.ANSI_BACK_WHITE),    # light grey background
+    (r'`_x', c.ANSI_BACK_BLACK)     # pure black background
 ]
 
 COLOR_NO_DEFAULT = True

@@ -17,7 +17,7 @@ MSSPTable = {
 
     # Required fieldss
 
-    "NAME": "Evennia",
+    "NAME": "Blackbirds",
 
     # Generic
 
@@ -26,23 +26,23 @@ MSSPTable = {
     "HOSTNAME": "",       # current or new hostname
     "PORT": ["4000"],  # most important port should be last in list
     "CODEBASE": "Evennia",
-    "CONTACT": "",       # email for contacting the mud
-    "CREATED": "",       # year MUD was created
+    "CONTACT": "earthcrusher@mercymyqueen.com",       # email for contacting the mud
+    "CREATED": "2019",       # year MUD was created
     "ICON": "",       # url to icon 32x32 or larger; <32kb.
     "IP": "",       # current or new IP address
-    "LANGUAGE": "",       # name of language used, e.g. English
-    "LOCATION": "",       # full English name of server country
-    "MINIMUM AGE": "0",      # set to 0 if not applicable
-    "WEBSITE": "www.evennia.com",
+    "LANGUAGE": "English",       # name of language used, e.g. English
+    "LOCATION": "United States",       # full English name of server country
+    "MINIMUM AGE": "18",      # set to 0 if not applicable
+    "WEBSITE": "blackbirds.mercymyqueen.com",
 
     # Categorisation
 
     "FAMILY": "Custom",  # evennia goes under 'Custom'
-    "GENRE": "None",   # Adult, Fantasy, Historical, Horror, Modern, None, or Science Fiction
-    "GAMEPLAY": "",       # Adventure, Educational, Hack and Slash, None,
+    "GENRE": "Sci-Fantasy",   # Adult, Fantasy, Historical, Horror, Modern, None, or Science Fiction
+    "GAMEPLAY": "Roleplaying",       # Adventure, Educational, Hack and Slash, None,
     # Player versus Player, Player versus Environment,
     # Roleplaying, Simulation, Social or Strategy
-    "STATUS": "Open Beta",  # Alpha, Closed Beta, Open Beta, Live
+    "STATUS": "Alpha",  # Alpha, Closed Beta, Open Beta, Live
     "GAMESYSTEM": "Custom",  # D&D, d20 System, World of Darkness, etc. Use Custom if homebrew
     "SUBGENRE": "None",   # LASG, Medieval Fantasy, World War II, Frankenstein,
     # Cyberpunk, Dragonlance, etc. Or None if not available.
@@ -74,7 +74,7 @@ MSSPTable = {
     "UTF-8": "1",
     "VT100": "0",
     "ZMP": "0",
-    "XTERM 256 COLORS": "0",
+    "XTERM 256 COLORS": "1",
 
     # Commercial set to 1 or 0)
 
@@ -99,19 +99,19 @@ MSSPTable = {
 
     # Game  (set to 1 or 0, or one of the given alternatives)
 
-    "ADULT MATERIAL": "0",
-    "MULTICLASSING": "0",
-    "NEWBIE FRIENDLY": "0",
+    "ADULT MATERIAL": "1",
+    "MULTICLASSING": "1",
+    "NEWBIE FRIENDLY": "1",
     "PLAYER CITIES": "0",
-    "PLAYER CLANS": "0",
-    "PLAYER CRAFTING": "0",
-    "PLAYER GUILDS": "0",
+    "PLAYER CLANS": "1",
+    "PLAYER CRAFTING": "1",
+    "PLAYER GUILDS": "1",
     "EQUIPMENT SYSTEM": "None",  # "None", "Level", "Skill", "Both"
-    "MULTIPLAYING": "None",  # "None", "Restricted", "Full"
-    "PLAYERKILLING": "None",  # "None", "Restricted", "Full"
+    "MULTIPLAYING": "Restricted",  # "None", "Restricted", "Full"
+    "PLAYERKILLING": "Restricted",  # "None", "Restricted", "Full"
     "QUEST SYSTEM": "None",  # "None", "Immortal Run", "Automated", "Integrated"
-    "ROLEPLAYING": "None",  # "None", "Accepted", "Encouraged", "Enforced"
+    "ROLEPLAYING": "Enforced",  # "None", "Accepted", "Encouraged", "Enforced"
     "TRAINING SYSTEM": "None",  # "None", "Level", "Skill", "Both"
-    "WORLD ORIGINALITY": "None",  # "All Stock", "Mostly Stock", "Mostly Original", "All Original"
+    "WORLD ORIGINALITY": "All Original",  # "All Stock", "Mostly Stock", "Mostly Original", "All Original"
 
 }

@@ -19,6 +19,7 @@ from commands.command_roleplay import *
 from commands.command_general import *
 from commands.command_character import *
 from commands.command_admin import *
+from commands.command_room import *
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -37,12 +38,17 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
 
         self.add(CmdEmote())
         self.add(CmdLook())
-        self.add(CmdRoom())
-        self.add(CmdReload())
         self.add(CmdSay())
         self.add(CmdDescribe())
-        # self.add(CmdClassUpdate())
 
+class AdminCmdSet(default_cmds.CharacterCmdSet):
+    key = "DefaultAdmin"
+    def at_cmdset_creation(self):
+        super().at_cmdset_creation()
+
+        self.add(CmdRoom())
+        self.add(CmdReload())
+        # self.add(CmdClassUpdate())
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
     """

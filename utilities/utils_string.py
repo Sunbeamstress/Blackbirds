@@ -22,3 +22,11 @@ def RPFormat(s):
     s = s.replace("$n", "\n")
 
     return s
+
+def jright(string, width = 0):
+    s = " "
+    return (s * (width - len(string))) + string
+
+def jleft(string, width = 0):
+    s = " "
+    return string + (s * (width - len(string)))

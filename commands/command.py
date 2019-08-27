@@ -48,7 +48,7 @@ class Command(BaseCommand):
     def at_post_cmd(self):
         # Fake prompt, will replace later with real one!
         HP, MP, END, WIL = 500, 500, 1500, 1500
-        prompt = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
+        prompt = f"`cH:`n{HP} `cM:`n{MP} `cE:`n{END} `cW:`n{END} `x-`n "
         self.caller.msg(prompt=prompt)
 
     def word_count(self):

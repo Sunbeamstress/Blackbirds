@@ -5,20 +5,6 @@ from evennia.server.sessionhandler import SESSIONS
 
 from utilities.utils_display import Notify
 
-class CmdRoom(Command):
-    """
-    The following commands are used to build, edit, or otherwise manipulate rooms. In general, you may type any given subcommand by itself to see help and syntax information for each one.
-
-    |xUsage:|n
-      |Rroom info|n
-    """
-    key = "room"
-    locks = "perm(Builder)"
-    help_category = "Admin"
-
-    def func(self):
-        pass
-
 class CmdReload(Command):
     """
     reload the server

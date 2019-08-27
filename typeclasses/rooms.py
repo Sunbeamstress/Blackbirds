@@ -8,13 +8,11 @@ Rooms are simple containers that has no location of their own.
 # Evennia modules.
 from evennia import DefaultRoom
 from collections import defaultdict
-from evennia.utils.utils import (variable_from_module, lazy_property,
-                                 make_iter, is_iter, list_to_string,
-                                 to_str)
+from evennia.utils.utils import (variable_from_module, lazy_property, make_iter, is_iter, list_to_string, to_str)
 
 # Blackbirds modules.
 from utilities.utils_string import AutoPunc
-
+from typeclasses.areas import (area_id, env_id)
 
 class Room(DefaultRoom):
     """
@@ -28,8 +26,9 @@ class Room(DefaultRoom):
     """
 
     def at_object_creation(self):
-        self.db.environment = "Urban"
-        self.db.temperature = 21
+        self.db.area = area_id.VOID
+        self.db.environment = env_id.URBAN
+        self.db.temperature = 0
 
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.
@@ -92,3 +91,27 @@ class Room(DefaultRoom):
             string += "\n\n|xYou see:|n\n  " + AutoPunc(list_to_string(users + thing_strings))
 
         return string
+
+    def get_temperature_string(self):
+        temp = self.db.temperature
+
+        if temp <= -23: # -10 F
+            return "|WIt's deathly cold.|n"
+        elif temp <= -17: # 0 F
+            return "|BIt feels incredibly cold.|n"
+        elif temp <= 0: # 32 F
+            return "|CIt feels freezing cold.|n"
+        elif temp <= 12: # 55 F
+            return "|cIt feels cold.|n"
+        elif temp <= 21: # 70 F
+            return "It feels cool."
+        elif temp <= 26: # 80 F
+            return "It feels pleasant."
+        elif temp <= 32: # 90 F
+            return "|yIt's warm.|n"
+        elif temp <= 38: # 100 F
+            return "|YIt feels hot.|n"
+        elif temp <= 43: # 110 F
+            return "|rIt feels very hot.|n"
+        else:
+            return "|RIt's incredibly hot.|n"

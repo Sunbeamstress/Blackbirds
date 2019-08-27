@@ -4,10 +4,10 @@ class CmdLook(Command):
     """
     If entered with no arguments, shows you the current room, vehicle, or container you happen to be in. If used with an argument, will attempt to look at certain specific things.
 
-    |xUsage:|n
-      |Rlook|n
-      |Rlook <player>|n
-      |Rlook <player> <clothing/held item>|n
+    `xUsage:`n
+      `Rlook`n
+      `Rlook <player>`n
+      `Rlook <player> <clothing/held item>`n
     """
     key = "look"
     aliases = ["l"]
@@ -26,7 +26,7 @@ class CmdLook(Command):
         if not self.args:
             target = caller.location
             if not target:
-                caller.msg("|xYou can see nothing.|n")
+                caller.msg("`xYou can see nothing.`n")
                 return
 
         else:
@@ -43,8 +43,8 @@ class CmdSay(Command):
     """
     Say something aloud for other players to hear.
 
-    |xUsage:|n
-      |Rsay <message>|n
+    `xUsage:`n
+      `Rsay <message>`n
 
     You can be heard by almost anyone in the room, as well as people who happen to be nearby and listening in.
     """
