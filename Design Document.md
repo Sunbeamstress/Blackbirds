@@ -146,4 +146,3 @@ The hidden assassinocracy.
 
 ## Rules
 
-asdf
