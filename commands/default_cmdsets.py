@@ -42,6 +42,9 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdSay())
         self.add(CmdDescribe())
         self.add(CmdAbilities())
+        self.add(CmdStand())
+        self.add(CmdSit())
+        self.add(CmdLie())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"

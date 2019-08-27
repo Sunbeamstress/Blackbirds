@@ -72,3 +72,76 @@ class CmdSay(Command):
 
         # Post-processing for things such as hypnotic suggestion, coded phrases, and more.
         ply.at_after_say(speech)
+
+class CmdSit(Command):
+    """
+    Cause your character to sit down. Can optionally specify a bit of furniture to sit on.
+
+    `xUsage:`n
+      `Rsit`n
+      `Rsit <furniture>`n
+
+    Naturally, you cannot move while seated.
+    """
+    key = "sit"
+    locks = "cmd:all()"
+
+    def func(self):
+        ply = self.caller
+
+        if ply.db.prone >= 2:
+            ply.db.prone = 1
+            ply.msg("You shift up into a seated position.")
+        elif ply.db.prone == 0:
+            ply.db.prone = 1
+            ply.msg("You sit down.")
+        else:
+            ply.msg("You are already seated.")
+
+class CmdStand(Command):
+    """
+    If seated or lying down, stand up.
+
+    `xUsage:`n
+      `Rstand`n
+    """
+    key = "stand"
+    locks = "cmd:all()"
+
+    def func(self):
+        ply = self.caller
+
+        if ply.db.prone == 0:
+            ply.msg("You are already standing.")
+            return
+
+        ply.db.prone = 0
+        ply.msg("You stand up.")
+
+class CmdLie(Command):
+    """
+    Lie down on the ground. Alternatively, you may specify a piece of furniture to lie on.
+
+    `xUsage:`n
+      `Rlie`n
+      `Rlie <furniture>`n
+
+    Naturally, you cannot move while lying down. Note that in most cases, you will be considered vulnerable while prone!
+    """
+    key = "lie"
+    aliases = ["lay"]
+    locks = "cmd:all()"
+
+    def func(self):
+        ply, prone = self.caller, self.caller.db.prone
+
+        if prone >= 2:
+            ply.msg("You are already lying down.")
+            return
+
+        if prone == 1:
+            ply.db.prone = 2
+            ply.msg("You ease down onto the ground.")
+        elif prone == 0:
+            ply.db.prone = 2
+            ply.msg("You lie down.")

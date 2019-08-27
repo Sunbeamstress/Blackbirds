@@ -44,6 +44,7 @@ class Character(DefaultCharacter):
         self.db.species = "Human"
         self.db.archetype = "Citizen"
         self.db.background = "Pauper"
+        self.db.prone = 0 # 1 for seated, 2 for lying down
 
     def at_before_say(self, message, **kwargs):
         return message
