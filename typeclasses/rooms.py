@@ -54,7 +54,7 @@ class Room(DefaultRoom):
             # If the content is a player, add to the players list.
             elif con.has_account:
                 if con.account.is_superuser:
-                    users.append(f"|Y{key}|n")
+                    users.append(f"`Y{key}`n")
                 else:
                     users.append(key)
 
@@ -64,7 +64,7 @@ class Room(DefaultRoom):
 
         # Get the thing's description; build the appropriate string.
         # string = "%s\n" % self.get_display_name(looker)
-        string = "|y[#%s] %s|n\n" % (self.id, AutoPunc(self.key))
+        string = "`y[#%s] %s`n\n" % (self.id, AutoPunc(self.key))
         desc = self.db.desc
 
         if desc:
@@ -73,7 +73,7 @@ class Room(DefaultRoom):
             string += desc
 
         if exits:
-            string += "\n|wExits:|n " + list_to_string(exits)
+            string += "\n`wExits:`n " + list_to_string(exits)
 
         if users or things:
             # Pluralize non-player objects.
@@ -88,7 +88,7 @@ class Room(DefaultRoom):
 
                 thing_strings.append(key)
 
-            string += "\n\n|xYou see:|n\n  " + AutoPunc(list_to_string(users + thing_strings))
+            string += "\n\n`xYou see:`n\n  " + AutoPunc(list_to_string(users + thing_strings))
 
         return string
 
@@ -96,22 +96,22 @@ class Room(DefaultRoom):
         temp = self.db.temperature
 
         if temp <= -23: # -10 F
-            return "|WIt's deathly cold.|n"
+            return "`WIt's deathly cold.`n"
         elif temp <= -17: # 0 F
-            return "|BIt feels incredibly cold.|n"
+            return "`BIt feels incredibly cold.`n"
         elif temp <= 0: # 32 F
-            return "|CIt feels freezing cold.|n"
+            return "`CIt feels freezing cold.`n"
         elif temp <= 12: # 55 F
-            return "|cIt feels cold.|n"
+            return "`cIt feels cold.`n"
         elif temp <= 21: # 70 F
             return "It feels cool."
         elif temp <= 26: # 80 F
             return "It feels pleasant."
         elif temp <= 32: # 90 F
-            return "|yIt's warm.|n"
+            return "`yIt's warm.`n"
         elif temp <= 38: # 100 F
-            return "|YIt feels hot.|n"
+            return "`YIt feels hot.`n"
         elif temp <= 43: # 110 F
-            return "|rIt feels very hot.|n"
+            return "`rIt feels very hot.`n"
         else:
-            return "|RIt's incredibly hot.|n"
+            return "`RIt's incredibly hot.`n"
