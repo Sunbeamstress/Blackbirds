@@ -41,6 +41,12 @@
 
 - [ ] Make a nice little tour for them to get acquainted.
 
+### Abilities
+
+- [x] Define ability and ability tree classes.
+- [ ] Describe core ability trees and the individual abilities beneath them.
+   - [ ] Implement logic to tally up total level in a tree, based on which abilities belong to it.
+
 ### Rooms
 
 - [ ] Implement IRE-style building. yeah lmao it won't be that easy
