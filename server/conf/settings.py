@@ -47,6 +47,7 @@ MAX_CHAR_LIMIT = 10000
 
 COLOR_ANSI_EXTRA_MAP = [
     (r'`n', c.ANSI_NORMAL),          # reset
+    (r'|n', c.ANSI_NORMAL),
 
     (r'`R', c.A_RED),
     (r'`G', c.A_GREEN),

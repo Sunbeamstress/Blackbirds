@@ -44,3 +44,7 @@ class AbilityTree(Ability):
     def at_ability_tree_creation(self):
         "Hook this method to add abilities to the tree. Needed so that methods such as cur_level() can work properly."
         pass
+
+    def add_ability(self, ab_class):
+        "Use this method in conjunction with at_ability_tree_creation() to subscribe abilities to the tree."
+        pass

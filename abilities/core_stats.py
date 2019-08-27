@@ -11,7 +11,7 @@ class Might(BaseAbilityTree):
         self.description = "An indication of the character's overall physical prowess and athleticism."
 
     def at_ability_tree_creation(self):
-        self.add(Strength())
+        self.add_ability(Strength())
 
 class Strength(BaseAbility):
     def at_ability_creation(self):
@@ -22,7 +22,7 @@ class Strength(BaseAbility):
 class Dexterity(BaseAbilityTree):
     "The character's agility, speed, and reflexes."
     def at_ability_tree_creation(self):
-        self.add(Agility())
+        self.add_ability(Agility())
 
 class Agility(BaseAbility):
     def at_ability_creation(self):
@@ -33,7 +33,7 @@ class Agility(BaseAbility):
 class Acuity(BaseAbilityTree):
     "The character's perception - ability to see, hear, or sense things."
     def at_ability_tree_creation(self):
-        self.add(Vision())
+        self.add_ability(Vision())
 
 class Vision(BaseAbility):
     def at_ability_creation(self):
