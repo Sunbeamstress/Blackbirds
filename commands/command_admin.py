@@ -1,8 +1,9 @@
 # IRE-like administration commands, aka my effort to get out of MUXland.
 
-from commands.command import Command
 from evennia.server.sessionhandler import SESSIONS
+from evennia.utils import search
 
+from commands.command import Command
 from utilities.utils_display import Notify
 
 class CmdReload(Command):
@@ -22,14 +23,37 @@ class CmdReload(Command):
     help_category = "System"
 
     def func(self):
-        """
-        Reload the system.
-        """
+        "Reload the system."
         reason = ""
         if self.args:
             reason = "%s" % self.args.rstrip(".")
         SESSIONS.announce_all(Notify("Game", f"The system is reloading{reason}, please be patient."))
         SESSIONS.portal_restart_server()
+
+class CmdMakeAdmin(Command):
+    """
+    Gives the targetted account admin privileges.
+
+    |xUsage:|n
+      |Rmakeadmin <account>|n
+    """
+    key = "makeadmin"
+    locks = "perm(<Superuser>)"
+    def func(self):
+        ply = self.caller
+        # tar = search.account_search(self.word(1))
+        if not self.args:
+            ply.msg("You must specify the name of an account.")
+            return
+
+        tar = search.account_search(self.word(1))[0]
+        if not tar:
+            ply.msg("No account by that name could be found.")
+            return
+
+        ply.msg(f"Ding! Your target account is: {tar}")
+        # tar.cmdset.add(default_cmds.AdminCmdSet, permanent = True)
+
 
 # class CmdClassUpdate(Command):
 #   """
