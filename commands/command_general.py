@@ -51,6 +51,8 @@ class CmdSay(Command):
 
     `xUsage:`n
       `Rsay <message>`n
+      `R'<message>`n
+      `R"<message>`n
 
     You can be heard by almost anyone in the room, as well as people who happen to be nearby and listening in.
     """
