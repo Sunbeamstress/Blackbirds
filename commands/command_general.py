@@ -1,4 +1,10 @@
+import time
+from evennia.server.sessionhandler import SESSIONS
+from evennia.utils import utils
+
 from commands.command import Command
+from utilities.utils_string import (jleft, jright)
+from utilities.utils_display import Line
 
 class CmdLook(Command):
     """
@@ -145,3 +151,51 @@ class CmdLie(Command):
         elif prone == 0:
             ply.db.prone = 2
             ply.msg("You lie down.")
+
+class CmdWho(Command):
+    """
+    See who's currently online.
+
+    `xUsage:`n
+      `Rwho`n
+
+    Note that you may not be able to see certain people who have taken efforts to conceal themselves.
+    """
+
+    key = "who"
+    locks = "cmd:all()"
+
+    def func(self):
+        """
+        Get all connected accounts by polling session.
+        """
+
+        account = self.account
+        session_list = SESSIONS.get_sessions()
+        session_list = sorted(session_list, key = lambda o: o.account.key)
+
+        self.msg(Line(80, "`m", "Currently Online", "`w"))
+        self.msg("  `xNAME`n                         `xONLINE FOR`n   `xIDLE FOR`n")
+
+        for session in session_list:
+            if not session.logged_in:
+                continue
+
+            puppet = session.get_puppet()
+            if not puppet:
+                continue
+
+            naccounts = SESSIONS.account_count()
+
+            location = puppet.location.key if puppet and puppet.location else ""
+            p_name = puppet.get_display_name(account)
+            
+            idle = utils.time_format(time.time() - session.cmd_last_visible, 1)
+            conn = utils.time_format(time.time() - session.conn_time, 0)
+
+            self.msg("  %s%s    %s" % (jleft(p_name, 32), jright(conn, 7), jright(idle, 7)))
+            self.msg("  `c%s`n" % (location))
+
+        self.msg("\n\n  `W%s`n `xunique account%s logged in.`n" % (naccounts, "" if naccounts == 1 else "s"))
+
+        self.msg(Line(80, "`m"))
