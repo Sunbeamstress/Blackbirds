@@ -20,7 +20,7 @@ class echo():
         pass
 
     def func(self, ply, str):
-        ply.msg(f"`w{str}`n")
+        ply.msg(f"|w{str}|n")
     
 
 def Notify(title, string):
@@ -28,12 +28,12 @@ def Notify(title, string):
     Represents standardized and generic OOC messages from the game, most often
     used during system reloads, news updates, etc.
     """
-    title = f"`c[`C{title}`c]:`n "
+    title = f"|c[|C{title}|c]:|n "
     output_string = title + string
     return output_string
 
-def Line(width = 80, col_string = "`B", label = None, col_label = "`w"):
+def Line(width = 80, col_string = "|B", label = None, col_label = "|w"):
     if label:
-        return "%s--`n %s%s`n %s%s`n" % (col_string, col_label, label, col_string, "-" * (width - (4 + len(label))))
+        return "%s--|n %s%s|n %s%s|n" % (col_string, col_label, label, col_string, "-" * (width - (4 + len(label))))
 
-    return "%s%s`n" % (col_string, "-" * width)
+    return "%s%s|n" % (col_string, "-" * width)

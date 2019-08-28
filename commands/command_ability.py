@@ -17,8 +17,8 @@ class CmdAbilities(Command):
         ply = self.caller
         headers = {"Might":"Strength", "Acuity":"Vision", "Dexterity":"Agility"}
 
-        ply.msg(Line(80, "`m", "Abilities", "`M"))
+        ply.msg(Line(80, "|m", "Abilities", "|M"))
         for h, a in headers.items():
-            ply.msg(f"\n\n  `C{h}:`n 1\n`c{jright(a, 16)}`n: 1")
+            ply.msg(f"\n\n  |C{h}:|n 1\n|c{jright(a, 16)}|n: 1")
         ply.msg("\n")
-        ply.msg(Line(80, "`m"))
+        ply.msg(Line(80, "|m"))

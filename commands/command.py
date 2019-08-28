@@ -15,7 +15,7 @@ class Command(BaseCommand):
     from scratch.  Note that Evennia's default commands inherits from
     MuxCommand instead.
 
-    Note that the class's `__doc__` string (this text) is
+    Note that the class's |__doc__` string (this text) is
     used by Evennia to create the automatic help entry for
     the command, so make sure to document consistently here.
 
@@ -48,7 +48,7 @@ class Command(BaseCommand):
     def at_post_cmd(self):
         # Fake prompt, will replace later with real one!
         HP, MP, END, WIL = 500, 500, 1500, 1500
-        prompt = f"`cH:`n{HP} `cM:`n{MP} `cE:`n{END} `cW:`n{END} `x-`n "
+        prompt = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
         self.caller.msg(prompt=prompt)
 
     def word_count(self):

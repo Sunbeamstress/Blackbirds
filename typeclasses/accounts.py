@@ -160,23 +160,23 @@ class Account(DefaultAccount):
             is_su = self.is_superuser
 
             # The OOC "area" to be displayed when not logged into a character.
-            result = [f"   `xWelcome to Blackbirds,`n {self.key}`x.`n"]
+            result = [f"   |xWelcome to Blackbirds,|n {self.key}|x.|n"]
 
             charmax = _MAX_NR_CHARACTERS
             if is_su or len(characters) < charmax:
                 result.append("\n")
                 if not characters:
-                    result.append("\nYou don't have any characters yet. Type `Rchar create`n to establish your first one.")
+                    result.append("\nYou don't have any characters yet. Type |Rchar create|n to establish your first one.")
                 else:
-                    result.append("\n   `Rchar create       `n `c-`n Create a new character.")
-                    result.append("\n   `Rchar delete <name>`n `c-`n Delete a character.")
+                    result.append("\n   |Rchar create       |n |c-|n Create a new character.")
+                    result.append("\n   |Rchar delete <name>|n |c-|n Delete a character.")
 
             if characters:
                 string_s_ending = len(characters) > 1 and "s" or ""
                 ply_char_max = is_su and "-" or charmax
 
-                result.append("\n   `Rchar play <name>  `n `c-`n Join the game.")
-                result.append("\n\n   `xAvailable character%s`n%s`x:`n" % (string_s_ending, charmax > 1 and " `x(`n%s`x/`n%s`x)`n" % (len(characters), ply_char_max) or ""))
+                result.append("\n   |Rchar play <name>  |n |c-|n Join the game.")
+                result.append("\n\n   |xAvailable character%s|n%s|x:|n" % (string_s_ending, charmax > 1 and " |x(|n%s|x/|n%s|x)|n" % (len(characters), ply_char_max) or ""))
 
                 for char in characters:
                     csessions = char.sessions.all()
@@ -185,16 +185,16 @@ class Account(DefaultAccount):
                             # character is already puppeted
                             sid = sess in sessions and sessions.index(sess) + 1
                             if sess and sid:
-                                result.append("\n     `G%s`n [%s] (played by you in session %i)"
+                                result.append("\n     |G%s|n [%s] (played by you in session %i)"
                                               % (char.key, ", ".join(char.permissions.all()), sid))
                             else:
-                                result.append("\n     `R%s`n [%s] (played by someone else)"
+                                result.append("\n     |R%s|n [%s] (played by someone else)"
                                               % (char.key, ", ".join(char.permissions.all())))
                     else:
                         # character is "free to puppet"
-                        result.append(f"\n    `C{char.key}`n")
+                        result.append(f"\n    |C{char.key}|n")
 
-            look_string = Line(80, "`c", "Blackbirds", "`M") + "\n" + "".join(result) + "\n" + Line(80, "`c")
+            look_string = Line(80, "|c", "Blackbirds", "|M") + "\n" + "".join(result) + "\n" + Line(80, "|c")
             return look_string
 
     def at_post_login(self, session = None, **kwargs):
@@ -209,8 +209,8 @@ class Account(DefaultAccount):
 
         Notes:
             This is called *before* an eventual Character's
-            `at_post_login` hook. By default it is used to set up
-            auto-puppeting based on `MULTISESSION_MODE`.
+            |at_post_login` hook. By default it is used to set up
+            auto-puppeting based on |MULTISESSION_MODE`.
 
         """
         # if we have saved protocol flags on ourselves, load them here.
@@ -222,7 +222,7 @@ class Account(DefaultAccount):
         if session:
             session.msg(logged_in={})
 
-        self._send_to_connect_channel("`G%s connected`n" % self.key)
+        self._send_to_connect_channel("|G%s connected|n" % self.key)
         if _MULTISESSION_MODE == 0:
             # in this mode we should have only one character available. We
             # try to auto-connect to our last conneted object, if any

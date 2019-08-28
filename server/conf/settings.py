@@ -46,39 +46,38 @@ TELNET_OOB_ENABLED = True
 MAX_CHAR_LIMIT = 10000
 
 COLOR_ANSI_EXTRA_MAP = [
-    (r'`n', c.ANSI_NORMAL),          # reset
     (r'|n', c.ANSI_NORMAL),
 
-    (r'`R', c.A_RED),
-    (r'`G', c.A_GREEN),
-    (r'`Y', c.A_YELLOW),
-    (r'`B', c.A_BLUE),
-    (r'`M', c.A_MAGENTA),
-    (r'`C', c.A_CYAN),
-    (r'`W', c.A_WHITE),
-    (r'`X', c.A_GREY),
+    (r'|R', c.A_RED),
+    (r'|G', c.A_GREEN),
+    (r'|Y', c.A_YELLOW),
+    (r'|B', c.A_BLUE),
+    (r'|M', c.A_MAGENTA),
+    (r'|C', c.A_CYAN),
+    (r'|W', c.A_WHITE),
+    (r'|X', c.A_GREY),
 
-    (r'`r', c.A_DARKRED),
-    (r'`g', c.A_DARKGREEN),
-    (r'`y', c.A_DARKYELLOW),
-    (r'`b', c.A_DARKBLUE),
-    (r'`m', c.A_DARKMAGENTA),
-    (r'`c', c.A_DARKCYAN),
-    (r'`w', c.A_GREY),
-    (r'`x', c.A_DARKGREY),
+    (r'|r', c.A_DARKRED),
+    (r'|g', c.A_DARKGREEN),
+    (r'|y', c.A_DARKYELLOW),
+    (r'|b', c.A_DARKBLUE),
+    (r'|m', c.A_DARKMAGENTA),
+    (r'|c', c.A_DARKCYAN),
+    (r'|w', c.A_GREY),
+    (r'|x', c.A_DARKGREY),
 
     # normal ANSI backgrounds
-    (r'`_r', c.ANSI_BACK_RED),
-    (r'`_g', c.ANSI_BACK_GREEN),
-    (r'`_y', c.ANSI_BACK_YELLOW),
-    (r'`_b', c.ANSI_BACK_BLUE),
-    (r'`_m', c.ANSI_BACK_MAGENTA),
-    (r'`_c', c.ANSI_BACK_CYAN),
-    (r'`_w', c.ANSI_BACK_WHITE),    # light grey background
-    (r'`_x', c.ANSI_BACK_BLACK)     # pure black background
+    (r'|_r', c.ANSI_BACK_RED),
+    (r'|_g', c.ANSI_BACK_GREEN),
+    (r'|_y', c.ANSI_BACK_YELLOW),
+    (r'|_b', c.ANSI_BACK_BLUE),
+    (r'|_m', c.ANSI_BACK_MAGENTA),
+    (r'|_c', c.ANSI_BACK_CYAN),
+    (r'|_w', c.ANSI_BACK_WHITE),    # light grey background
+    (r'|_x', c.ANSI_BACK_BLACK)     # pure black background
 ]
 
-COLOR_NO_DEFAULT = True
+COLOR_NO_DEFAULT = False
 
 TIME_FACTOR = 1.0
 TIME_GAME_EPOCH = 0

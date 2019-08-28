@@ -5,15 +5,15 @@ class CmdEmote(Command):
     """
     Write an emote to express an action or set of actions your character is performing, whether to scratch their nose or to belt out a love song before an audience.
 
-    Although your name must always be included in the message, the token `R@me`n can be used to determine where your name appears in the emote, enabling you finer control over the message's structure.
+    Although your name must always be included in the message, the token |R@me|n can be used to determine where your name appears in the emote, enabling you finer control over the message's structure.
 
-    `xUsage:`n
-      `Rem <text>`n
+    |xUsage:|n
+      |Rem <text>|n
 
-    `xExample:`n
-      `Rem rubs his stomach.`n
+    |xExample:|n
+      |Rem rubs his stomach.|n
 
-      `Rem Shaking out her hair, @me says, "Couldn't be better."`n
+      |Rem Shaking out her hair, @me says, "Couldn't be better."|n
 
     The command will automatically capitalize the beginning and punctuate the ending of your emote, but care must be taken to ensure the rest of it is grammatically correct.
     """
@@ -41,7 +41,7 @@ class CmdEmote(Command):
 
         # Player supplied a blank emote.
         if not em_msg:
-            msg = "`xSyntax:`n\n  `Rem <text>`n"
+            msg = "|xSyntax:|n\n  |Rem <text>|n"
             self.caller.msg(msg)
             return
 
@@ -49,7 +49,7 @@ class CmdEmote(Command):
         if not "@me" in em_msg:
             # Did they capitalize the first letter? They may have meant to use a @me.
             if em_msg[1].isupper():
-                self.caller.msg("Did you mean to include `R@me`n in your emote?")
+                self.caller.msg("Did you mean to include |R@me|n in your emote?")
                 return
 
             # Prepend the emote with the player's name.
@@ -70,7 +70,7 @@ class CmdEmote(Command):
             temp = em_msg.split('"')
             for segment in temp:
                 if speech_mode:
-                    new_em_msg.append('`C"%s"`n' % segment)
+                    new_em_msg.append('|C"%s"|n' % segment)
                 else:
                     new_em_msg.append(segment)
                 speech_mode = not speech_mode
@@ -78,5 +78,5 @@ class CmdEmote(Command):
             em_msg = ''.join(new_em_msg)
 
 
-        self.caller.msg("`xYou emote:`n")
+        self.caller.msg("|xYou emote:|n")
         self.caller.location.msg_contents(text=(em_msg, {"type": "pose"}), from_obj=self.caller)

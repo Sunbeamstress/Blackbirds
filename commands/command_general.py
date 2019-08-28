@@ -10,10 +10,10 @@ class CmdLook(Command):
     """
     If entered with no arguments, shows you the current room, vehicle, or container you happen to be in. If used with an argument, will attempt to look at certain specific things.
 
-    `xUsage:`n
-      `Rlook`n
-      `Rlook <player>`n
-      `Rlook <player> <clothing/held item>`n
+    |xUsage:|n
+      |Rlook|n
+      |Rlook <player>|n
+      |Rlook <player> <clothing/held item>|n
     """
     key = "look"
     aliases = ["l"]
@@ -32,7 +32,7 @@ class CmdLook(Command):
         if not self.args:
             target = caller.location
             if not target:
-                caller.msg("`xYou can see nothing.`n")
+                caller.msg("|xYou can see nothing.|n")
                 return
 
         else:
@@ -49,10 +49,10 @@ class CmdSay(Command):
     """
     Say something aloud for other players to hear.
 
-    `xUsage:`n
-      `Rsay <message>`n
-      `R'<message>`n
-      `R"<message>`n
+    |xUsage:|n
+      |Rsay <message>|n
+      |R'<message>|n
+      |R"<message>|n
 
     You can be heard by almost anyone in the room, as well as people who happen to be nearby and listening in.
     """
@@ -85,9 +85,9 @@ class CmdSit(Command):
     """
     Cause your character to sit down. Can optionally specify a bit of furniture to sit on.
 
-    `xUsage:`n
-      `Rsit`n
-      `Rsit <furniture>`n
+    |xUsage:|n
+      |Rsit|n
+      |Rsit <furniture>|n
 
     Naturally, you cannot move while seated.
     """
@@ -110,8 +110,8 @@ class CmdStand(Command):
     """
     If seated or lying down, stand up.
 
-    `xUsage:`n
-      `Rstand`n
+    |xUsage:|n
+      |Rstand|n
     """
     key = "stand"
     locks = "cmd:all()"
@@ -130,9 +130,9 @@ class CmdLie(Command):
     """
     Lie down on the ground. Alternatively, you may specify a piece of furniture to lie on.
 
-    `xUsage:`n
-      `Rlie`n
-      `Rlie <furniture>`n
+    |xUsage:|n
+      |Rlie|n
+      |Rlie <furniture>|n
 
     Naturally, you cannot move while lying down. Note that in most cases, you will be considered vulnerable while prone!
     """
@@ -158,8 +158,8 @@ class CmdWho(Command):
     """
     See who's currently online.
 
-    `xUsage:`n
-      `Rwho`n
+    |xUsage:|n
+      |Rwho|n
 
     Note that you may not be able to see certain people who have taken efforts to conceal themselves.
     """
@@ -176,8 +176,8 @@ class CmdWho(Command):
         session_list = SESSIONS.get_sessions()
         session_list = sorted(session_list, key = lambda o: o.account.key)
 
-        self.msg(Line(80, "`m", "Currently Online", "`w"))
-        self.msg("  `xNAME`n                         `xONLINE FOR`n   `xIDLE FOR`n")
+        self.msg(Line(80, "|m", "Currently Online", "|w"))
+        self.msg("  |xNAME|n                         |xONLINE FOR|n   |xIDLE FOR|n")
 
         for session in session_list:
             if not session.logged_in:
@@ -196,8 +196,8 @@ class CmdWho(Command):
             conn = utils.time_format(time.time() - session.conn_time, 0)
 
             self.msg("  %s%s    %s" % (jleft(p_name, 32), jright(conn, 7), jright(idle, 7)))
-            self.msg("  `c%s`n" % (location))
+            self.msg("  |c%s|n" % (location))
 
-        self.msg("\n\n  `W%s`n `xunique account%s logged in.`n" % (naccounts, "" if naccounts == 1 else "s"))
+        self.msg("\n\n  |W%s|n |xunique account%s logged in.|n" % (naccounts, "" if naccounts == 1 else "s"))
 
-        self.msg(Line(80, "`m"))
+        self.msg(Line(80, "|m"))

@@ -8,12 +8,12 @@ def ProcessSpeech(self, message, msg_self = None, msg_location = None, receivers
     This hook should display the actual say/whisper of the object in its
     location.  It should both alert the object (self) and its
     location that some text is spoken.  The overriding of messages or
-    `mapping` allows for simple customization of the hook without
+    |mapping` allows for simple customization of the hook without
     re-writing it completely.
 
     Args:
         message (str): The message to convey.
-        msg_self (bool or str, optional): If boolean True, echo `message` to self. If a string,
+        msg_self (bool or str, optional): If boolean True, echo |message` to self. If a string,
             return that message. If False or unset, don't echo to self.
         msg_location (str, optional): The message to echo to self's location.
         receivers (Object or iterable, optional): An eventual receiver or receivers of the message
@@ -29,7 +29,7 @@ def ProcessSpeech(self, message, msg_self = None, msg_location = None, receivers
 
 
         Messages can contain {} markers. These are substituted against the values
-        passed in the `mapping` argument.
+        passed in the |mapping` argument.
 
             msg_self = 'You say: "{speech}"'
             msg_location = '{object} says: "{speech}"'

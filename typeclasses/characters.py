@@ -67,7 +67,7 @@ class Character(DefaultCharacter):
         surname = ""
         if self.db.surname:
             surname = f" {self.db.surname}"
-        string = f"`xThis is `c{self.key}{surname}`n`x, a`n `c{self.db.species}`n`x.`n\n"
+        string = f"|xThis is |c{self.key}{surname}|n|x, a|n |c{self.db.species}|n|x.|n\n"
         string += Line()
         string += f"\n{self.db.desc}"
 
