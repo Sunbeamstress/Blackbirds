@@ -43,15 +43,15 @@ class CmdMakeAdmin(Command):
         ply = self.caller
         # tar = search.account_search(self.word(1))
         if not self.args:
-            ply.msg("You must specify the name of an account.")
+            ply.echo("You must specify the name of an account.")
             return
 
         tar = search.account_search(self.word(1))[0]
         if not tar:
-            ply.msg("No account by that name could be found.")
+            ply.echo("No account by that name could be found.")
             return
 
-        ply.msg(f"Ding! Your target account is: {tar}")
+        ply.echo(f"Ding! Your target account is: {tar}")
         # tar.cmdset.add(default_cmds.AdminCmdSet, permanent = True)
 
 

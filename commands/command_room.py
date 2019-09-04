@@ -7,7 +7,7 @@ from utilities.utils_display import Line
 
 def DescribeRoom(ply, room, description):
     room.db.desc = description
-    ply.msg(f"|xRoom description changed. The room will now be described as:|n\n{room.db.desc}")
+    ply.echo(f"|xRoom description changed. The room will now be described as:|n\n{room.db.desc}")
 
 def RoomInfo(ply, tar_room = None):
     # add logic to search for and get info on tar_room instead here
@@ -27,19 +27,19 @@ def RoomInfo(ply, tar_room = None):
 
     string += "\n" + Line(80, "|y")
 
-    ply.msg(string)
+    ply.echo(string)
 
 def RoomRename(ply, tar_room = None, new_name = None):
     if not new_name or new_name == "":
-        ply.msg("You must specify a name for the room.")
+        ply.echo("You must specify a name for the room.")
         return
 
-    ply.msg(new_name)
+    ply.echo(new_name)
     r_id = tar_room.id
     r_id_str = "#" + str(tar_room.id)
     previous_name = tar_room.name
     tar_room.name = new_name
-    ply.msg(f"Room {r_id_str}'s name has been changed from {previous_name} to {tar_room.name}.")
+    ply.echo(f"Room {r_id_str}'s name has been changed from {previous_name} to {tar_room.name}.")
 
 def RoomRedescribe(ply, tar_room = None):
     pass

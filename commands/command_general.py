@@ -24,26 +24,27 @@ class CmdLook(Command):
         """
         Handle the looking.
         """
-        caller = self.caller
+        ply = self.caller
+        ply_room = self.caller.location
 
         self.args = self.args.strip()
 
         # If no target specified, default to looking at the room.
         if not self.args:
-            target = caller.location
+            target = ply_room
             if not target:
-                caller.msg("|xYou can see nothing.|n")
+                ply.echo("|xYou can see nothing.|n")
                 return
 
         else:
             if self.args.strip() == "me" or self.args.strip() == "self":
-                target = caller
+                target = ply
             else:
-                target = caller.search(self.args)
+                target = ply.search(self.args)
             if not target:
                 return
 
-        self.msg((caller.at_look(target), {'type': 'look'}), options=None)
+        ply.msg((ply.at_look(target), {'type': 'look'}), options = None)
 
 class CmdSay(Command):
     """
@@ -65,7 +66,7 @@ class CmdSay(Command):
         ply = self.caller
 
         if not self.args:
-            ply.msg("You must specify something to say!")
+            ply.echo("You must specify something to say!")
             return
 
         speech = self.args
@@ -99,12 +100,12 @@ class CmdSit(Command):
 
         if ply.db.prone >= 2:
             ply.db.prone = 1
-            ply.msg("You shift up into a seated position.")
+            ply.echo("You shift up into a seated position.")
         elif ply.db.prone == 0:
             ply.db.prone = 1
-            ply.msg("You sit down.")
+            ply.echo("You sit down.")
         else:
-            ply.msg("You are already seated.")
+            ply.echo("You are already seated.")
 
 class CmdStand(Command):
     """
@@ -120,11 +121,11 @@ class CmdStand(Command):
         ply = self.caller
 
         if ply.db.prone == 0:
-            ply.msg("You are already standing.")
+            ply.echo("You are already standing.")
             return
 
         ply.db.prone = 0
-        ply.msg("You stand up.")
+        ply.echo("You stand up.")
 
 class CmdLie(Command):
     """
@@ -144,15 +145,15 @@ class CmdLie(Command):
         ply, prone = self.caller, self.caller.db.prone
 
         if prone >= 2:
-            ply.msg("You are already lying down.")
+            ply.echo("You are already lying down.")
             return
 
         if prone == 1:
             ply.db.prone = 2
-            ply.msg("You ease down onto the ground.")
+            ply.echo("You ease down onto the ground.")
         elif prone == 0:
             ply.db.prone = 2
-            ply.msg("You lie down.")
+            ply.echo("You lie down.")
 
 class CmdWho(Command):
     """

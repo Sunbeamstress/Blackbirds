@@ -36,20 +36,20 @@ class CmdEmote(Command):
         self.args = args
 
     def func(self):
+        ply = self.caller
         em_msg = self.args
         speech_mode = False # Toggle var to detect whether or not we're in the midst of speech.
 
         # Player supplied a blank emote.
         if not em_msg:
-            msg = "|xSyntax:|n\n  |Rem <text>|n"
-            self.caller.msg(msg)
+            ply.echo("|xSyntax:|n\n  |Rem <text>|n")
             return
 
         # Only begin the emote with a name if @me wasn't used.
         if not "@me" in em_msg:
             # Did they capitalize the first letter? They may have meant to use a @me.
             if em_msg[1].isupper():
-                self.caller.msg("Did you mean to include |R@me|n in your emote?")
+                ply.echo("Did you mean to include |R@me|n in your emote?")
                 return
 
             # Prepend the emote with the player's name.
@@ -78,5 +78,5 @@ class CmdEmote(Command):
             em_msg = ''.join(new_em_msg)
 
 
-        self.caller.msg("|xYou emote:|n")
+        ply.echo("|xYou emote:|n")
         self.caller.location.msg_contents(text=(em_msg, {"type": "pose"}), from_obj=self.caller)

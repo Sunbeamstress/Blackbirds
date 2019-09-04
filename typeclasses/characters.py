@@ -72,3 +72,17 @@ class Character(DefaultCharacter):
         string += f"\n{self.db.desc}"
 
         return string
+
+    def prompt(self):
+        "Returns the player's prompt."
+        # Placeholder for now - replace with real one later.
+        HP, MP, END, WIL = 500, 500, 1500, 1500
+        p_string = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
+        return p_string
+
+    def echo(self, string, prompt = False):
+        # At this moment, simply a lazy method wrapper that sends a message to the player,
+        # then displays a prompt.
+        self.msg(string)
+        if prompt == True:
+            self.msg(prompt = self.prompt())

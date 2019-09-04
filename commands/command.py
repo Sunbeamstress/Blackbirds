@@ -47,7 +47,7 @@ class Command(BaseCommand):
 
     def at_pre_cmd(self):
         # Space out everything between propmts - looks nice.
-        self.caller.msg("\n")
+        self.caller.echo("\n")
 
     def parse(self):
         # Process user's input, divide into words - used for various word-based getter functions below.
@@ -55,10 +55,8 @@ class Command(BaseCommand):
         self.cmd_word = cmd.copy()
 
     def at_post_cmd(self):
-        # Fake prompt, will replace later with real one!
-        HP, MP, END, WIL = 500, 500, 1500, 1500
-        prompt = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
-        self.caller.msg(prompt=prompt)
+        # Every command sends a prompt afterwards.
+        self.caller.msg(prompt = self.caller.prompt())
 
     def word_count(self):
         """
@@ -119,7 +117,7 @@ class Command(BaseCommand):
         if self._syntax_post_note:
             string += "\n\n" + self._syntax_post_note
 
-        ply.msg(string)
+        ply.echo(string)
 
     def set_syntax(self, subcmd, desc):
         self._syntax_subcmds[subcmd] = desc
