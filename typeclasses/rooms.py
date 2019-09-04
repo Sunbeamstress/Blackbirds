@@ -29,6 +29,31 @@ class Room(DefaultRoom):
         self.db.area = area_id.VOID
         self.db.environment = env_id.URBAN
         self.db.temperature = 0
+        self.db.illumination = 1
+
+        # Room flags - physical states
+        self.db.indoors = False
+        self.db.natural = False
+        self.db.watery = False
+        self.db.underwater = False
+
+        # Room flags - municipal states
+        self.db.public = False
+        self.db.shop = False
+        self.db.house = False
+        self.db.battleground = False
+        self.db.craft_hall = False
+        self.db.chapel = False
+        self.db.bank = False
+
+        # Room flags - powernet
+        self.db.powered = False
+        self.db.power_sink = False
+        self.db.radio_tower = False
+        self.db.neon_well = False
+
+        # Room flags - player housing/shops
+        self.db.player_owned = False
 
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.
