@@ -4,9 +4,15 @@ Commands
 Commands describe the input the account can do to the game.
 
 """
+# Python modules.
+import textwrap
 
+# Evennia modules.
 from evennia import Command as BaseCommand
 # from evennia import default_cmds
+
+# Blackbirds modules.
+from utilities.utils_string import (jright, jleft)
 
 
 class Command(BaseCommand):
@@ -35,6 +41,9 @@ class Command(BaseCommand):
 
         # Add Blackbirds-custom command variables.
         self.cmd_word = []
+        self._syntax_pre_note = None
+        self._syntax_post_note = None
+        self._syntax_subcmds = {}
 
     def at_pre_cmd(self):
         # Space out everything between propmts - looks nice.
@@ -84,3 +93,39 @@ class Command(BaseCommand):
             return ""
 
         return self.cmd_word[w]
+
+    def get_syntax(self):
+        """
+        Usage: self.get_syntax()
+
+        Used in conjunction with self.set_syntax(subcmd, desc) and self.set_syntax_notes(note). Displays command syntax to the player in a unified fashion.
+        """
+        ply = self.caller
+        string = ""
+
+        wrapper = textwrap.TextWrapper()
+        wrapper.width = 80
+        wrapper.subsequent_indent = " " * 25
+
+        if self._syntax_pre_note:
+            string += self._syntax_pre_note + "\n"
+
+        for subcmd, desc in self._syntax_subcmds.items():
+            wrapper.initial_indent = "|R%s|n " % jleft("  " + subcmd, 24)
+            subcmd_string = wrapper.wrap(desc)
+            for line in subcmd_string:
+                string += "\n" + line
+
+        if self._syntax_post_note:
+            string += "\n\n" + self._syntax_post_note
+
+        ply.msg(string)
+
+    def set_syntax(self, subcmd, desc):
+        self._syntax_subcmds[subcmd] = desc
+
+    def set_syntax_notes(self, note, post = None):
+        if post:
+            self._syntax_post_note = note
+        else:
+            self._syntax_pre_note = note

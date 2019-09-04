@@ -46,14 +46,16 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdSit())
         self.add(CmdLie())
         self.add(CmdWho())
+        self.add(CmdRoom())
+        self.add(CmdReload())
 
-class AdminCmdSet(default_cmds.AccountCmdSet):
+class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"
     def at_cmdset_creation(self):
         super().at_cmdset_creation()
 
-        self.add(CmdRoom())
-        self.add(CmdReload())
+        # self.add(CmdRoom())
+        # self.add(CmdReload())
         # self.add(CmdClassUpdate())
 
 class AccountCmdSet(default_cmds.AccountCmdSet):

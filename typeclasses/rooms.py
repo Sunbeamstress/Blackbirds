@@ -72,6 +72,8 @@ class Room(DefaultRoom):
             desc = desc.replace("$n", "\n")
             string += desc
 
+        string += "\n%s\n" % self.get_temperature_string()
+
         if exits:
             string += "\n|wExits:|n " + list_to_string(exits)
 
@@ -94,6 +96,9 @@ class Room(DefaultRoom):
 
     def get_temperature_string(self):
         temp = self.db.temperature
+
+        if not temp:
+            return ""
 
         if temp <= -23: # -10 F
             return "|WIt's deathly cold.|n"
