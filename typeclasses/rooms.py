@@ -26,11 +26,11 @@ class Room(DefaultRoom):
     """
 
     def at_object_creation(self):
-        self.db.area = area_id.VOID
-        self.db.environment = env_id.URBAN
+        self.db.area = area_id['VOID']
+        self.db.environment = env_id['URBAN']
         self.db.temperature = 0 # How hot/cold the room is.
-        self.db.illumination = 1 # The general light level in the room.
-        self.db.darkness = 0 # Whether or not the room is unnaturally dark. Overrides illumination.
+        self.db.illumination = 15 # The general light level in the room. 0 - dark, 15 - fully lit
+        self.db.darkness = False # Whether or not the room is unnaturally dark. Overrides illumination.
 
         # Room flags - physical states
         self.db.indoors = False # Is the room outside or not?
