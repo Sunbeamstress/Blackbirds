@@ -27,7 +27,7 @@ High fantasy with anachronistic modern touches; the world Aetolia tried to be bu
 
    In practice the players can decide how they want to talk. It's up to us to build a world in which they want to do it the "correct" way - and if not, that's just fine.
 
-* Music is unique to the game, but is depicated in a way that a player in today's society can understand - music might be performed in a tavern full of smelly peasants and the odd knight, but it's played on a modern-looking guitar, and might even include a drummer. That said, there are just as many people classically trained on harpsichords or shamisens.
+* Music is unique to the game, but is depicted in a way that a player in today's society can understand - music might be performed in a tavern full of smelly peasants and the odd knight, but it's played on a modern-looking guitar, and might even include a drummer. That said, there are just as many people classically trained on harpsichords or shamisens.
 
 * Language is used in another context: to speak directly to the player, and subliminally enforce the fantasy aspects of the world. If we were to simply go "you live in a castle and wear t-shirts" this setting would be a failure. It has to be immersive.
 
@@ -87,3 +87,38 @@ The hidden assassinocracy.
 
 ## Rules
 
+The most important rule to establish is that the spirit greatly supersedes the letter of the law. The game's rules are to be interpreted and do not represent rigid, immutable policies. If a member of staff is deciding you're simply being a dick, they are well within their rights to call you out in violation.
+
+### Player Age
+
+* You must be 18 years or older to log in to Blackbirds. If there is sufficient evidence that a player does not meet this restriction, their account will be deleted immediately.
+
+### Language
+
+* Language rules err on the side of unrestrictive. You can say "fuck" in RP or threaten to skewer your enemy's mother's arse with a pike if that's your style. However, you are asked to keep it to a dull roar on public channels.
+
+* There is no rule saying your character can't be bigoted - however, there are immersive and lore-friendly RP avenues you may pursue if you absolutely must do that. Leave the slurs and hate speech of the real world out of it.
+
+* Blackbirds is a game written in English, designed for English-understanding players. Everyone is welcome to RP here, but it must be done so in English.
+
+### Roleplaying; IC/OOC Boundaries
+
+* Roleplaying in Blackbirds is ***mandatory***. Unless specified otherwise, all channels, venues, and other communication systems are considered to be IC (in-character). You must remain IC at all times.
+
+* At this time, the only explicitly OOC (out-of-charaacter) channel is Newbie, where its Q&A nature, geared toward new players, requires that you are able to talk about game mechanics and conventions. The only explicit one-on-one method of communicating OOC is via the TELL command.
+
+* Metagaming, in these rules, is defined as your character acting on information gleaned from things learned in the real world, not what they themselves experienced. We can't stop you from metagaming through mediums outside the game, but it should go without saying that it is not permitted.
+
+* You are to respect the IC/OOC boundaries between characters and players - this is a very big rule here. You are not your character, and the characters you encounter are not their players. Flirting with or hitting on a player because your characters are dating; threatening a player with death because his character attacked yours; asking players by OOC means why their character did this or said that; these are all examples of violating this rule. Most importantly of all, roleplaying with a character does not, by any means, entitle you to communicate with their player.
+
+* Sharing logs of RP may only be done if everyone in the log consents to it being shared.
+
+### Mature Content
+
+* As all overtly violent or sexual roleplay in Blackbirds should be done with consent, it is not permitted to carry out more intense scenes in public - you can't possibly obtain the consent of everyone passing through.
+
+* ERP *(erotic roleplay)* in particular should occur in private. If what your characters are doing counts as sex, it falls under this rule. If you aren't sure whether or not it's sex, you should still probably find yourself a secluded place to be doing it.
+
+* RP in which rape is depicted is not permitted. That being said, this falls heavily under the previous rule: what two consenting players do behind closed doors is their business. Using a scene like this, however, to create a commotion or establish consequences (ex. Drago the Bandit and Ishkar the Monk agree to a sexual assault scene; later, Ishkar drafts his friends to seek revenge for Drago raping him), is in severe violation of this rule - as you are dragging in players who didn't consent to it.
+
+* As an addendum to the above: underaged (as defined in the United States) characters are not at all permitted, whether they are canonically under the age of 18, or are claiming to be such, by any means. There is a zero-tolerance policy on this, and the offending character will be instantly deleted. Claims that the character is actually a thousand year old wizard will be met with rolled eyes.
