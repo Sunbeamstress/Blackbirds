@@ -17,8 +17,11 @@ import typeclasses.areas as areas
 def FormatRoomTitle(tar_room):
     r_name = tar_room.name
     r_id = tar_room.id
-    r_area = tar_room.db.area
-    r_env = tar_room.db.environment
+    # r_area = tar_room.db.area
+    # r_env = tar_room.db.environment
+    # Reeeeally gotta write an area and environment system, sooner rather than later
+    r_area = "The Void"
+    r_env = "Urban"
 
     return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_area}|n|020)|n |x[|n|321{r_env}|n|x]|n |213(v|n|525{r_id}|n|213)|n\n"
 

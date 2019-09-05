@@ -82,7 +82,6 @@ def RoomRename(ply, tar_room = None, new_name = None):
         ply.echo("You must specify a name for the room.")
         return
 
-    ply.echo(new_name)
     r_id = tar_room.id
     r_id_str = "#" + str(tar_room.id)
     previous_name = tar_room.name
