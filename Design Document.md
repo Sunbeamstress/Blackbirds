@@ -81,6 +81,33 @@ The hidden assassinocracy.
 
 * "Neon Mode": Name pending - some kind of otherworldly space. Mid-level players can move through it and it's the basis by which all stealth takes place. High-level players can even see into it from our plane.
 
+## Brilliante
+
+Brilliante is both the capital city and the state (empire, if you will) by the same name. The current state of political affairs in the world is that, to put it bluntly, Brilliante controls most of it. A number of outerlying territories and other cities/city-states make up the entirety of the state.
+
+Brilliante *can* be corrupt and *does* benefit from a top-heavy and highly aristocratic capitalist social structure, but it is not precise to define it as an "evil" or "bad" state.
+
+### Power Structure
+
+Housed in the city, the state's official ruler is a monarch - sometimes a king, but currently a queen in the game's setting. The queen expresses her rule through a regent whose job is to govern Brilliante's territories in her stead. She also answers to a Parliament composed of Brilliante's major political parties, where the majority of player-on-player conflict takes place.
+
+The structure can be roughly expressed as follows:
+
+| Rank | Function |
+| ---- | -------- |
+| Queen | Appointed to throne by succession; is by necessity a member of the ruling Tribe. Must work with the parties to legislate the state and can be checked by them, but enjoys certain powers such as declaring martial law. |
+| Regent | Basically, the Queen when the Queen isn't around. Distinguishes themselves from the Queen in that they are the de-facto ruler of conquered or otherwise owned cities and other territories. This is the highest rank a player can achieve. |
+| Parliament | A large governing body made up of the leaders of each Caucus. As they are the lawmakers and can even overrule the Queen/Regent's authority in many cases, as a whole, they are considered the most powerful of the state. |
+
+Caucuses are the political parties of Brilliante, and may change depending on player culture and current events. There are typically only three in power at any given time. Examples of Caucuses are as follows.
+| Caucus | Function |
+| ------ | -------- |
+| The Kohl Party | A Caucus primarily composed of elites and upper crust. They tend to lobby for laws and regulations that benefit the rich. |
+| The Gilded Sun Party | A Caucus whose focus is on wartime policy and the flexing of state muscle. They tend to be scaremongers and lobby for the benefit of the soldiery. |
+| Finally We Can See | A Caucus made up of Merchant and Peasant classes and other underdogs. Naturally, their interest is in social and fiscal equality - they want to undermine the class structure. |
+
+It should go without saying that the Blackbirds are above all of this.
+
 ----
 
 # Game Policy
