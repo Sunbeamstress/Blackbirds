@@ -1,9 +1,29 @@
+##### Table of Contents
+
+[Setting](#setting)
+   [General](#general)
+      [Culture](#culture)
+      [Clothing Conventions](#clothing_conventions)
+      [Architecture](#architecture)
+      [Neon](#neon)
+      [The Blackbirds](#the_blackbirds)
+      [Specific Cool Things](#specific_cool_things)
+[Game Policy](#game_policy)
+   [Rules](#rules)
+      [Player Age](#player_age)
+      [Language](#language)
+      [Roleplaying; IC/OOC Boundaries](#roleplaying_ic_ooc_boundaries)
+      [Mature Content](#mature_content)
+
+<a name="setting"/>
 # Setting
 
+<a name="general"/>
 ## General
 
 High fantasy with anachronistic modern touches; the world Aetolia tried to be but couldn't. Think *Romeo + Juliet*, 2018's *Robin Hood*, or *Final Fantasy XV*.
 
+<a name="culture"/>
 ### Culture
 
 * Classic high-fantasy mish-mash of dominant European influences, with little Tolkeinisms and whatnot for flavor.
@@ -37,6 +57,7 @@ High fantasy with anachronistic modern touches; the world Aetolia tried to be bu
 
    - Guns are guns - but they come in various "classes" that determine their caliber, and these are named after blades: longsword, dagger, rapier, etc.
 
+<a name="clothing_conventions"/>
 ### Clothing Conventions
 
 * **Formalwear:** Modern suits, fine dresses with contemporary cuts, but all with a baroque and ornate twist. The elite tend to wear an absolute shitload of jewelry, draped over everything, such that they jingle when they walk.
@@ -45,6 +66,7 @@ High fantasy with anachronistic modern touches; the world Aetolia tried to be bu
 
 * **Other anachronisms:** Aetolia-style: Kimonos, certain bits of lingerie (thongs, teddies, etc.). *Hard no* on trenchcoats, fedoras, or any other neckbeard crap.
 
+<a name="architecture"/>
 ### Architecture
 
 There is one major city in which most of the gameplay occurs, so for the purposes of this heading we'll be describing that locale.
@@ -55,6 +77,7 @@ There is one major city in which most of the gameplay occurs, so for the purpose
 
 * **Neon**. Neon is something of particular importance. Neon lighting is used very heavily to signify opulence; in churches, along the baseboards of palace halls, or even in the signage of an especially rich merchant. More about Neon below.
 
+<a name="neon"/>
 ### Neon
 
 Neon is **a thing**, and though never specified, is implied to have great power. In typical use it functions just like the real-world gas (stick in a tube, give a little electrical impulse, watch the pretty glow), but carries the mystical qualities of Aetolia's ylem. It's so much more.
@@ -65,6 +88,7 @@ Neon is **a thing**, and though never specified, is implied to have great power.
 
 * Things can be "infused" with Neon - in game terms, this is an enchantment system, with capabilities determined by the sort of Neon used.
 
+<a name="the_blackbirds"/>
 ### The Blackbirds
 
 The hidden assassinocracy.
@@ -73,6 +97,7 @@ The hidden assassinocracy.
 
 * Lorewise, you are never actually part of the Blackbirds themselves. Rather, you're considered to be *in the know*, and are privy to their communiques.
 
+<a name="specific_cool_things"/>
 ### Specific Cool Things
 
 * Hospitaliers in full regalia and armor standing sentinel over a chapel soaked in neon lights.
@@ -83,16 +108,20 @@ The hidden assassinocracy.
 
 ----
 
+<a name="game_policy"/>
 # Game Policy
 
+<a name="rules"/>
 ## Rules
 
 The most important rule to establish is that the spirit greatly supersedes the letter of the law. The game's rules are to be interpreted and do not represent rigid, immutable policies. If a member of staff is deciding you're simply being a dick, they are well within their rights to call you out in violation.
 
+<a name="player_age"/>
 ### Player Age
 
 * You must be 18 years or older to log in to Blackbirds. If there is sufficient evidence that a player does not meet this restriction, their account will be deleted immediately.
 
+<a name="language"/>
 ### Language
 
 * Language rules err on the side of unrestrictive. You can say "fuck" in RP or threaten to skewer your enemy's mother's arse with a pike if that's your style. However, you are asked to keep it to a dull roar on public channels.
@@ -101,6 +130,7 @@ The most important rule to establish is that the spirit greatly supersedes the l
 
 * Blackbirds is a game written in English, designed for English-understanding players. Everyone is welcome to RP here, but it must be done so in English.
 
+<a name="roleplaying_ic_ooc_boundaries">
 ### Roleplaying; IC/OOC Boundaries
 
 * Roleplaying in Blackbirds is ***mandatory***. Unless specified otherwise, all channels, venues, and other communication systems are considered to be IC (in-character). You must remain IC at all times.
@@ -113,6 +143,7 @@ The most important rule to establish is that the spirit greatly supersedes the l
 
 * Sharing logs of RP may only be done if everyone in the log consents to it being shared.
 
+<a name="mature_content"/>
 ### Mature Content
 
 * As all overtly violent or sexual roleplay in Blackbirds should be done with consent, it is not permitted to carry out more intense scenes in public - you can't possibly obtain the consent of everyone passing through.
