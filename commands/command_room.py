@@ -47,7 +47,7 @@ def RoomInfo(ply, tar_room = None):
     string += roominfo_entry("Temperature", tar_room.db.temperature, "temperature", "num")
     string += roominfo_entry("Indoors", tar_room.db.indoors, "indoors", "bool")
     string += roominfo_entry("Illumination", tar_room.db.illumination, "illumination", "0-15")
-    string += roominfo_entry("Water Level", tar_room.db.water_level, "water_level", "bool")
+    string += roominfo_entry("Water Level", tar_room.db.water_level, "water_level", "0-15")
 
     string += "\n"
 

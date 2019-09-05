@@ -99,7 +99,10 @@ class Room(DefaultRoom):
             desc = desc.replace("$n", "\n")
             string += desc
 
-        string += "\n%s %s" % (self.get_temperature_string(), self.get_illumination_string())
+        string += "\n  %s" % self.get_illumination_string()
+        string += "\n  %s" % self.get_temperature_string()
+        if self.db.water_level > 0:
+            string += "\n  %s" % self.get_water_level_string()
 
         if exits:
             string += "\n|wExits:|n " + list_to_string(exits)
@@ -170,3 +173,17 @@ class Room(DefaultRoom):
             return "|541It's well lit here.|n"
         elif light >= 15:
             return "|553The place is bathed in bright light.|n"
+
+    def get_water_level_string(self):
+        level = self.db.water_level
+
+        if level <= 0:
+            return None
+        elif level <= 4:
+            return "Your footfalls disturb puddles of water."
+        elif level <= 9:
+            return "Water flows around your thighs."
+        elif level <= 14:
+            return "You wade through chest-high water."
+        elif level <= 15:
+            return "This area is submerged underwater."
