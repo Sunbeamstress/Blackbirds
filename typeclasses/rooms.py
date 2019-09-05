@@ -12,7 +12,15 @@ from evennia.utils.utils import (variable_from_module, lazy_property, make_iter,
 
 # Blackbirds modules.
 from utilities.utils_string import AutoPunc
-from typeclasses.areas import (area_id, env_id)
+import typeclasses.areas as areas
+
+def FormatRoomTitle(tar_room):
+    r_name = tar_room.name
+    r_id = tar_room.id
+    r_area = tar_room.db.area
+    r_env = tar_room.db.environment
+
+    return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_area}|n|020)|n |x[|n|321{r_env}|n|x]|n |213(v|n|525{r_id}|n|213)|n\n"
 
 class Room(DefaultRoom):
     """
@@ -90,7 +98,8 @@ class Room(DefaultRoom):
 
         # Get the thing's description; build the appropriate string.
         # string = "%s\n" % self.get_display_name(looker)
-        string = "|y[#%s] %s|n\n" % (self.id, AutoPunc(self.key))
+        # string = "|y[#%s] %s|n\n" % (self.id, AutoPunc(self.key))
+        string = FormatRoomTitle(self)
         desc = self.db.desc
 
         if desc:
@@ -122,9 +131,6 @@ class Room(DefaultRoom):
 
     def get_temperature_string(self):
         temp = self.db.temperature
-
-        if not temp:
-            return ""
 
         if temp <= -23: # -10 F
             return "|WIt's deathly cold.|n"
