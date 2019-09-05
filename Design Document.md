@@ -89,7 +89,23 @@ Brilliante *can* be corrupt and *does* benefit from a top-heavy and highly arist
 
 ### General History
 
-TBD.
+The rough history of Brilliante goes like this:
+
+* There was a great world war. Its most infamous byproduct was the accidental discovery of Neon. Its second most infamous byproduct was the formation of the Blackbirds.
+
+* The world takes some time to heal from its post-apocalyptic state. Because the machine people survived, they were able to help speed things along, aiding somewhat in the recovery of lost knowledge and technology. Things got back to a workable state faster than they normally might, by a number of centuries.
+
+* In the aftermath of the war, people tended to form up into Tribes. When a number of these Tribes got big, they began to butt heads against one another, trying to slice up the pie that was the world.
+
+* By this point, it should be stated that the Blackbirds effected a tremendous cultural impact on the world. They were known for being completely inscrutable, unpredictable, and for removing people who they decided no longer needed to live. Owing to the bizarre and unexpected nature by which they appeared and disappeared, they began to take on godlike qualities in the eyes of the populace, and soon, their slightest actions could manifest in cultural shifts.
+
+* One day, during a siege of the Loud Winter Tribe against the strongholds of Neaniver Tribe, a Blackbird appeared carrying a Loud Winter banner. She did not engage in any warlike action, nor did she speak a word - she was just there on a hill, carrying a banner, and then she was gone. The effect in morale was indescribable, and days afterward, Loud Winter swallowed up Neaniver, then proceeded to waylay any other opposing Tribe they could find.
+
+* In dominating the largest continent, Loud Winter established the city of Brilliante, the seat of their power. They claimed to be chosen by the Blackbirds, that the godly assassinocracy personally had led them to rule.
+
+* Loud Winter lasted six years, before Cruzar Tribe overtook them in a bloody coup. The mysterious, banner-carrying woman in black never appeared, never seemed to care.
+
+* The state has changed hands time and time again, allowed to succeed or fail on the merits of its ruling tribe. This continues to this day, with the Garish Tribe currently in power.
 
 ### Power Structure
 
