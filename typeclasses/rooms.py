@@ -28,32 +28,33 @@ class Room(DefaultRoom):
     def at_object_creation(self):
         self.db.area = area_id.VOID
         self.db.environment = env_id.URBAN
-        self.db.temperature = 0
-        self.db.illumination = 1
+        self.db.temperature = 0 # How hot/cold the room is.
+        self.db.illumination = 1 # The general light level in the room.
+        self.db.darkness = 0 # Whether or not the room is unnaturally dark. Overrides illumination.
 
         # Room flags - physical states
-        self.db.indoors = False
-        self.db.natural = False
-        self.db.watery = False
-        self.db.underwater = False
+        self.db.indoors = False # Is the room outside or not?
+        self.db.natural = False # Is the room characterized by greenery, earth, and other non-manmade environs?
+        self.db.water_level = 0 # How much water does the room have in it? 0: None; 10: Completely submerged.
 
         # Room flags - municipal states
-        self.db.public = False
-        self.db.shop = False
-        self.db.house = False
-        self.db.battleground = False
-        self.db.craft_hall = False
-        self.db.chapel = False
-        self.db.bank = False
+        self.db.public = False # Represents whether or not people will freak out about certain things (nudity, fighting, etc.)
+        self.db.shop = False # The room contains goods for sale.
+        self.db.house = False # The room is a house, dwelling, apartment, etc. Does not imply player ownership.
+        self.db.battleground = False # The room is open for PVP with no rules whatsoever.
+        self.db.craft_hall = False # You can customize and create goods in this room.
+        self.db.chapel = False # This room allows you to pray to deities, or make a pact with the Blackbirds.
+        self.db.bank = False # You can WITHDRAW, DEPOSIT, LOAN, and check your BALANCE here.
 
         # Room flags - powernet
-        self.db.powered = False
-        self.db.power_sink = False
-        self.db.radio_tower = False
-        self.db.neon_well = False
+        self.db.powered = False # Does the room contain facilities that run off of electricity?
+        self.db.power_sink = False # Does the room contain facilities that constantly draw power?
+        self.db.radio_tower = False # Does the room contain a kingdom's broadcast tower?
+        self.db.neon_well = False # Is the room generating Neon?
 
         # Room flags - player housing/shops
-        self.db.player_owned = False
+        self.db.player_owned = False # Does a player own this room?
+        self.db.player_owner_id = None # Who owns the room, if so?
 
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.
