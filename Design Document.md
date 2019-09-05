@@ -104,6 +104,7 @@ The structure can be roughly expressed as follows:
 | Parliament | A large governing body made up of the leaders of each Caucus. As they are the lawmakers and can even overrule the Queen/Regent's authority in many cases, as a whole, they are considered the most powerful of the state. |
 
 Caucuses are the political parties of Brilliante, and may change depending on player culture and current events. There are typically only three in power at any given time. Examples of Caucuses are as follows.
+
 | Caucus | Function |
 | ------ | -------- |
 | The Kohl Party | A Caucus primarily composed of elites and upper crust. They tend to lobby for laws and regulations that benefit the rich. |
