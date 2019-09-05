@@ -87,6 +87,10 @@ Brilliante is both the capital city and the state (empire, if you will) by the s
 
 Brilliante *can* be corrupt and *does* benefit from a top-heavy and highly aristocratic capitalist social structure, but it is not precise to define it as an "evil" or "bad" state.
 
+### General History
+
+TBD.
+
 ### Power Structure
 
 Housed in the city, the state's official ruler is a monarch - sometimes a king, but currently a queen in the game's setting. The queen expresses her rule through a regent whose job is to govern Brilliante's territories in her stead. She also answers to a Parliament composed of Brilliante's major political parties, where the majority of player-on-player conflict takes place.
