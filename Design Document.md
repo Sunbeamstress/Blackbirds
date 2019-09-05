@@ -97,7 +97,7 @@ The rough history of Brilliante goes like this:
 
 * In the aftermath of the war, people tended to form up into Tribes. When a number of these Tribes got big, they began to butt heads against one another, trying to slice up the pie that was the world.
 
-* By this point, it should be stated that the Blackbirds effected a tremendous cultural impact on the world. They were known for being completely inscrutable, unpredictable, and for removing people who they decided no longer needed to live. Owing to the bizarre and unexpected nature by which they appeared and disappeared, they began to take on godlike qualities in the eyes of the populace, and soon, their slightest actions could manifest in cultural shifts.
+* By this point, it should be stated that the Blackbirds effected a tremendous cultural impact on the world. They were known for being completely inscrutable, unpredictable, and for removing people who they decided no longer needed to live. Owing to the bizarre and unexpected nature by which they appeared and disappeared, they began to take on godlike qualities in the eyes of the populace, and soon, their slightest actions could result in entire cultural shifts.
 
 * One day, during a siege of the Loud Winter Tribe against the strongholds of Neaniver Tribe, a Blackbird appeared carrying a Loud Winter banner. She did not engage in any warlike action, nor did she speak a word - she was just there on a hill, carrying a banner, and then she was gone. The effect in morale was indescribable, and days afterward, Loud Winter swallowed up Neaniver, then proceeded to waylay any other opposing Tribe they could find.
 
