@@ -110,7 +110,7 @@ class Room(DefaultRoom):
             desc = desc.replace("$n", "\n")
             string += desc
 
-        string += "\n%s\n" % self.get_temperature_string()
+        string += "\n%s" % self.get_temperature_string()
 
         if exits:
             string += "\n|wExits:|n " + list_to_string(exits)
@@ -128,7 +128,7 @@ class Room(DefaultRoom):
 
                 thing_strings.append(key)
 
-            string += "\n\n|xYou see:|n\n  " + AutoPunc(list_to_string(users + thing_strings))
+            string += "\n|xYou see:|n\n  " + AutoPunc(list_to_string(users + thing_strings))
 
         return string
 
