@@ -14,17 +14,6 @@ from evennia.utils.utils import (variable_from_module, lazy_property, make_iter,
 from utilities.utils_string import AutoPunc
 import typeclasses.areas as areas
 
-def FormatRoomTitle(tar_room):
-    r_name = tar_room.name
-    r_id = tar_room.id
-    # r_area = tar_room.db.area
-    # r_env = tar_room.db.environment
-    # Reeeeally gotta write an area and environment system, sooner rather than later
-    r_area = "The Void"
-    r_env = "Urban"
-
-    return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_area}|n|020)|n |x[|n|321{r_env}|n|x]|n |213(v|n|525{r_id}|n|213)|n\n"
-
 class Room(DefaultRoom):
     """
     Rooms are like any Object, except their location is None
@@ -37,8 +26,8 @@ class Room(DefaultRoom):
     """
 
     def at_object_creation(self):
-        self.db.area = area_id['VOID']
-        self.db.environment = env_id['URBAN']
+        self.db.area = 0
+        self.db.environment = 0
         self.db.temperature = 0 # How hot/cold the room is.
         self.db.illumination = 15 # The general light level in the room. 0 - dark, 15 - fully lit
         self.db.darkness = False # Whether or not the room is unnaturally dark. Overrides illumination.
@@ -102,7 +91,7 @@ class Room(DefaultRoom):
         # Get the thing's description; build the appropriate string.
         # string = "%s\n" % self.get_display_name(looker)
         # string = "|y[#%s] %s|n\n" % (self.id, AutoPunc(self.key))
-        string = FormatRoomTitle(self)
+        string = self.format_room_title()
         desc = self.db.desc
 
         if desc:
@@ -110,7 +99,7 @@ class Room(DefaultRoom):
             desc = desc.replace("$n", "\n")
             string += desc
 
-        string += "\n%s" % self.get_temperature_string()
+        string += "\n%s %s" % (self.get_temperature_string(), self.get_illumination_string())
 
         if exits:
             string += "\n|wExits:|n " + list_to_string(exits)
@@ -132,26 +121,52 @@ class Room(DefaultRoom):
 
         return string
 
+    def format_room_title(self):
+        r_name = self.name
+        r_id = self.id
+        r_id_zeroes = "0" * (4 - len(str(r_id)))
+        # r_area = self.db.area
+        # r_env = self.db.environment
+        # Reeeeally gotta write an area and environment system, sooner rather than later
+        r_area = "The Void"
+        r_env = "Urban"
+
+        return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_area}|n|020)|n |x[|n|321{r_env}|n|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n\n"
+
     def get_temperature_string(self):
         temp = self.db.temperature
 
         if temp <= -23: # -10 F
-            return "|WIt's deathly cold.|n"
+            return "|025It's deathly cold.|n"
         elif temp <= -17: # 0 F
-            return "|BIt feels incredibly cold.|n"
+            return "|135It feels incredibly cold.|n"
         elif temp <= 0: # 32 F
-            return "|CIt feels freezing cold.|n"
+            return "|245It feels freezing cold.|n"
         elif temp <= 12: # 55 F
-            return "|cIt feels cold.|n"
+            return "|355It feels cold.|n"
         elif temp <= 21: # 70 F
-            return "It feels cool."
+            return "|455It feels cool."
         elif temp <= 26: # 80 F
-            return "It feels pleasant."
+            return "|wIt feels pleasant.|n"
         elif temp <= 32: # 90 F
-            return "|yIt's warm.|n"
+            return "|543It's warm.|n"
         elif temp <= 38: # 100 F
-            return "|YIt feels hot.|n"
+            return "|532It feels hot.|n"
         elif temp <= 43: # 110 F
-            return "|rIt feels very hot.|n"
+            return "|521It feels very hot.|n"
         else:
-            return "|RIt's incredibly hot.|n"
+            return "|510It's incredibly hot.|n"
+
+    def get_illumination_string(self):
+        light = self.db.illumination
+
+        if light <= 0:
+            return "|212It's completely dark.|n"
+        elif light <= 4:
+            return "|322There's barely enough light to read by.|n"
+        elif light <= 9:
+            return "|432The surroundings are dimly lit.|n"
+        elif light <= 14:
+            return "|541It's well lit here.|n"
+        elif light >= 15:
+            return "|553The place is bathed in bright light.|n"

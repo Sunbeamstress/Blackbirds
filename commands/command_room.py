@@ -20,7 +20,7 @@ def roominfo_entry(attr_name, nice_value, var_name, type_reminder):
             translated_value = "|rNo|n"
     elif type(nice_value) is int:
         if nice_value >= 0:
-            translated_value = "|W0|n"
+            translated_value = "|W" + str(nice_value) +"|n"
         elif nice_value == 0:
             translated_value = "|x0|n"
     elif type(nice_value) is str:
