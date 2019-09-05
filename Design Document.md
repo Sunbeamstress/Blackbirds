@@ -1,19 +1,34 @@
 ##### Table of Contents
 
 [Setting](#setting)
+
    [General](#general)
+      
       [Culture](#culture)
+
       [Clothing Conventions](#clothing_conventions)
+
       [Architecture](#architecture)
+
       [Neon](#neon)
+
       [The Blackbirds](#the_blackbirds)
+
       [Specific Cool Things](#specific_cool_things)
+
 [Game Policy](#game_policy)
+
    [Rules](#rules)
+
       [Player Age](#player_age)
+
       [Language](#language)
+
       [Roleplaying; IC/OOC Boundaries](#roleplaying_ic_ooc_boundaries)
+
       [Mature Content](#mature_content)
+
+
 
 <a name="setting"/>
 # Setting
