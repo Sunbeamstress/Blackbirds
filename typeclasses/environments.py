@@ -47,3 +47,7 @@ class Environment():
             return False
 
         return True
+
+    def __len__(self):
+        "Returns the total number of defined environments."
+        return len(env_id)

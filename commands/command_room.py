@@ -99,6 +99,26 @@ def RoomRedescribe(ply, tar_room = None, new_desc = None):
 def RoomTemperature(ply, tar_room = None, new_temp = None):
     pass
 
+def RoomEnvironment(ply, tar_room = None, new_env = None):
+    if not new_env:
+        ply.echo("You must specify an environment by number. See |Renvironment list|n for all current environments.")
+        return
+
+    try:
+        eid = int(new_env)
+    except ValueError:
+        ply.echo("You must enter a number.")
+        return
+
+    env = Environment()
+    env_name = env.name(eid)
+    env_color = env.color(eid)
+
+    r_id = tar_room.id
+    r_name = tar_room.name
+    tar_room.db.environment = eid
+    ply.echo(f"You set room #{r_id}, {r_name}, to use the |{env_color}{env_name}|n environment.")
+
 class CmdRoom(Command):
     """
     The following commands are used to build, edit, or otherwise manipulate rooms. In general, you may type any given subcommand by itself to see help and syntax information for each one.
@@ -116,9 +136,12 @@ class CmdRoom(Command):
         self.set_syntax_notes("The |Rroom|w command is a fully-featured suite of commands to make, delete, or otherwise manipulate rooms to your liking. As such, the command by itself does nothing. Refer to each subcommand below for further information.")
 
         self.set_syntax("info", "Displays a useful breakdown of the current room and its attributes.")
-        self.set_syntax("name <name>", "Change the room's name.")
-        self.set_syntax("desc <description>", "Change the room's description.")
-        self.set_syntax("temp <temperature>", "Change the room's temperature.")
+        self.set_syntax("name <room> <name>", "Change the room's name.")
+        self.set_syntax("desc <room> <description>", "Change the room's description.")
+        self.set_syntax("temp <room> <temperature>", "Change the room's temperature.")
+        self.set_syntax("env <room> <environment>", "Change the room's environmental type.")
+
+        self.set_syntax_notes("At this time, you must specify 'here' to alter the current room.", True)
 
     def func(self):
         ply = self.caller
@@ -144,5 +167,7 @@ class CmdRoom(Command):
             RoomRedescribe(ply, tar_room, args)
         elif sub == "temp" or sub == "temperature":
             RoomTemperature(ply, tar_room, args)
+        elif sub == "env" or sub == "environment":
+            RoomEnvironment(ply, tar_room, args)
         else:
             self.get_syntax()
