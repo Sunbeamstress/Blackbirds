@@ -12,6 +12,7 @@ from evennia.utils.utils import (variable_from_module, lazy_property, make_iter,
 
 # Blackbirds modules.
 from utilities.utils_string import AutoPunc
+from typeclasses.environments import Environment
 import typeclasses.areas as areas
 
 class Room(DefaultRoom):
@@ -134,7 +135,11 @@ class Room(DefaultRoom):
         r_area = "The Void"
         r_env = "Urban"
 
-        return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_area}|n|020)|n |x[|n|321{r_env}|n|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n\n"
+        env = Environment()
+        r_env = env.shortname(self.db.environment)
+        r_env_color = env.color(self.db.environment)
+
+        return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_area}|n|020)|n |x[|n|{r_env_color}{r_env}|n|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n\n"
 
     def get_temperature_string(self):
         temp = self.db.temperature

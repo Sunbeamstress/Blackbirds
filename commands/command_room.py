@@ -2,7 +2,9 @@
 All commands related to getting or altering information about rooms.
 """
 
+# Blackbirds modules.
 from commands.command import Command
+from typeclasses.environments import Environment
 from utilities.utils_display import Line
 from utilities.utils_string import jleft, jright
 
@@ -10,7 +12,7 @@ def DescribeRoom(ply, room, description):
     room.db.desc = description
     ply.echo(f"|xRoom description changed. The room will now be described as:|n\n{room.db.desc}")
 
-def roominfo_entry(attr_name, nice_value, var_name, type_reminder):
+def roominfo_entry(attr_name, nice_value, var_name, type_reminder, cust_str_color = "W"):
     translated_value = "|c---|n"
 
     if type(nice_value) is bool:
@@ -24,11 +26,11 @@ def roominfo_entry(attr_name, nice_value, var_name, type_reminder):
         elif nice_value == 0:
             translated_value = "|x0|n"
     elif type(nice_value) is str:
-        translated_value = f"|W{nice_value}|n"
+        translated_value = f"|{cust_str_color}{nice_value}|n"
 
     string = "\n%s" % (jright(attr_name, 16))
     string += " |c|||n "
-    string += "|W%s|n" % (jleft(translated_value, 16))
+    string += "%s" % (jleft(translated_value, 24))
     string += "|x%s|n" % var_name
     string += " |x[%s]|n" % type_reminder
     return string
@@ -38,12 +40,15 @@ def RoomInfo(ply, tar_room = None):
     r_name = tar_room.name
     r_id = tar_room.id
     r_id_str = "#" + str(tar_room.id)
+    env = Environment()
+    env_name = env.name(tar_room.db.environment)
+    env_color = env.color(tar_room.db.environment)
 
     string = Line(80, "|y", f"{r_id_str}, {r_name}", "|W")
 
     string += roominfo_entry("Name", r_name, "name", "str")
     string += roominfo_entry("Area", None, "area", "id")
-    string += roominfo_entry("Environment", tar_room.db.environment, "environment", "id")
+    string += roominfo_entry("Environment", env.name(tar_room.db.environment), "environment", "id", env_color)
     string += roominfo_entry("Temperature", tar_room.db.temperature, "temperature", "num")
     string += roominfo_entry("Indoors", tar_room.db.indoors, "indoors", "bool")
     string += roominfo_entry("Illumination", tar_room.db.illumination, "illumination", "0-15")
