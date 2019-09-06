@@ -8,7 +8,9 @@
 - [x] Modernize (read: add XTERM colors) room title display.
 - [x] Display light, temperature, water level.
 - [ ] Implement room echoes for remaining room attributes, where applicable.
-- [ ] Area and Environment databases.
+- [ ] Area database.
+- [x] Environment handling through JSON.
+- [ ] Exit standardizing and room displaying.
 
 ## Cleanup, Maintenance
 - [ ] Fix dumb, inconsistent method name casing (AutoPunc, etc.)
