@@ -30,6 +30,15 @@ class Environment():
 
         return env_id[id]["color"]
 
+    def colorname(self, id = 0):
+        if not self._is_valid_id(id):
+            return "|500????|n"
+
+        e_color = self.color(id)
+        e_name = self.name(id)
+
+        return f"|{e_color}{e_name}|n"
+
     def is_natural(self, id = 0):
         if not self._is_valid_id(id):
             return False
