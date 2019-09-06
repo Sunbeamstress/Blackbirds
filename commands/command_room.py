@@ -48,7 +48,7 @@ def RoomInfo(ply, tar_room = None):
 
     string += roominfo_entry("Name", r_name, "name", "str")
     string += roominfo_entry("Area", None, "area", "id")
-    string += roominfo_entry("Environment", env.name(tar_room.db.environment), "environment", "id", env_color)
+    string += roominfo_entry("Environment", env_name, "environment", "id", env_color)
     string += roominfo_entry("Temperature", tar_room.db.temperature, "temperature", "num")
     string += roominfo_entry("Indoors", tar_room.db.indoors, "indoors", "bool")
     string += roominfo_entry("Illumination", tar_room.db.illumination, "illumination", "0-15")
