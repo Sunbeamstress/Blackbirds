@@ -1,7 +1,7 @@
 {
-    "Brillante": [
-        {"name": "PalaceDistrict", "fullname": "Brillante Palace"},
-        {"name": "MarketDistrict", "fullname": "Cruzar Riding Market"},
-        {"name": "LoggingDistrict", "fullname": "The Logging District"}
+    "id": [
+        {"area": 0, "name": "PalaceDistrict", "fullname": "Brillante Palace"},
+        {"area": 0, "name": "MarketDistrict", "fullname": "Cruzar Riding Market"},
+        {"area": 0, "name": "LoggingDistrict", "fullname": "Logging District"}
     ]
 }

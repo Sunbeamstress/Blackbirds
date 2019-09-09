@@ -30,7 +30,7 @@ class Room(DefaultRoom):
         self.db.area = 0
         # self.db.zone = 0
         self.db.environment = 0
-        self.db.temperature = 0 # How hot/cold the room is.
+        self.db.temperature = 30 # How hot/cold the room is.
         self.db.illumination = 15 # The general light level in the room. 0 - dark, 15 - fully lit
         self.db.darkness = False # Whether or not the room is unnaturally dark. Overrides illumination.
 
@@ -51,7 +51,7 @@ class Room(DefaultRoom):
         # Room flags - powernet
         self.db.powered = False # Does the room contain facilities that run off of electricity?
         self.db.power_sink = False # Does the room contain facilities that constantly draw power?
-        self.db.radio_tower = False # Does the room contain a kingdom's broadcast tower?
+        self.db.radio_tower = False # Does the room contain a Brillante broadcast tower?
         self.db.neon_well = False # Is the room generating Neon?
 
         # Room flags - player housing/shops
@@ -65,10 +65,9 @@ class Room(DefaultRoom):
     def return_appearance(self, looker, **kwargs):
         if not looker:
             return ""
-        # Grab all accessible objects in room.
-        visible = (con for con in self.contents if con != looker and
-                   con.access(looker, "view"))
 
+        # Grab all accessible objects in room.
+        visible = (con for con in self.contents if con != looker and con.access(looker, "view"))
         exits, users, things = [], [], defaultdict(list)
 
         for con in visible:
