@@ -19,7 +19,7 @@ def AreaList(ply):
             a_is_city = "|WYes|n"
         if area.is_open_pvp(i):
             a_is_open_pvp = "|WYes|n"
-        string += "\n|W%s|n|x:|n %s|x%s|n%s%s" % (jright(str(i), 4), jleft(a_full, 32), jleft(a_name, 16), jleft(a_is_city, 6!), a_is_open_pvp)
+        string += "\n|W%s|n|x:|n %s|x%s|n%s%s" % (jright(str(i), 4), jleft(a_full, 32), jleft(a_name, 16), jleft(a_is_city, 6), a_is_open_pvp)
 
     string += "\n" + Line(80, "|y")
 

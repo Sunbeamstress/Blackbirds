@@ -103,13 +103,13 @@ class Command(BaseCommand):
 
         wrapper = textwrap.TextWrapper()
         wrapper.width = 80
-        wrapper.subsequent_indent = " " * 25
+        wrapper.subsequent_indent = " " * 26
 
         if self._syntax_pre_note:
             string += self._syntax_pre_note + "\n"
 
         for subcmd, desc in self._syntax_subcmds.items():
-            wrapper.initial_indent = "|R%s|n " % jleft("  " + subcmd, 24)
+            wrapper.initial_indent = "|R%s|n " % jleft("  " + subcmd, 25)
             subcmd_string = wrapper.wrap(desc)
             for line in subcmd_string:
                 string += "\n" + line
