@@ -39,6 +39,15 @@ class Environment():
 
         return f"|{e_color}{e_name}|n"
 
+    def colorshort(self, id = 0):
+        if not self._is_valid_id(id):
+            return "|500?????|n"
+
+        e_color = self.color(id)
+        e_short = self.shortname(id)
+
+        return f"|{e_color}{e_short}|n"
+
     def is_natural(self, id = 0):
         if not self._is_valid_id(id):
             return False
@@ -47,7 +56,7 @@ class Environment():
 
     def __str__(self, id = 0):
         "Shortcut for get_name()."
-        return self.get_name(id)
+        return self.name(id)
 
     def _is_valid_id(self, id):
         try:

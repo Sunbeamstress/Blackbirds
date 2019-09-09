@@ -1,28 +1,53 @@
-area_id = {
-    'VOID': 0,
-    'BRILLANTE': 1
-}
+# Python modules.
+import json
 
-env_id = {
-    'URBAN': 0,
-    'GRASSLANDS': 1,
-    'FOREST': 2
-}
+# Blackbirds modules.
+
+# Deserialize the environment data file.
+area_data = None
+with open("json/areas.json", "r") as json_file:
+    area_data = json.load(json_file)
+
+area_id = area_data["id"]
 
 class Area():
-    def __init__(self, id = 0, name = None):
-        self.id = id
-        self.name = name
+    "A class whose purpose is to retrieve data from the areas defined at json/areas.json."
+    def name(self, id = 0):
+        if not self._is_valid_id(id):
+            return "????"
 
-class Environment():
-    def __init__(self, id = 0, name = None, color = "321"):
-        self.id = id
-        self.name = name
-        self.color = color
+        return area_id[id]["name"]
 
-AREA_VOID = Area(0, "The Void")
-AREA_BRILLANTE = Area(1, "The City of Brillante")
+    def fullname(self, id = 0):
+        if not self._is_valid_id(id):
+            return "?????"
 
-ENV_URBAN = Environment(0, "Urban", "333")
-ENV_GRASSLANDS = Environment(1, "Grasslands", "242")
-ENV_FOREST = Environment(2, "Forest", "131")
+        return area_id[id]["fullname"]
+
+    def is_city(self, id = 0):
+        if not self._is_valid_id(id):
+            return False
+
+        return area_id[id]["city"]
+
+    def is_open_pvp(self, id = 0):
+        if not self._is_valid_id(id):
+            return False
+
+        return area_id[id]["open_pvp"]
+
+    def __str__(self, id = 0):
+        "Shortcut for get_name()."
+        return self.name(id)
+
+    def _is_valid_id(self, id):
+        try:
+            test_id = area_id[id]
+        except IndexError:
+            return False
+
+        return True
+
+    def __len__(self):
+        "Returns the total number of defined environments."
+        return len(area_id)

@@ -13,7 +13,7 @@ from evennia.utils.utils import (variable_from_module, lazy_property, make_iter,
 # Blackbirds modules.
 from utilities.utils_string import AutoPunc
 from typeclasses.environments import Environment
-import typeclasses.areas as areas
+from typeclasses.areas import Area
 
 class Room(DefaultRoom):
     """
@@ -28,6 +28,7 @@ class Room(DefaultRoom):
 
     def at_object_creation(self):
         self.db.area = 0
+        # self.db.zone = 0
         self.db.environment = 0
         self.db.temperature = 0 # How hot/cold the room is.
         self.db.illumination = 15 # The general light level in the room. 0 - dark, 15 - fully lit
@@ -129,17 +130,14 @@ class Room(DefaultRoom):
         r_name = self.name
         r_id = self.id
         r_id_zeroes = "0" * (4 - len(str(r_id)))
-        # r_area = self.db.area
-        # r_env = self.db.environment
-        # Reeeeally gotta write an area and environment system, sooner rather than later
-        r_area = "The Void"
-        r_env = "Urban"
+
+        area = Area()
+        r_area = area.name(self.db.area)
 
         env = Environment()
-        r_env = env.shortname(self.db.environment)
-        r_env_color = env.color(self.db.environment)
+        r_env = env.colorshort(self.db.environment)
 
-        return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_area}|n|020)|n |x[|n|{r_env_color}{r_env}|n|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n\n"
+        return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_area}|n|020)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n\n"
 
     def get_temperature_string(self):
         temp = self.db.temperature
