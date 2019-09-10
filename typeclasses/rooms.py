@@ -93,8 +93,10 @@ class Room(DefaultRoom):
                 things.append(con.db.long_desc)
 
         string = self.format_room_title()
-        desc = self.db.desc
 
+        string += "%s " % self.get_temperature_string()
+
+        desc = self.db.desc
         if desc:
             desc = desc.replace("$p", "\n\n")
             desc = desc.replace("$n", "\n")
@@ -109,23 +111,7 @@ class Room(DefaultRoom):
                 u_desc = f" |C{user} is here.|n"
                 string += u_desc
 
-        # if users or things:
-        #     # Pluralize non-player objects.
-        #     thing_strings = []
-        #     for key, itemlist in sorted(things.items()):
-        #         nitem = len(itemlist)
-        #         if nitem == 1:
-        #             key, _ = itemlist[0].get_numbered_name(nitem, looker, key=key)
-
-        #         else:
-        #             key = [item.get_numbered_name(nitem, looker, key=key)[1] for item in itemlist][0]
-
-        #         thing_strings.append(key)
-
-        #     string += "\n|xYou see:|n\n  " + AutoPunc(list_to_string(users + thing_strings))
-
-        string += "\n  %s" % self.get_illumination_string()
-        string += "\n  %s" % self.get_temperature_string()
+        # string += "\n  %s" % self.get_illumination_string()
         if self.db.water_level > 0:
             string += "\n  %s" % self.get_water_level_string()
 
