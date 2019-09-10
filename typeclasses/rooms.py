@@ -11,6 +11,7 @@ from collections import defaultdict
 from evennia.utils.utils import (variable_from_module, lazy_property, make_iter, is_iter, list_to_string, to_str)
 
 # Blackbirds modules.
+from commands.exit_cmdsets import RoomLevelExitCmdSet
 from utilities.utils_string import AutoPunc
 from typeclasses.environments import Environment
 from typeclasses.areas import Area
@@ -27,6 +28,8 @@ class Room(DefaultRoom):
     """
 
     def at_object_creation(self):
+        self.cmdset.add_default(RoomLevelExitCmdSet)
+
         self.db.area = 0
         # self.db.zone = 0
         self.db.environment = 0

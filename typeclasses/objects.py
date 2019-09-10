@@ -160,4 +160,11 @@ class Object(DefaultObject):
                                  object speaks
 
      """
-    pass
+
+    def at_object_creation(self):
+        self.db.long_desc = "An object lies here."
+        self.db.short_desc = "a nondescript object"
+
+    def return_appearance(self, looker):
+        ply = looker
+

@@ -12,10 +12,16 @@
 - [ ] Zone handling through JSON.
 - [x] Environment handling through JSON.
 - [ ] Exit standardizing and room displaying.
+- [x] Create overlapping exit commands based on whether or not valid exit is in room.
+- [ ] Implement actual room movement code.
 
 ## Cleanup, Maintenance
 - [ ] Fix dumb, inconsistent method name casing (AutoPunc, etc.)
 - [ ] Look up how database migration works.
+
+## Evennia System Message Replacements
+- [ ] Invalid commands.
+- [ ] System reloads.
 
 ## Characters
 
