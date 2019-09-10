@@ -71,7 +71,7 @@ class Room(DefaultRoom):
 
         # Grab all accessible objects in room.
         visible = (con for con in self.contents if con != looker and con.access(looker, "view"))
-        exits, users, things = [], [], defaultdict(list)
+        exits, users, things = [], [], []
 
         for con in visible:
             # Get the content's name.
@@ -83,18 +83,15 @@ class Room(DefaultRoom):
 
             # If the content is a player, add to the players list.
             elif con.has_account:
-                if con.account.is_superuser:
-                    users.append(f"|Y{key}|n")
-                else:
-                    users.append(key)
+                # if con.account.is_superuser:
+                #     users.append(f"|Y{key}|n")
+                # else:
+                users.append(f"{con.name}")
 
             else:
                 # Goes into our generic list of items.
-                things[key].append(con)
+                things.append(con.db.long_desc)
 
-        # Get the thing's description; build the appropriate string.
-        # string = "%s\n" % self.get_display_name(looker)
-        # string = "|y[#%s] %s|n\n" % (self.id, AutoPunc(self.key))
         string = self.format_room_title()
         desc = self.db.desc
 
@@ -103,6 +100,30 @@ class Room(DefaultRoom):
             desc = desc.replace("$n", "\n")
             string += desc
 
+        if things:
+            for item in things:
+                string += f" |c{item}|n"
+
+        if users:
+            for user in users:
+                u_desc = f" |C{user} is here.|n"
+                string += u_desc
+
+        # if users or things:
+        #     # Pluralize non-player objects.
+        #     thing_strings = []
+        #     for key, itemlist in sorted(things.items()):
+        #         nitem = len(itemlist)
+        #         if nitem == 1:
+        #             key, _ = itemlist[0].get_numbered_name(nitem, looker, key=key)
+
+        #         else:
+        #             key = [item.get_numbered_name(nitem, looker, key=key)[1] for item in itemlist][0]
+
+        #         thing_strings.append(key)
+
+        #     string += "\n|xYou see:|n\n  " + AutoPunc(list_to_string(users + thing_strings))
+
         string += "\n  %s" % self.get_illumination_string()
         string += "\n  %s" % self.get_temperature_string()
         if self.db.water_level > 0:
@@ -110,21 +131,6 @@ class Room(DefaultRoom):
 
         if exits:
             string += "\n|wExits:|n " + list_to_string(exits)
-
-        if users or things:
-            # Pluralize non-player objects.
-            thing_strings = []
-            for key, itemlist in sorted(things.items()):
-                nitem = len(itemlist)
-                if nitem == 1:
-                    key, _ = itemlist[0].get_numbered_name(nitem, looker, key=key)
-
-                else:
-                    key = [item.get_numbered_name(nitem, looker, key=key)[1] for item in itemlist][0]
-
-                thing_strings.append(key)
-
-            string += "\n|xYou see:|n\n  " + AutoPunc(list_to_string(users + thing_strings))
 
         return string
 
