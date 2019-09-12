@@ -1,0 +1,2 @@
+## The Tidal Steps
+A tremendous staircase, referred to as "wide enough for eight ox-carts abreast." It begins at the edge of a tall, seaside cliff on the outskirts of Langley Green and plummets several hundred feet into the Kono Brightside Sea. The uselessness of its construction is an intended part of the structure's purpose - it remains, to date, the only successful manmade attempt to spawn a God.
