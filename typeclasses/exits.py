@@ -8,8 +8,6 @@ for allowing Characters to traverse the exit to its destination.
 """
 from evennia import DefaultExit
 
-from commands.exit_cmdsets import RoomLevelExitCmdSet
-
 class Exit(DefaultExit):
     """
     Exits are connectors between rooms. Exits are normal Objects except
@@ -35,5 +33,3 @@ class Exit(DefaultExit):
                                         not be called if the attribute `err_traverse` is
                                         defined, in which case that will simply be echoed.
     """
-    def at_object_creation(self):
-        self.cmdset.add_default(ExitCmdSet)

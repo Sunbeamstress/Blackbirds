@@ -8,6 +8,7 @@ creation commands.
 
 """
 from evennia import DefaultCharacter
+from evennia.utils import logger
 
 from utilities.utils_communication import ProcessSpeech
 from utilities.utils_display import Line
@@ -73,16 +74,111 @@ class Character(DefaultCharacter):
 
         return string
 
+    def echo(self, string, prompt = False):
+        # At this moment, simply a lazy method wrapper that sends a message to the object,
+        # then displays a prompt.
+        self.msg(string)
+        if prompt == True:
+            self.msg(prompt = self.prompt())
+
     def prompt(self):
-        "Returns the player's prompt."
+        "Returns the object's prompt, if applicable."
         # Placeholder for now - replace with real one later.
         HP, MP, END, WIL = 500, 500, 1500, 1500
         p_string = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
         return p_string
 
-    def echo(self, string, prompt = False):
-        # At this moment, simply a lazy method wrapper that sends a message to the player,
-        # then displays a prompt.
-        self.msg(string)
-        if prompt == True:
-            self.msg(prompt = self.prompt())
+    def can_move(self):
+        if self.db.prone > 0:
+            return [False, "You need to stand up first."]
+
+    def move_call(self, dir = None):
+        if not dir:
+            self.echo("|xWhich way are you trying to go?|n")
+            return
+
+        cm, cm_msg = self.can_move()
+        if cm == False:
+            cm_msg = cm_msg if cm_msg else "You can't seem to move."
+            self.echo(f"|x{cm_msg}|n")
+            return
+
+    def move_to(self, destination, quiet = False, move_hooks = True, **kwargs):
+        # self: obvious.
+        # destination: handled by dir-based move method
+        # quiet: if true, won't display enter/exit messages
+        # move_hooks: if False, bypasses at_move/before_move on objects
+
+        # should return True if move was successful, and False if not
+
+        # all access/ability checks should be handled before this method!
+        # if we've gotten to move_to, everything is green and we are ready
+        # to move the object.
+
+        def error_msg(string = "", err = None):
+            """Simple log helper method"""
+            logger.log_trace()
+            self.echo("%s%s" % (string, "" if err is None else " (%s)" % err))
+            return
+
+        errtxt = _("Couldn't perform move ('%s'). Contact an admin.")
+
+        if not destination:
+            self.echo("|xYou can't seem to figure out how to get there.|n")
+            return False
+
+        if move_hooks:
+            try:
+                if not self.at_before_move(destination):
+                    return False
+            except Exception as err:
+                error_msg(errtxt % "at_before_move()", err)
+                return False
+
+        source_location = self.location
+        if move_hooks and source_location:
+            try:
+                source_location.at_object_leave(self, destination)
+            except Exception as err:
+                error_msg(errtxt % "at_object_leave()", err)
+                return False
+
+        if not quiet:
+            try:
+                self.announce_move_from(destination, **kwargs)
+            except Exception as err:
+                error_msg(errtxt % "at_announce_move()", err)
+                return False
+
+        try:
+            self.location = destination
+        except Exception as err:
+            error_msg(errtxt % "location change", err)
+            return False
+
+        if not quiet:
+            # Tell the new room we are there.
+            try:
+                self.announce_move_to(source_location, **kwargs)
+            except Exception as err:
+                error_msg(errtxt % "announce_move_to()", err)
+                return False
+
+        if move_hooks:
+            # Perform eventual extra commands on the receiving location
+            # (the object has already arrived at this point)
+            try:
+                destination.at_object_receive(self, source_location)
+            except Exception as err:
+                error_msg(errtxt % "at_object_receive()", err)
+                return False
+
+        # Execute eventual extra commands on this object after moving it
+        # (usually calling 'look')
+        if move_hooks:
+            try:
+                self.at_after_move(source_location)
+            except Exception as err:
+                error_msg(errtxt % "at_after_move", err)
+                return False
+        return True

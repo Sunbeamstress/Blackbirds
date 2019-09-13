@@ -24,6 +24,7 @@ from commands.command_ability import *
 from commands.command_environment import *
 from commands.command_area import *
 from commands.command_zone import *
+from commands.command_movement import *
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -54,6 +55,19 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdEnvironment())
         self.add(CmdArea())
         self.add(CmdZone())
+
+        self.add(CmdNorthwest())
+        self.add(CmdNorth())
+        self.add(CmdNortheast())
+        self.add(CmdWest())
+        self.add(CmdEast())
+        self.add(CmdSouthwest())
+        self.add(CmdSouth())
+        self.add(CmdSoutheast())
+        self.add(CmdUp())
+        self.add(CmdDown())
+        self.add(CmdIn())
+        self.add(CmdOut())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"
