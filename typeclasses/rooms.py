@@ -15,6 +15,7 @@ from commands.exit_cmdsets import RoomLevelExitCmdSet
 from utilities.utils_string import AutoPunc
 from typeclasses.environments import Environment
 from typeclasses.areas import Area
+from typeclasses.zones import Zone
 
 class Room(DefaultRoom):
     """
@@ -30,8 +31,11 @@ class Room(DefaultRoom):
     def at_object_creation(self):
         self.cmdset.add_default(RoomLevelExitCmdSet)
 
-        self.db.area = 0
-        # self.db.zone = 0
+        self.db.x = 0
+        self.db.y = 0
+        self.db.z = 0
+
+        self.db.zone = 0
         self.db.environment = 0
         self.db.temperature = 30 # How hot/cold the room is.
         self.db.illumination = 15 # The general light level in the room. 0 - dark, 15 - fully lit
@@ -125,13 +129,13 @@ class Room(DefaultRoom):
         r_id = self.id
         r_id_zeroes = "0" * (4 - len(str(r_id)))
 
-        area = Area()
-        r_area = area.name(self.db.area)
+        r_area = self.areaname()
+        r_zone = self.zonefullname()
 
         env = Environment()
         r_env = env.colorshort(self.db.environment)
 
-        return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_area}|n|020)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n\n"
+        return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_zone}, {r_area}|n|020)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n\n"
 
     def get_temperature_string(self):
         temp = self.db.temperature
@@ -184,3 +188,21 @@ class Room(DefaultRoom):
             return "You wade through chest-high water."
         elif level <= 15:
             return "This area is submerged underwater."
+
+    def areaname(self):
+        a = Area()
+        z = Zone()
+        return a.name(z.area(self.db.zone))
+
+    def areafullname(self):
+        a = Area()
+        z = Zone()
+        return a.fullname(z.area(self.db.zone))
+
+    def zonename(self):
+        z = Zone()
+        return z.name(self.db.zone)
+
+    def zonefullname(self):
+        z = Zone()
+        return z.fullname(self.db.zone)

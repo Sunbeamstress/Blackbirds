@@ -5,7 +5,7 @@ All commands related to getting or altering information about rooms.
 # Blackbirds modules.
 from commands.command import Command
 from typeclasses.environments import Environment
-from typeclasses.areas import Area
+from typeclasses.zones import Zone
 from utilities.utils_display import Line
 from utilities.utils_string import jleft, jright
 
@@ -42,8 +42,8 @@ def RoomInfo(ply, tar_room = None):
     r_id = tar_room.id
     r_id_str = "#" + str(tar_room.id)
 
-    area = Area()
-    r_area = area.name(tar_room.db.area)
+    zone = Zone()
+    r_zone = zone.name(tar_room.db.zone)
 
     env = Environment()
     env_name = env.name(tar_room.db.environment)
@@ -52,7 +52,7 @@ def RoomInfo(ply, tar_room = None):
     string = Line(80, "|y", f"{r_id_str}, {r_name}", "|W")
 
     string += roominfo_entry("Name", r_name, "name", "str")
-    string += roominfo_entry("Area", r_area, "area", "id")
+    string += roominfo_entry("Zone", r_zone, "zone", "id")
     string += roominfo_entry("Environment", env_name, "environment", "id", env_color)
     string += roominfo_entry("Temperature", tar_room.db.temperature, "temperature", "num")
     string += roominfo_entry("Indoors", tar_room.db.indoors, "indoors", "bool")
