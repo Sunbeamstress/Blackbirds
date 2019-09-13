@@ -121,7 +121,7 @@ class Character(DefaultCharacter):
             self.echo("%s%s" % (string, "" if err is None else " (%s)" % err))
             return
 
-        errtxt = _("Couldn't perform move ('%s'). Contact an admin.")
+        errtxt = ("Couldn't perform move ('%s'). Contact an admin.")
 
         if not destination:
             self.echo("|xYou can't seem to figure out how to get there.|n")

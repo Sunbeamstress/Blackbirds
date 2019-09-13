@@ -203,6 +203,3 @@ class Room(DefaultRoom):
     def zonefullname(self):
         z = Zone()
         return z.fullname(self.db.zone)
-
-    def exits(self):
-        pass
