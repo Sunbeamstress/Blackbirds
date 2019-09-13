@@ -9,7 +9,7 @@
 - [x] Display light, temperature, water level.
 - [ ] Implement room echoes for remaining room attributes, where applicable.
 - [x] Area handling through JSON.
-- [ ] Zone handling through JSON.
+- [x] Zone handling through JSON.
 - [x] Environment handling through JSON.
 - [ ] Exit standardizing and room displaying.
 - [x] Create overlapping exit commands based on whether or not valid exit is in room.
