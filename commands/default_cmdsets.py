@@ -23,6 +23,7 @@ from commands.command_room import *
 from commands.command_ability import *
 from commands.command_environment import *
 from commands.command_area import *
+from commands.command_zone import *
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -52,6 +53,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdReload())
         self.add(CmdEnvironment())
         self.add(CmdArea())
+        self.add(CmdZone())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"
