@@ -6,8 +6,10 @@ All commands related to getting or altering information about rooms.
 from commands.command import Command
 from typeclasses.environments import Environment
 from typeclasses.zones import Zone
+from typeclasses.exits import Exit
 from utilities.utils_display import Line
 from utilities.utils_string import jleft, jright
+import utilities.utils_directions as dirs
 
 def DescribeRoom(ply, room, description):
     room.db.desc = description
@@ -124,6 +126,31 @@ def RoomEnvironment(ply, tar_room = None, new_env = None):
     tar_room.db.environment = eid
     ply.echo(f"You set room #{r_id}, {r_name}, to use the |{env_color}{env_name}|n environment.")
 
+def RoomCreateExit(ply, tar_room = None, dir = None, dest = None):
+    if not dir:
+        ply.echo("|xYou must specify a direction.|n")
+        return
+
+    if not dirs.valid_direction(dir):
+        ply.echo("|xYou must supply a valid direction.|n")
+        return
+
+    destination = ply.search(dest, global_search = True)
+    if not destination:
+        ply.echo("|xThat does not appear to be a valid room.|n")
+        return
+
+    full_dir = dirs.valid_direction(dir)
+    e, err_msg = tar_room.create_exit(full_dir, destination)
+    if not e:
+        ply.echo(err_msg)
+        return
+
+    ply.echo(f"You create a {full_dir}ward exit to room {dest}, {destination.name}.")
+
+def RoomDeleteExit(ply, tar_room = None, dir = None):
+    pass
+
 class CmdRoom(Command):
     """
     The following commands are used to build, edit, or otherwise manipulate rooms. In general, you may type any given subcommand by itself to see help and syntax information for each one.
@@ -145,6 +172,8 @@ class CmdRoom(Command):
         self.set_syntax("desc <room> <description>", "Change the room's description.")
         self.set_syntax("temp <room> <temperature>", "Change the room's temperature.")
         self.set_syntax("env <room> <environment>", "Change the room's environmental type.")
+        self.set_syntax("link <dir> <destination>", "Add a new exit to the desired room.")
+        self.set_syntax("unlink <dir>", "Remove an exit from the room.")
 
         self.set_syntax_notes("At this time, you must specify 'here' to alter the current room.", True)
 
@@ -174,5 +203,9 @@ class CmdRoom(Command):
             RoomTemperature(ply, tar_room, args)
         elif sub == "env" or sub == "environment":
             RoomEnvironment(ply, tar_room, args)
+        elif sub == "link":
+            RoomCreateExit(ply, tar_room, self.word(3), self.word(4))
+        elif sub == "unlink":
+            RoomDeleteExit(ply, tar_room, args)
         else:
             self.get_syntax()

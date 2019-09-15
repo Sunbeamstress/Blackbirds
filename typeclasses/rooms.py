@@ -95,7 +95,7 @@ class Room(DefaultRoom):
         exit.set_source(self)
         exit.set_destination(dest)
         self.db.exits[dir] = exit
-        return True
+        return True, ""
 
     def delete_exit(self, dir):
         err_msg = "|xCould not delete the exit. %s|n"
@@ -117,18 +117,15 @@ class Room(DefaultRoom):
 
         # Grab all accessible objects in room.
         visible = (con for con in self.contents if con != looker and con.access(looker, "view"))
-        exits, users, things = [], [], []
+        exit_list = self.get_exits()
+        users, things = [], []
 
         for con in visible:
             # Get the content's name.
             key = con.get_display_name(looker)
 
-            # If the content is an exit, add to our exits list.
-            if con.destination:
-                exits.append(key)
-
             # If the content is a player, add to the players list.
-            elif con.has_account:
+            if con.has_account:
                 # if con.account.is_superuser:
                 #     users.append(f"|Y{key}|n")
                 # else:
@@ -161,8 +158,10 @@ class Room(DefaultRoom):
         if self.db.water_level > 0:
             string += "\n  %s" % self.get_water_level_string()
 
-        if exits:
-            string += "\n|wExits:|n " + list_to_string(exits)
+        if exit_list:
+            string += "\n|235You see exits leading " + list_to_string(exit_list) + "|n."
+        else:
+            string += "\n|235You see no exits.|n"
 
         return string
 
@@ -177,7 +176,7 @@ class Room(DefaultRoom):
         env = Environment()
         r_env = env.colorshort(self.db.environment)
 
-        return f"|y{AutoPunc(r_name)}|n |020(|n|040{r_zone}, {r_area}|n|020)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n\n"
+        return f"|y{AutoPunc(r_name)}|n |213(|n|525{r_zone}, {r_area}|n|213)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n\n"
 
     def get_temperature_string(self):
         temp = self.db.temperature
@@ -248,3 +247,11 @@ class Room(DefaultRoom):
     def zonefullname(self):
         z = Zone()
         return z.fullname(self.db.zone)
+
+    def get_exits(self):
+        exit_list = []
+        for direction, destination in self.db.exits.items():
+            if destination:
+                exit_list.append(direction)
+
+        return exit_list
