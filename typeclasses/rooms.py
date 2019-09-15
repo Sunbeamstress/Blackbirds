@@ -15,6 +15,7 @@ from utilities.utils_string import AutoPunc
 from typeclasses.environments import Environment
 from typeclasses.areas import Area
 from typeclasses.zones import Zone
+from typeclasses.exits import Exit
 
 class Room(DefaultRoom):
     """
@@ -28,6 +29,21 @@ class Room(DefaultRoom):
     """
 
     def at_object_creation(self):
+        self.db.exits = {
+            "northwest": None,
+            "north": None,
+            "northeast": None,
+            "west": None,
+            "east": None,
+            "southwest": None,
+            "south": None,
+            "southeast": None,
+            "up": None,
+            "down": None,
+            "in": None,
+            "out": None
+        }
+
         self.db.x = 0
         self.db.y = 0
         self.db.z = 0
@@ -61,6 +77,35 @@ class Room(DefaultRoom):
         # Room flags - player housing/shops
         self.db.player_owned = False # Does a player own this room?
         self.db.player_owner_id = None # Who owns the room, if so?
+
+    def create_exit(self, dir, dest):
+        err_msg = "|xCould not create a new exit. %s|n"
+
+        # Check if exit already exists.
+        if self.db.exits[dir]:
+            err_msg = err_msg % f"There is already an {dir}ward exit."
+            return False, err_msg
+
+        # Check if destination is valid room.
+        if not dest:
+            err_msg = err_msg % "There is no room in that direction to link to."
+            return False, err_msg
+
+        exit = Exit()
+        exit.set_source(self)
+        exit.set_destination(dest)
+        self.db.exits[dir] = exit
+        return True
+
+    def delete_exit(self, dir):
+        err_msg = "|xCould not delete the exit. %s|n"
+
+        if not self.db.exits[dir]:
+            err_msg = err_msg % f"There is no {dir}ward exit."
+            return False, err_msg
+
+        self.db.exits[dir] = None
+        return True
 
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.

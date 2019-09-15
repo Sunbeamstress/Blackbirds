@@ -88,20 +88,32 @@ class Character(DefaultCharacter):
         p_string = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
         return p_string
 
+    def coordinates(self):
+        if not self.location:
+            return [0, 0, 0]
+
+        loc = self.location
+        return [loc.db.x, loc.db.y, loc.db.z]
+
     def can_move(self):
         if self.db.prone > 0:
-            return [False, "You need to stand up first."]
+            return False, "You'll need to get up, first."
+
+        return True, ""
 
     def move_call(self, dir = None):
         if not dir:
             self.echo("|xWhich way are you trying to go?|n")
             return
 
-        cm, cm_msg = self.can_move()
-        if cm == False:
+        cm_check, cm_msg = self.can_move()
+
+        if cm_check == False:
             cm_msg = cm_msg if cm_msg else "You can't seem to move."
             self.echo(f"|x{cm_msg}|n")
             return
+
+        # Ensure room has exit in the desired direction.
 
     def move_to(self, destination, quiet = False, move_hooks = True, **kwargs):
         # self: obvious.
