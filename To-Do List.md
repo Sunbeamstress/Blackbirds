@@ -1,7 +1,11 @@
+## Urgent!
+- [ ] Look at https://github.com/evennia/evennia/wiki/TickerHandler !
+
 ## Displays
-- [x] Implement standardized "echo()" methods on player class object
+- [x] Implement standardized "echo()" methods on player class object.
 - [ ] Add similar echo()s where needed for room objects, sessions, etc.
 - [ ] Standardize prompt, ensure it displays after literally everything.
+   - [ ] Make the prompt display actual useful data once character creation is fleshed out.
 
 ## Room Data
 - [x] Determine what properties rooms need. Obvious ones: Environment, area, indoors/outdoors, water, etc.
@@ -12,8 +16,16 @@
 - [x] Zone handling through JSON.
 - [x] Environment handling through JSON.
 - [ ] Exit standardizing and room displaying.
-- [x] Create overlapping exit commands based on whether or not valid exit is in room.
+   - [x] Rewrite of Exit class from the ground up.
+   - [ ] Commands to create/delete exits. (half finished)
+   - [ ] Support for:
+      - [ ] One-way Exits
+      - [ ] Secret Exits
+      - [ ] Org/Class-access Restricted Exits
 - [ ] Implement actual room movement code.
+
+## Mapping
+- [ ] hoo boy
 
 ## Cleanup, Maintenance
 - [ ] Fix dumb, inconsistent method name casing (AutoPunc, etc.)
