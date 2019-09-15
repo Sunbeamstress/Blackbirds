@@ -1,2 +1,6 @@
 ## The Tidal Steps
 A tremendous staircase, referred to as "wide enough for eight ox-carts abreast." It begins at the edge of a tall, seaside cliff on the outskirts of Langley Green and plummets several hundred feet into the Kono Brightside Sea. The uselessness of its construction is an intended part of the structure's purpose - it remains, to date, the only successful manmade attempt to spawn a God.
+
+ * Though the Brightside Sea was lower in the pre-war days, during the final phases of construction, it was necessary for slaves to dive beneath sea level to lay bricks. Almost all of these slaves drowned in the course of their work, and were buried inside the staircase.
+
+ * The Steps are made of a stone mysterious to current scholars and archaeologists: smooth and polished like metal, absurdly strong, and capable of absorbing lots of heat, yet comparatively lightweight. The reinforcing bars of steel built into the stones were an instrumental architectural discovery to modern-day civilization.
