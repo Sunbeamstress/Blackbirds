@@ -149,7 +149,21 @@ def RoomCreateExit(ply, tar_room = None, dir = None, dest = None):
     ply.echo(f"You create a {full_dir}ward exit to room {dest}, {destination.name}.")
 
 def RoomDeleteExit(ply, tar_room = None, dir = None):
-    pass
+    if not dir:
+        ply.echo("|xYou must specify a direction.|n")
+        return
+
+    if not dirs.valid_direction(dir):
+        ply.echo("|xYou must supply a valid direction.|n")
+        return
+
+    full_dir = dirs.valid_direction(dir)
+    e, err_msg = tar_room.delete_exit(full_dir)
+    if not e:
+        ply.echo(err_msg)
+        return
+
+    ply.echo(f"You delete the {full_dir}ward exit.")
 
 class CmdRoom(Command):
     """

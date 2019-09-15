@@ -105,7 +105,7 @@ class Room(DefaultRoom):
             return False, err_msg
 
         self.db.exits[dir] = None
-        return True
+        return True, ""
 
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.
