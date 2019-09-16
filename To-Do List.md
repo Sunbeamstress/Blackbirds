@@ -3,7 +3,12 @@
 
 ## Displays
 - [x] Implement standardized "echo()" methods on player class object.
-- [ ] Add similar echo()s where needed for room objects, sessions, etc.
+- [ ] Add echo() support for:
+   - [x] Commands (shortcut to player/account)
+   - [x] Players
+   - [x] Accounts
+   - [ ] Rooms
+   - [ ] All sessions (game-wide emotes)
 - [ ] Standardize prompt, ensure it displays after literally everything.
    - [ ] Make the prompt display actual useful data once character creation is fleshed out.
 
@@ -17,12 +22,13 @@
 - [x] Environment handling through JSON.
 - [ ] Exit standardizing and room displaying.
    - [x] Rewrite of Exit class from the ground up.
-   - [ ] Commands to create/delete exits. (half finished)
+   - [x] Commands to create/delete exits.
+   - [ ] Determine whether or not to continue using actual exit class - all required use cases might be covered by simple dictionary.
    - [ ] Support for:
       - [ ] One-way Exits
       - [ ] Secret Exits
       - [ ] Org/Class-access Restricted Exits
-- [ ] Implement actual room movement code.
+- [x] Implement actual room movement code.
 
 ## Mapping
 - [ ] hoo boy
