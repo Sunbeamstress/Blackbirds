@@ -74,9 +74,12 @@ class Character(DefaultCharacter):
 
         return string
 
-    def echo(self, string, prompt = False):
+    def echo(self, string, prompt = False, error = False):
         # At this moment, simply a lazy method wrapper that sends a message to the object,
         # then displays a prompt.
+        if error == True:
+            string = "|x" + string + "|n"
+
         self.msg(string)
         if prompt == True:
             self.msg(prompt = self.prompt())

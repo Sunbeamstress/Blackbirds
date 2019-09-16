@@ -247,6 +247,21 @@ class Account(DefaultAccount):
             self.msg(self.at_look(target=self.db._playable_characters,
                                   session=session), session=session)
 
+    def echo(self, string, prompt = False, error = False):
+        # At this moment, simply a lazy method wrapper that sends a message to the object,
+        # then displays a prompt.
+        if error == True:
+            string = "|x" + string + "|n"
+
+        self.msg(string)
+        if prompt == True:
+            self.msg(prompt = self.prompt())
+
+    def prompt(self):
+        "Returns the object's prompt, if applicable."
+        p_string = f"|M---|n"
+        return p_string
+
 
 class Guest(DefaultGuest):
     """

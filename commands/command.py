@@ -58,6 +58,10 @@ class Command(BaseCommand):
         # Every command sends a prompt afterwards.
         self.caller.msg(prompt = self.caller.prompt())
 
+    def echo(self, string, prompt = False, error = False):
+        ply = self.caller
+        ply.echo(string = string, error = error, prompt = prompt)
+
     def word_count(self):
         """
         Usage: self.word_count()

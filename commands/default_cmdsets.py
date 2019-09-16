@@ -25,6 +25,7 @@ from commands.command_environment import *
 from commands.command_area import *
 from commands.command_zone import *
 from commands.command_movement import *
+from commands.command_account import *
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -92,8 +93,7 @@ class AccountCmdSet(default_cmds.AccountCmdSet):
         Populates the cmdset
         """
         super().at_cmdset_creation()
-
-        self.add(CmdMakeAdmin())
+        self.add(CmdChar())
 
 
 class UnloggedinCmdSet(default_cmds.UnloggedinCmdSet):
