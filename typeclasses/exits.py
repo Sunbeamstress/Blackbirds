@@ -11,6 +11,9 @@ class Exit(DefaultObject):
         self.source = None
         self.destination = None
 
+    def __str__(self):
+        return self.destination
+
     def open(self):
         self.db.open = True
 

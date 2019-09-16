@@ -7,11 +7,14 @@ is setup to be the "default" character type created by the default
 creation commands.
 
 """
+# Evennia modules.
 from evennia import DefaultCharacter
 from evennia.utils import logger
 
+# Blackbirds modules.
 from utilities.utils_communication import ProcessSpeech
 from utilities.utils_display import Line
+import utilities.utils_directions as dirs
 
 class Character(DefaultCharacter):
     """
@@ -84,6 +87,9 @@ class Character(DefaultCharacter):
         if prompt == True:
             self.msg(prompt = self.prompt())
 
+    def error_echo(self, string, prompt = False):
+        self.echo(string, prompt = prompt, error = True)
+
     def prompt(self):
         "Returns the object's prompt, if applicable."
         # Placeholder for now - replace with real one later.
@@ -105,18 +111,36 @@ class Character(DefaultCharacter):
         return True, ""
 
     def move_call(self, dir = None):
-        if not dir:
-            self.echo("|xWhich way are you trying to go?|n")
+        # Player is not in a room.
+        if not self.location:
+            self.error_echo("You can't figure out how to move anywhere from here.")
             return
 
-        cm_check, cm_msg = self.can_move()
+        # Player somehow didn't specify a direction.
+        if not dir:
+            self.error_echo("Which way are you trying to go?")
+            return
 
+        # Direction existence passed, sanitize direction.
+        dir = dirs.valid_direction(dir)
+
+        # Check for various factors that might prevent a player from moving.
+        # (afflictions, prone status, sleeping, etc.)
+        cm_check, cm_msg = self.can_move()
         if cm_check == False:
             cm_msg = cm_msg if cm_msg else "You can't seem to move."
-            self.echo(f"|x{cm_msg}|n")
+            self.error_echo(f"{cm_msg}")
             return
 
         # Ensure room has exit in the desired direction.
+        loc = self.location
+        if not loc.has_exit(dir):
+            self.error_echo(f"There is no {dir}ward exit.")
+            return
+
+        # Player passed. Get destination, send them on through.
+        destination = loc.db.exits[dir]['destination']
+        self.move_to(destination)
 
     def move_to(self, destination, quiet = False, move_hooks = True, **kwargs):
         # self: obvious.
@@ -133,13 +157,15 @@ class Character(DefaultCharacter):
         def error_msg(string = "", err = None):
             """Simple log helper method"""
             logger.log_trace()
-            self.echo("%s%s" % (string, "" if err is None else " (%s)" % err))
+            self.error_echo("%s%s" % (string, "" if err is None else " (%s)" % err))
             return
 
         errtxt = ("Couldn't perform move ('%s'). Contact an admin.")
 
+        # Convert destination to actual room.
+        destination = self.search(destination, global_search = True)
         if not destination:
-            self.echo("|xYou can't seem to figure out how to get there.|n")
+            self.error_echo("You can't seem to figure out how to get there.")
             return False
 
         if move_hooks:
@@ -196,4 +222,5 @@ class Character(DefaultCharacter):
             except Exception as err:
                 error_msg(errtxt % "at_after_move", err)
                 return False
+
         return True

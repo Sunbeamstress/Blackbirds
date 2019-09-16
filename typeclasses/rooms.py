@@ -78,11 +78,17 @@ class Room(DefaultRoom):
         self.db.player_owned = False # Does a player own this room?
         self.db.player_owner_id = None # Who owns the room, if so?
 
+    def has_exit(self, dir):
+        if self.db.exits[dir]:
+            return True
+
+        return False
+
     def create_exit(self, dir, dest):
         err_msg = "|xCould not create a new exit. %s|n"
 
         # Check if exit already exists.
-        if self.db.exits[dir]:
+        if self.has_exit(dir):
             err_msg = err_msg % f"There is already an {dir}ward exit."
             return False, err_msg
 
@@ -91,16 +97,18 @@ class Room(DefaultRoom):
             err_msg = err_msg % "There is no room in that direction to link to."
             return False, err_msg
 
-        exit = Exit()
-        exit.set_source(self)
-        exit.set_destination(dest)
-        self.db.exits[dir] = exit
+        room_id = dest.id
+        # exit = Exit()
+        # exit.set_source(self)
+        # exit.set_destination(room_id)
+        # self.db.exits[dir] = exit
+        self.db.exits[dir] = {"destination": "#" + str(room_id), "open": True, "visible": True, "locked": False}
         return True, ""
 
     def delete_exit(self, dir):
         err_msg = "|xCould not delete the exit. %s|n"
 
-        if not self.db.exits[dir]:
+        if not self.has_exit(dir):
             err_msg = err_msg % f"There is no {dir}ward exit."
             return False, err_msg
 
