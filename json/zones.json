@@ -2,6 +2,11 @@
     "id": [
         {"area": 0, "name": "PalaceDistrict", "fullname": "Brillante Palace"},
         {"area": 0, "name": "MarketDistrict", "fullname": "Cruzar Riding Market"},
-        {"area": 0, "name": "LoggingDistrict", "fullname": "Logging District"}
+        {"area": 0, "name": "LoggingDistrict", "fullname": "Logging District"},
+        {"area": 2, "name": "TidalSteps", "fullname": "The Tidal Steps"},
+        {"area": 1, "name": "Catoblepas", "fullname": "Catoblepas"},
+        {"area": 1, "name": "ChaliceSalts", "fullname": "The Chalice Salts"},
+        {"area": 4, "name": "GoldKnuckle", "fullname": "Gold Knuckle Mountain"},
+        {"area": 4, "name": "Crosswoods", "fullname": "The Crosswoods"}
     ]
 }
