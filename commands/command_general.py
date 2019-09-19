@@ -29,11 +29,18 @@ class CmdLook(Command):
 
         self.args = self.args.strip()
 
+        # If the player is in character generation, deliberately call at_look
+        # with no target - it'll produce chargen stuff instead.
+        if ply.db.in_chargen >= 1:
+            ply.msg((ply.at_look(target = None, chargen = ply.db.in_chargen), {"type": "look"}), options = None)
+            return
+
         # If no target specified, default to looking at the room.
         if not self.args:
             target = ply_room
+            # If all else fails and we're somehow neither in a room, nor chargen.
             if not target:
-                ply.echo("|xYou can see nothing.|n")
+                ply.error_echo("You can see nothing.")
                 return
 
         else:
@@ -44,7 +51,7 @@ class CmdLook(Command):
             if not target:
                 return
 
-        ply.msg((ply.at_look(target), {'type': 'look'}), options = None)
+        ply.msg((ply.at_look(target = target), {'type': 'look'}), options = None)
 
 class CmdSay(Command):
     """

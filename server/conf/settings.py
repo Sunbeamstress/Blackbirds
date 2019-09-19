@@ -40,10 +40,18 @@ GAME_SLOGAN = "For those who love the rain."
 
 TELNET_ENABLED = True
 TELNET_OOB_ENABLED = True
+
+WEBSERVER_ENABLED = False
+WEBCLIENT_ENABLED = False
+WEBSOCKET_CLIENT_ENABLED = False
+
 # Need to set this to whatever the host ends up being when it's time to go live.
 # ALLOWED_HOSTS = "mercymyqueen.com"
 
 MAX_CHAR_LIMIT = 10000
+
+# Need to turn this off when game is live.
+IN_GAME_ERRORS = True
 
 COLOR_ANSI_EXTRA_MAP = [
     (r'|n', c.ANSI_NORMAL),
@@ -89,6 +97,50 @@ MAX_NR_CHARACTERS = 5
 CLIENT_DEFAULT_WIDTH = 80
 CLIENT_DEFAULT_HEIGHT = 45
 
+######################################################################
+# Typeclasses and other paths
+######################################################################
+
+# Server-side session class used.
+SERVER_SESSION_CLASS = "evennia.server.serversession.ServerSession"
+
+# These are paths that will be prefixed to the paths given if the
+# immediately entered path fail to find a typeclass. It allows for
+# shorter input strings. They must either base off the game directory
+# or start from the evennia library.
+TYPECLASS_PATHS = ["typeclasses", "evennia", "evennia.contrib", "evennia.contrib.tutorial_examples"]
+
+# Typeclass for account objects (linked to a character) (fallback)
+BASE_ACCOUNT_TYPECLASS = "typeclasses.accounts.Account"
+# Typeclass and base for all objects (fallback)
+BASE_OBJECT_TYPECLASS = "typeclasses.objects.Object"
+# Typeclass for character objects linked to an account (fallback)
+BASE_CHARACTER_TYPECLASS = "typeclasses.characters.Character"
+# Typeclass for rooms (fallback)
+BASE_ROOM_TYPECLASS = "typeclasses.rooms.Room"
+# Typeclass for Exit objects (fallback).
+BASE_EXIT_TYPECLASS = "typeclasses.exits.Exit"
+# Typeclass for Channel (fallback).
+BASE_CHANNEL_TYPECLASS = "typeclasses.channels.Channel"
+# Typeclass for Scripts (fallback). You usually don't need to change this
+# but create custom variations of scripts on a per-case basis instead.
+BASE_SCRIPT_TYPECLASS = "typeclasses.scripts.Script"
+# The default home location used for all objects. This is used as a
+# fallback if an object's normal home location is deleted. Default
+# is Limbo (#2).
+DEFAULT_HOME = "#2"
+# The start position for new characters. Default is Limbo (#2).
+#  MULTISESSION_MODE = 0, 1 - used by default unloggedin create command
+#  MULTISESSION_MODE = 2, 3 - used by default character_create command
+START_LOCATION = "#2"
+# Lookups of Attributes, Tags, Nicks, Aliases can be aggressively
+# cached to avoid repeated database hits. This often gives noticeable
+# performance gains since they are called so often. Drawback is that
+# if you are accessing the database from multiple processes (such as
+# from a website -not- running Evennia's own webserver) data may go
+# out of sync between the processes. Keep on unless you face such
+# issues.
+TYPECLASS_AGGRESSIVE_CACHE = True
 
 ######################################################################
 # Settings given in secret_settings.py override those in this file.

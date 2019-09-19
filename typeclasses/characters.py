@@ -12,6 +12,7 @@ from evennia import DefaultCharacter
 from evennia.utils import logger
 
 # Blackbirds modules.
+from chargen.chargen_system import ChargenStageDescription
 from utilities.utils_communication import ProcessSpeech
 from utilities.utils_display import Line
 import utilities.utils_directions as dirs
@@ -90,12 +91,22 @@ class Character(DefaultCharacter):
     def error_echo(self, string, prompt = False):
         self.echo(string, prompt = prompt, error = True)
 
+    def prompt_status(self):
+        if self.db.in_chargen >= 1:
+            return "chargen"
+
+        return "default"
+
     def prompt(self):
-        "Returns the object's prompt, if applicable."
-        # Placeholder for now - replace with real one later.
-        HP, MP, END, WIL = 500, 500, 1500, 1500
-        p_string = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
-        return p_string
+        status = self.prompt_status()
+        if status == "default":
+            "Returns the object's prompt, if applicable."
+            # Placeholder for now - replace with real one later.
+            HP, MP, END, WIL = 500, 500, 1500, 1500
+            p_string = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
+            return p_string
+        elif status == "chargen":
+            return "|035" + ("-" * 80)
 
     def coordinates(self):
         if not self.location:
@@ -225,3 +236,40 @@ class Character(DefaultCharacter):
                 return False
 
         return True
+
+    def at_look(self, target = None, chargen = None, **kwargs):
+        """
+        Called when this object performs a look. It allows to
+        customize just what this means. It will not itself
+        send any data.
+
+        Args:
+            target (Object): The target being looked at. This is
+                commonly an object or the current location. It will
+                be checked for the "view" type access.
+            **kwargs (dict): Arbitrary, optional arguments for users
+                overriding the call. This will be passed into
+                return_appearance, get_display_name and at_desc but is not used
+                by default.
+
+        Returns:
+            lookstring (str): A ready-processed look string
+                potentially ready to return to the looker.
+
+        """
+        if chargen:
+            return ChargenStageDescription(self, chargen)
+
+        if not target.access(self, "view"):
+            try:
+                return "Could not view '%s'." % target.get_display_name(self, **kwargs)
+            except AttributeError:
+                return "Could not view '%s'." % target.key
+
+        description = target.return_appearance(self, **kwargs)
+
+        # the target's at_desc() method.
+        # this must be the last reference to target so it may delete itself when acted on.
+        target.at_desc(looker=self, **kwargs)
+
+        return description

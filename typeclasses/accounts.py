@@ -143,7 +143,6 @@ class Account(DefaultAccount):
             look_string (str): A prepared look string, ready to send
                 off to any recipient (usually to ourselves)
         """
-
         if target and not is_iter(target):
             # single target - just show it
             if hasattr(target, "return_appearance"):

@@ -1,5 +1,13 @@
-from evennia.utils import logger, search
+import random
+
+from evennia.utils import utils, create, logger, search
+
+from server.conf import settings
+from typeclasses.characters import Character
 from commands.command import Command
+
+_MAX_NR_CHARACTERS = settings.MAX_NR_CHARACTERS
+_MULTISESSION_MODE = settings.MULTISESSION_MODE
 
 class CmdChar(Command):
     def __init__(self):
@@ -52,3 +60,37 @@ class CmdChar(Command):
             except RuntimeError as exc:
                 self.echo("You cannot become %s: %s" % (new_character.name, exc), error = True)
                 logger.log_sec('Puppet Failed: %s (Caller: %s, Target: %s, IP: %s).' % (exc, account, new_character, self.session.address))
+
+        elif sub == "create":
+            charmax = _MAX_NR_CHARACTERS
+
+            if not account.is_superuser and \
+                   (account.db._playable_characters and
+                   len(account.db._playable_characters) >= charmax):
+                self.echo("You may only create a maximum of %i characters." % charmax)
+                return
+
+            from evennia.objects.models import ObjectDB
+            typeclass = settings.BASE_CHARACTER_TYPECLASS
+            new_key = "Character" + str(random.randint(100000,999999))
+
+            if ObjectDB.objects.filter(db_typeclass_path = typeclass, db_key__iexact = new_key):
+                # It should be virtually impossible to have a default 'Character123456' character,
+                # but just in case.
+                self.echo("A character named '%s' already exists." % key)
+                return
+
+            # create the character
+            permissions = settings.PERMISSION_ACCOUNT_DEFAULT
+            new_character = create.create_object(typeclass, key = new_key,
+                                                location = None,
+                                                home = None,
+                                                permissions = permissions)
+            new_character.db.in_chargen = 1 # 1 = first stage of chargen.
+            # only allow creator (and developers) to puppet this char
+            new_character.locks.add("puppet:id(%i) or pid(%i) or perm(Developer) or pperm(Developer);delete:id(%i) or perm(Admin)" %
+                                    (new_character.id, account.id, account.id))
+            account.db._playable_characters.append(new_character)
+            new_character.db.desc = "This is a character."
+            self.echo(f"You create a new character. Use the command |Rchar play {new_key}|n to begin character generation.")
+            logger.log_sec('Character Created: %s (Caller: %s, IP: %s).' % (new_character, account, self.session.address))
