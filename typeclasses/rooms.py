@@ -227,7 +227,7 @@ class Room(DefaultRoom):
             return "|432The surroundings are dimly lit.|n"
         elif light <= 14:
             return "|541It's well lit here.|n"
-        elif light >= 15:
+        else:
             return "|553The place is bathed in bright light.|n"
 
     def get_water_level_string(self):
@@ -241,7 +241,7 @@ class Room(DefaultRoom):
             return "Water flows around your thighs."
         elif level <= 14:
             return "You wade through chest-high water."
-        elif level <= 15:
+        else:
             return "This area is submerged underwater."
 
     def areaname(self):
