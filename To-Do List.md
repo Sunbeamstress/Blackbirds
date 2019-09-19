@@ -43,7 +43,7 @@
 
 ## Characters
 
-- [ ] Need to implement at least a basic chargen and determine what properties a character has.
+- [x] Need to implement at least a basic chargen and determine what properties a character has.
    - [ ] First and last name.
       - Freeform: Type almost anything you want, 32 characters in both fields.
    - [ ] Age.

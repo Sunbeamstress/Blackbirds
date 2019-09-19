@@ -14,8 +14,8 @@ def ChargenStage1(ply):
     string += "\n" + column_data("Surname", ply.db.surname)
     string += "\n" + column_data("Age", ply.db.age)
     string += "\n" + column_data("Apparent Age", ply.db.app_age)
-    string += "\n" + column_data("Appearance", ply.db.intro)
-    string += "\n" + column_data("Pronouns", ply.db.pronoun_he)
+    string += "\n" + column_data("Identity", ply.db.intro)
+    string += "\n" + column_data("Pronouns", f"{ply.db.pronoun_he}, {ply.db.pronoun_him}, {ply.db.pronoun_his}, {ply.db.pronoun_hiss}")
 
     string += "\n"
     string += "\n" + column_data("Species", ply.db.species)
