@@ -139,7 +139,8 @@ class Character(DefaultCharacter):
             return
 
         # Player passed. Get destination, send them on through.
-        destination = loc.db.exits[dir]['destination']
+        exit = loc.db.exits[dir]
+        destination = exit.get_destination()
         self.move_to(destination)
 
     def move_to(self, destination, quiet = False, move_hooks = True, **kwargs):

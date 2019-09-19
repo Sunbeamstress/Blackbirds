@@ -29,6 +29,10 @@ class Room(DefaultRoom):
     """
 
     def at_object_creation(self):
+        self.db.x = 0
+        self.db.y = 0
+        self.db.z = 0
+
         self.db.exits = {
             "northwest": None,
             "north": None,
@@ -43,10 +47,6 @@ class Room(DefaultRoom):
             "in": None,
             "out": None
         }
-
-        self.db.x = 0
-        self.db.y = 0
-        self.db.z = 0
 
         self.db.zone = 0
         self.db.environment = 0
@@ -78,11 +78,16 @@ class Room(DefaultRoom):
         self.db.player_owned = False # Does a player own this room?
         self.db.player_owner_id = None # Who owns the room, if so?
 
-    def has_exit(self, dir):
-        if self.db.exits[dir]:
-            return True
+    def get_exits(self):
+        exit_list = []
+        for dir, obj in self.db.exits.items():
+            if obj != None:
+                exit_list.append(dir)
 
-        return False
+        return exit_list
+
+    def has_exit(self, dir):
+        return True if self.db.exits[dir] != None else False
 
     def create_exit(self, dir, dest):
         err_msg = "|xCould not create a new exit. %s|n"
@@ -97,16 +102,13 @@ class Room(DefaultRoom):
             err_msg = err_msg % "There is no room in that direction to link to."
             return False, err_msg
 
-        room_id = dest.id
-        # exit = Exit()
-        # exit.set_source(self)
-        # exit.set_destination(room_id)
-        # self.db.exits[dir] = exit
-        self.db.exits[dir] = {"destination": "#" + str(room_id), "open": True, "visible": True, "locked": False}
+        self.db.exits[dir] = Exit()
+        self.db.exits[dir].source = self
+        self.db.exits[dir].destination = dest.id
         return True, ""
 
     def delete_exit(self, dir):
-        err_msg = "|xCould not delete the exit. %s|n"
+        err_msg = "Could not delete the exit. %s"
 
         if not self.has_exit(dir):
             err_msg = err_msg % f"There is no {dir}ward exit."
@@ -114,6 +116,10 @@ class Room(DefaultRoom):
 
         self.db.exits[dir] = None
         return True, ""
+
+    def get_exit_dest(self, dir):
+        exit = self.db.exits[dir]
+        return exit.get_destination()
 
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.
@@ -255,11 +261,3 @@ class Room(DefaultRoom):
     def zonefullname(self):
         z = Zone()
         return z.fullname(self.db.zone)
-
-    def get_exits(self):
-        exit_list = []
-        for direction, destination in self.db.exits.items():
-            if destination:
-                exit_list.append(direction)
-
-        return exit_list

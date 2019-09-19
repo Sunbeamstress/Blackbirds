@@ -50,14 +50,14 @@ class Exit(DefaultObject):
     def is_visible(self):
         return self.db.visible
 
-    def source(self):
+    def get_source(self):
         return self.source
 
-    def set_source(self, new_source = None):
+    def set_source(self, new_source):
         self.source = new_source
 
-    def destination(self):
+    def get_destination(self):
         return self.destination
 
-    def set_destination(self, new_destination = None):
+    def set_destination(self, new_destination):
         self.destination = new_destination
