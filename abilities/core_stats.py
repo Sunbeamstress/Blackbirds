@@ -1,8 +1,8 @@
 """
 Abilities representing a character's physical characteristics.
 """
-from abilities import ability as BaseAbility
-from abilities import ability as BaseAbilityTree
+from abilities.ability import Ability as BaseAbility
+from abilities.ability import AbilityTree as BaseAbilityTree
 
 # ------------------------------------------------------------------------------
 
