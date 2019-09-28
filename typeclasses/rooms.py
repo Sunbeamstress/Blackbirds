@@ -114,7 +114,6 @@ class Room(DefaultRoom):
             err_msg = err_msg % f"There is no {dir}ward exit."
             return False, err_msg
 
-        # self.db.exits[dir] = None
         self.db.exits[dir].delete()
         return True, ""
 
