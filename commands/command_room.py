@@ -179,7 +179,7 @@ class CmdRoom(Command):
     def __init__(self):
         super().__init__()
 
-        self.set_syntax_notes("The |Rroom|w command is a fully-featured suite of commands to make, delete, or otherwise manipulate rooms to your liking. As such, the command by itself does nothing. Refer to each subcommand below for further information.")
+        self.set_syntax_notes("The |Rroom|n command is a fully-featured suite of commands to make, delete, or otherwise manipulate rooms to your liking. As such, the command by itself does nothing. Refer to each subcommand below for further information.")
 
         self.set_syntax("info", "Displays a useful breakdown of the current room and its attributes.")
         self.set_syntax("name <room> <name>", "Change the room's name.")
@@ -189,37 +189,53 @@ class CmdRoom(Command):
         self.set_syntax("link <dir> <destination>", "Add a new exit to the desired room.")
         self.set_syntax("unlink <dir>", "Remove an exit from the room.")
 
-        self.set_syntax_notes("At this time, you must specify 'here' to alter the current room.", True)
+        self.set_syntax_notes("By default, the |Rroom|n command will affect changes to your current room. You may optionally supply a room yourself by entering its ID after the command.\n\n|xExample:|n\n  |Rroom link south #3|n\n  |Rroom #6 link south #3|n", True)
 
     def func(self):
         ply = self.caller
-        sub = self.word(1)
-        tar_room = self.word(2)
-        args = self.words(3, self.word_count())
+        tar_room = ply.location
+        shift, sub_cmd, args = 0, None, None
 
-        # Display syntax if used by itself - or if the subcommand isn't found.
-        if not sub:
+        if not self.word(1):
             self.get_syntax()
             return
 
-        # All commands default to current room if none is specified.
-        if not tar_room or tar_room == "here":
-            tar_room = ply.location
+        # Check first to see if the player is supplying a room.
+        search_room = ply.search(self.word(1), global_search = True, quiet = True)
+
+        if search_room:
+            tar_room = search_room[0]
+            shift = 1
+        elif self.word(1) == "here":
+            shift = 1
+
+        # Choose which word to find our subcommand from based on whether or not we supplied a room.
+        # Without:
+        #   > room link n #6
+        # With:
+        #   > room #3 link n #6
+        sub_cmd = self.word(1 + shift)
+        args = self.words(2 + shift, self.word_count())
+
+        # Display syntax if used by itself - or if the subcommand isn't found.
+        if not sub_cmd:
+            self.get_syntax()
+            return
 
         # Determine valid subcommand by argument.
-        if sub == "info":
+        if sub_cmd == "info":
             RoomInfo(ply, tar_room)
-        elif sub == "name" or sub == "rename":
+        elif sub_cmd == "name" or sub_cmd == "rename":
             RoomRename(ply, tar_room, args)
-        elif sub == "desc" or sub == "description":
+        elif sub_cmd == "desc" or sub_cmd == "description":
             RoomRedescribe(ply, tar_room, args)
-        elif sub == "temp" or sub == "temperature":
+        elif sub_cmd == "temp" or sub_cmd == "temperature":
             RoomTemperature(ply, tar_room, args)
-        elif sub == "env" or sub == "environment":
+        elif sub_cmd == "env" or sub_cmd == "environment":
             RoomEnvironment(ply, tar_room, args)
-        elif sub == "link":
-            RoomCreateExit(ply, tar_room, self.word(3), self.word(4))
-        elif sub == "unlink":
+        elif sub_cmd == "link":
+            RoomCreateExit(ply, tar_room, self.word(2 + shift), self.word(3 + shift))
+        elif sub_cmd == "unlink":
             RoomDeleteExit(ply, tar_room, args)
         else:
             self.get_syntax()
