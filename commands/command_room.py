@@ -11,6 +11,9 @@ from utilities.utils_display import Line
 from utilities.utils_string import jleft, jright
 import utilities.utils_directions as dirs
 
+VALID_ROOM_VALUES = ("temperature", "illumination", "water_level")
+VALID_ROOM_FLAGS = ("indoors", "darkness", "natural", "public", "shop", "house", "battleground", "craft_hall", "chapel", "bank")
+
 def DescribeRoom(ply, room, description):
     room.db.desc = description
     ply.echo(f"|xRoom description changed. The room will now be described as:|n\n{room.db.desc}")
@@ -165,6 +168,54 @@ def RoomDeleteExit(ply, tar_room = None, dir = None):
 
     ply.echo(f"You delete the {full_dir}ward exit.")
 
+def RoomValue(ply, tar_room = None, val_name = None, val = None):
+    if not val_name:
+        ply.error_echo("Which room property are you trying to modify?")
+        return
+
+    if not val:
+        ply.error_echo("You must specify a value to set that room property to.")
+        return
+
+    try:
+        val = int(val)
+    except ValueError:
+        ply.error_echo("You may only set that room property to a number.")
+        return
+
+    if val < 0 or val > 15:
+        ply.error_echo("You can only set that room property to a number between 0 and 15.")
+        return
+
+    if not val_name in tar_room.db:
+        ply.error_echo("That room doesn't seem to have the property you're trying to modify.")
+        return
+
+    tar_room.db[val_name] = val
+    ply.echo(f"You set {tar_room.name}'s {val_name} to {str(val)}.")
+
+def RoomFlag(ply, tar_room = None, flag_name = None, flag = None):
+    if not flag_name:
+        ply.error_echo("Which room property are you trying to modify?")
+        return
+
+    if flag and (flag != "true" and flag != "false"):
+        ply.error_echo("You may only set that property to true or false.")
+        return
+
+    if not tar_room.db[flag_name]:
+        ply.error_echo("That room doesn't seem to have the property you're trying to modify.")
+        return
+
+    if not flag:
+        tar_room.db[flag_name] = not tar_room.db[flag_name]
+    elif flag == "true":
+        tar_room.db[flag_name] = True
+    elif flag == "false":
+        tar_room.db[flag_name] = False
+
+    ply.echo(f"You set {tar_room.name}'s {flag_name} to {str(tar_room.db[flag_name])}.")
+
 class CmdRoom(Command):
     """
     The following commands are used to build, edit, or otherwise manipulate rooms. In general, you may type any given subcommand by itself to see help and syntax information for each one.
@@ -229,13 +280,17 @@ class CmdRoom(Command):
             RoomRename(ply, tar_room, args)
         elif sub_cmd == "desc" or sub_cmd == "description":
             RoomRedescribe(ply, tar_room, args)
-        elif sub_cmd == "temp" or sub_cmd == "temperature":
-            RoomTemperature(ply, tar_room, args)
         elif sub_cmd == "env" or sub_cmd == "environment":
             RoomEnvironment(ply, tar_room, args)
         elif sub_cmd == "link":
             RoomCreateExit(ply, tar_room, self.word(2 + shift), self.word(3 + shift))
         elif sub_cmd == "unlink":
             RoomDeleteExit(ply, tar_room, args)
+        elif sub_cmd in VALID_ROOM_VALUES:
+            # Generic function to set numeric room values.
+            RoomValue(ply, tar_room, sub_cmd, args)
+        elif sub_cmd in VALID_ROOM_FLAGS:
+            # Generic function to toggle boolean room values.
+            RoomFlag(ply, tar_room, sub_cmd, args)
         else:
             self.get_syntax()
