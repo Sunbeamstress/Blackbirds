@@ -12,6 +12,7 @@ from evennia.utils.utils import (variable_from_module, lazy_property, make_iter,
 
 # Blackbirds modules.
 from utilities.utils_string import AutoPunc
+import utilities.utils_directions as dirs
 from typeclasses.environments import Environment
 from typeclasses.areas import Area
 from typeclasses.zones import Zone
@@ -89,12 +90,13 @@ class Room(DefaultRoom):
     def has_exit(self, dir):
         return True if self.db.exits[dir] != None else False
 
-    def create_exit(self, dir, dest):
+    def create_exit(self, dir, dest, oneway = False):
         err_msg = "|xCould not create a new exit. %s|n"
+        opp_dir = None
 
         # Check if exit already exists.
         if self.has_exit(dir):
-            err_msg = err_msg % f"There is already an {dir}ward exit."
+            err_msg = err_msg % f"There is already a {dir}ward exit."
             return False, err_msg
 
         # Check if destination is valid room.
@@ -102,17 +104,38 @@ class Room(DefaultRoom):
             err_msg = err_msg % "There is no room in that direction to link to."
             return False, err_msg
 
+        # If exit is not one-way, make sure the other room doesn't already have the opposite exit.
+        if not oneway:
+            opp_dir = dirs.opposite_direction(dir)
+            if dest.has_exit(opp_dir):
+                err_msg = err_msg % f"That room already has a {opp_dir}ward exit."
+                return False, err_msg
+
         self.db.exits[dir] = Exit()
         self.db.exits[dir].source = self
         self.db.exits[dir].destination = dest.id
+
+        if not oneway and opp_dir:
+            dest.db.exits[opp_dir] = Exit()
+            dest.db.exits[opp_dir].source = dest
+            dest.db.exits[opp_dir].destination = self
+
         return True, ""
 
-    def delete_exit(self, dir):
+    def delete_exit(self, dir, oneway = False):
         err_msg = "Could not delete the exit. %s"
+        dest, opp_dir = None, None
 
         if not self.has_exit(dir):
             err_msg = err_msg % f"There is no {dir}ward exit."
             return False, err_msg
+
+        dest = self.db.exits[dir].destination
+
+        if dest and not oneway:
+            opp_dir = dirs.opposite_direction(dir)
+            if dest.has_exit(opp_dir):
+                dest.db.exits[opp_dir].delete()
 
         self.db.exits[dir].delete()
         return True, ""
