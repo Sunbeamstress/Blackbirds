@@ -270,6 +270,6 @@ class Character(DefaultCharacter):
 
         # the target's at_desc() method.
         # this must be the last reference to target so it may delete itself when acted on.
-        target.at_desc(looker=self, **kwargs)
+        target.at_desc(looker = self, **kwargs)
 
         return description

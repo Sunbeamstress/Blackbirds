@@ -6,8 +6,7 @@ def column_data(field, result):
 
 def ChargenStage1(ply):
     string = Line(col_string = "|035", label = "Character Creation", col_label = "|055")
-    string += "\nThis is the character creation process for Blackbirds. While you remain in this process, you may change any detail of your character that you like."
-    string += "\n\nWho are you, that we should take notice?"
+    string += "\nMake yourself, so long as you make yourself free!"
 
     string += "\n"
     string += "\n" + column_data("Name", ply.name)
