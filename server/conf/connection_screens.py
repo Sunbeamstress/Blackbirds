@@ -24,10 +24,10 @@ SCREEN = \
      '''
          |CB L A C K B I R D S|n
                  |B.-.|n
-                |M/|n |xv|n |M\\|n        |xto create an account|n
+                |M/|n |xv|n |M\\|n        |xTo create an account.|n
                |M(|n|B/|n   |B\|n|M)|n       |Rcreate <username> <password>|n
               |c=|n|M'|n|c=|n|x"|n|c=|n|x"|n|c=|n|M'|n|c=|n
-                |M'|n|B)|n |B(|n|M'|n        |xto log in|n
+                |M'|n|B)|n |B(|n|M'|n        |xTo log in.|n
                  |M'w'|n         |Rconnect <username> <password>|n
      
          |xTo all my friends: Blood makes the blade holy!|n
