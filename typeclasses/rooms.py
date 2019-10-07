@@ -17,6 +17,7 @@ from typeclasses.environments import Environment
 from typeclasses.areas import Area
 from typeclasses.zones import Zone
 from typeclasses.exits import Exit
+from world.map import Map
 
 class Room(DefaultRoom):
     """
@@ -78,6 +79,9 @@ class Room(DefaultRoom):
         # Room flags - player housing/shops
         self.db.player_owned = False # Does a player own this room?
         self.db.player_owner_id = None # Who owns the room, if so?
+
+        self.db.symbol = None
+        self.db.symbol_override = False
 
     def get_exits(self):
         exit_list = []
@@ -142,7 +146,7 @@ class Room(DefaultRoom):
 
     def get_exit_dest(self, dir):
         exit = self.db.exits[dir]
-        return exit.get_destination()
+        return exit.get_destination() if exit else None
 
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.
@@ -174,7 +178,9 @@ class Room(DefaultRoom):
 
         string = self.format_room_title()
 
-        string += "%s " % self.get_temperature_string()
+        string += "\n%s" % Map(looker).draw_map()
+
+        string += "\n%s" % self.get_temperature_string()
 
         desc = self.db.desc
         if desc:
@@ -213,7 +219,7 @@ class Room(DefaultRoom):
         env = Environment()
         r_env = env.colorshort(self.db.environment)
 
-        return f"|y{AutoPunc(r_name)}|n |213(|n|525{r_zone}, {r_area}|n|213)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n\n"
+        return f"|y{AutoPunc(r_name)}|n |213(|n|525{r_zone}, {r_area}|n|213)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n"
 
     def get_temperature_string(self):
         temp = self.db.temperature
