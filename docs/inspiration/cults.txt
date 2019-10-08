@@ -1,0 +1,37 @@
+A restless energy characterizes the cult.
+
+  1 | Appeal to their bloodthirst.
+  2 | Bedazzle the congregation with sorcery.
+  3 | Placate them with dire omens.
+  4 | Invoke a prayer to bring them to shame.
+H|225 M|700 x - 
+
+--> 2
+You hurl a fistful of silver powder into the charnel pit. The dust explodes on
+contact with the open flame, setting the forest clearing ablaze with
+particolored lights.
+The crowd utters a collective sigh of awe.
+H|225 M|700 x - 
+
+It behooves you to bring your sermon to an end, lest you test the boundaries of
+your cult's attention span.
+
+  1 | Roar tremendously.
+  2 | Vanish into thin air; exit stage left.
+  3 | Finish with promises of revenge and comeuppance.
+  4 | Forcibly bid the cult to quit this place.
+H|225 M|700 x - 
+
+--> 1
+From the depths of your guts, you let loose a roar of triumph and delight,
+bringing your sermon to a noisy finish.
+The cult shouts back, their voices made one.
+
+     +17 Belief | You feel convicted that you brought your cult closer to the
+                  one true god.
+
+    -3 Civility | Your cult seems noticeably unhinged.
+
+  +89 Puissance | Inspired by your example, the cult has begun to demonstrate
+                  miraculous powers and godlike qualities.
+H|225 M|700 x - 

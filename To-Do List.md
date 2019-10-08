@@ -23,7 +23,7 @@
 - [ ] Exit standardizing and room displaying.
    - [x] Rewrite of Exit class from the ground up.
    - [x] Commands to create/delete exits.
-   - [ ] Determine whether or not to continue using actual exit class - all required use cases might be covered by simple dictionary.
+   - [x] ~~Determine whether or not to continue using actual exit class - all required use cases might be covered by simple dictionary.~~
    - [ ] Support for:
       - [ ] One-way Exits
       - [ ] Secret Exits
@@ -31,7 +31,24 @@
 - [x] Implement actual room movement code.
 
 ## Mapping
-- [ ] hoo boy
+- [ ] Feature-complete implementation of map system.
+   - [ ] Map class.
+      - [x] Initializes the grid.
+      - [ ] Quickly obtains all rooms in current zone.
+         - [ ] Need to profile various methods for speed: gather all rooms whose zone value matches, store rooms in zone JSON, etc.
+      - [ ] Draws rooms within visible range.
+         - [ ] Room color varies based on environment.
+      - [ ] Draws exit links between applicable rooms.
+         - [ ] Determine how to display one-way exits.
+         - [ ] Conceal secret exits.
+      - [ ] Displays header and footer with room name, zone name, and coordinate data.
+   - [ ] Submapping and partitioning.
+   - [ ] Background and texturing.
+      - [ ] Background color can be defined by and vary from zone to zone.
+      - [ ] Allow zones to define texture characters (".", ",", "`", etc.) to add visual appeal to the map.
+   - [ ] Abilities may allow you to passively see other players on map within range.
+   - [ ] Edge case handling for when no map should be drawn ("you're lost").
+   - [ ] Map overriding (neon mode, blindness, etc.)!
 
 ## Cleanup, Maintenance
 - [ ] Fix dumb, inconsistent method name casing (AutoPunc, etc.)
