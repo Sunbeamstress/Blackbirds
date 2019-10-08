@@ -61,4 +61,4 @@ class CmdTest(Command):
     locks = "perm(Admin)"
 
     def func(self):
-        Menu(self.caller, "menus.testmenu", startnode = "node_test", debug = True)
+        Menu(self.caller, "menus.testmenu", cmdset_mergetype = "Replace", cmd_on_exit = "look", startnode = "node_test", debug = True)
