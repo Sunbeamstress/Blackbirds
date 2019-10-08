@@ -42,12 +42,15 @@ class Map():
         self.grid = self.create_grid()
 
     def create_grid(self):
-        board = []
+        # Populates self.grid with a blank slate, each node representing a potential room.
+        # Existent rooms get filled in appropriately, whereas we treat all blank space as
+        # 'the background.'
         x_range = int((self.max_width - 1) / 2)
         y_range = int((self.max_height - 1) / 2)
         # Behold, the legendary double list comprehension
-        board = [[str(col) for col in range(x_range * -1, x_range + 1)] for row in range(y_range * -1, y_range + 1)]
-        return board
+        return [[str(col) for col in range(-x_range, x_range + 1)] for row in range(-y_range, y_range + 1)]
+
+    
 
     def draw_map(self):
         map_string = ""
