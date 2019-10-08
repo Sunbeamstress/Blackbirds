@@ -15,6 +15,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 """
 
 from evennia import default_cmds
+
 from commands.command_roleplay import *
 from commands.command_general import *
 from commands.command_character import *
@@ -70,6 +71,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdIn())
         self.add(CmdOut())
         self.add(CmdMap())
+        self.add(CmdTest())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"

@@ -5,6 +5,7 @@ from evennia.utils import search
 
 from commands.command import Command
 from utilities.utils_display import Notify
+from utilities.menu import Menu
 
 class CmdReload(Command):
     """
@@ -55,19 +56,9 @@ class CmdMakeAdmin(Command):
         # tar.cmdset.add(default_cmds.AdminCmdSet, permanent = True)
 
 
-# class CmdClassUpdate(Command):
-#   """
-#   Updates all instances of a given character class.
-#   """
-#   key = "cupdate"
-#   locks = "perm(Developer)"
-#   help_category = "Admin"
+class CmdTest(Command):
+    key = "test"
+    locks = "perm(Admin)"
 
-#   def func(self):
-#     if not self.args:
-#       self.caller.msg("You must specify a valid object class to update.")
-#       return
-
-#     if self.args.lower() == "character" or self.args.lower() == "characters":
-#       char.at_object_creation() for char in Character.objects
-#       self.caller.msg("All characters updated.")
+    def func(self):
+        Menu(self.caller, "menus.testmenu", startnode = "node_test", debug = True)
