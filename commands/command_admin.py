@@ -6,6 +6,7 @@ from evennia.utils import search
 from commands.command import Command
 from utilities.utils_display import Notify
 from utilities.menu import Menu
+from typeclasses.zones import Zone
 
 class CmdReload(Command):
     """
@@ -61,4 +62,7 @@ class CmdTest(Command):
     locks = "perm(Admin)"
 
     def func(self):
-        Menu(self.caller, "menus.testmenu", cmdset_mergetype = "Replace", cmd_on_exit = "look", startnode = "node_test", debug = True)
+        # Menu(self.caller, "menus.testmenu", cmdset_mergetype = "Replace", cmd_on_exit = "look", startnode = "node_test", debug = True)
+        z = Zone()
+        z_rooms = z.rooms(0)
+        self.echo(z_rooms)

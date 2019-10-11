@@ -34,7 +34,7 @@
 - [ ] Feature-complete implementation of map system.
    - [ ] Map class.
       - [x] Initializes the grid.
-      - [ ] Quickly obtains all rooms in current zone.
+      - [x] Quickly obtains all rooms in current zone.
          - [ ] Need to profile various methods for speed: gather all rooms whose zone value matches, store rooms in zone JSON, etc.
       - [ ] Draws rooms within visible range.
          - [ ] Room color varies based on environment.

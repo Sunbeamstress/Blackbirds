@@ -273,3 +273,23 @@ class Character(DefaultCharacter):
         target.at_desc(looker = self, **kwargs)
 
         return description
+
+    def zone(self):
+        loc = self.location
+        return loc.zone()
+
+    def x(self):
+        loc = self.location
+        return loc.db.x
+
+    def y(self):
+        loc = self.location
+        return loc.db.y
+
+    def z(self):
+        loc = self.location
+        return loc.db.z
+
+    def coords(self):
+        loc = self.location
+        return [loc.db.x, loc.db.y, loc.db.z]

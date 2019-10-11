@@ -70,4 +70,4 @@ class Menu(EvMenu):
             node (str): The formatted node to display.
 
         """
-        return nodetext + "\n" + optionstext
+        return nodetext + "\n" + optionstext + "\n\n" + "|xChoose one of the options above, or enter |Rq|x to leave.|n"

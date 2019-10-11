@@ -1,6 +1,9 @@
 # Python modules.
 import json
 
+# Evennia modules.
+from evennia.utils.utils import class_from_module
+
 # Blackbirds modules.
 from typeclasses.areas import Area
 
@@ -67,3 +70,11 @@ class Zone():
     def __len__(self):
         "Returns the total number of defined zones."
         return len(zone_id)
+
+    def rooms(self, id):
+        if not self._is_valid_id(id):
+            return None
+
+        Room = class_from_module("typeclasses.rooms.Room")
+        room_list = [room for room in Room.objects.all() if room.db.zone == id]
+        return room_list

@@ -1,6 +1,8 @@
 # Blackbirds modules.
 from commands.command import Command
 from typeclasses.zones import Zone
+from typeclasses.newzones import Zone as NewZone
+from utilities.menu import Menu
 from utilities.utils_display import Line
 from utilities.utils_string import jleft, jright
 
@@ -35,17 +37,18 @@ class CmdZone(Command):
         self.set_syntax("info <id>", "View a zone's detailed info.")
 
     def func(self):
-        ply = self.caller
-        sub = self.word(1)
-        eid = self.word(2)
+        # ply = self.caller
+        # sub = self.word(1)
+        # eid = self.word(2)
 
-        if not sub:
-            self.get_syntax()
-            return
+        # if not sub:
+        #     self.get_syntax()
+        #     return
 
-        if sub == "list":
-            ZoneList(ply)
-        elif sub == "info":
-            ZoneInfo(ply, eid)
-        else:
-            self.get_syntax()
+        # if sub == "list":
+        #     ZoneList(ply)
+        # elif sub == "info":
+        #     ZoneInfo(ply, eid)
+        # else:
+        #     self.get_syntax()
+        Menu(self.caller, "menus.zone_admin", cmdset_mergetype = "Replace", cmd_on_exit = "look", startnode = "zone_admin_base")
