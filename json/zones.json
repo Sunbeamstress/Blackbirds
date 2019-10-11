@@ -1,13 +1,49 @@
 {
     "id": [
-        {"area": 0, "name": "Void", "fullname": "The Void"},
-        {"area": 1, "name": "PalaceDistrict", "fullname": "Brillante Palace"},
-        {"area": 1, "name": "MarketDistrict", "fullname": "Cruzar Riding Market"},
-        {"area": 1, "name": "LoggingDistrict", "fullname": "Logging District"},
-        {"area": 3, "name": "TidalSteps", "fullname": "The Tidal Steps"},
-        {"area": 2, "name": "Catoblepas", "fullname": "Catoblepas"},
-        {"area": 2, "name": "ChaliceSalts", "fullname": "The Chalice Salts"},
-        {"area": 5, "name": "GoldKnuckle", "fullname": "Gold Knuckle Mountain"},
-        {"area": 5, "name": "Crosswoods", "fullname": "The Crosswoods"}
+        {
+            "area": 0,
+            "name": "Void",
+            "fullname": "The Void"
+        },
+        {
+            "area": 1,
+            "name": "PalaceDistrict",
+            "fullname": "Brillante Palace"
+        },
+        {
+            "area": 1,
+            "name": "MarketDistrict",
+            "fullname": "Cruzar Riding Market"
+        },
+        {
+            "area": 1,
+            "name": "LoggingDistrict",
+            "fullname": "Logging District"
+        },
+        {
+            "area": 3,
+            "name": "TidalSteps",
+            "fullname": "The Tidal Steps"
+        },
+        {
+            "area": 2,
+            "name": "Catoblepas",
+            "fullname": "Catoblepas"
+        },
+        {
+            "area": 2,
+            "name": "ChaliceSalts",
+            "fullname": "The Chalice Salts"
+        },
+        {
+            "area": 5,
+            "name": "GoldKnuckle",
+            "fullname": "Gold Knuckle Mountain"
+        },
+        {
+            "area": 5,
+            "name": "Crosswoods",
+            "fullname": "The Crosswoods"
+        }
     ]
 }

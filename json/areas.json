@@ -1,10 +1,40 @@
 {
     "id": [
-        {"name": "Static", "fullname": "An expanse of static", "city": false, "open_pvp": false},
-        {"name": "Brillante", "fullname": "The State of Brillante", "city": true, "open_pvp": false},
-        {"name": "GorgonDesert", "fullname": "The Gorgon Desert", "city": false, "open_pvp": true},
-        {"name": "LangleyGreen", "fullname": "Langley Green", "city": false, "open_pvp": false},
-        {"name": "KonoSea", "fullname": "The Kono Brightside Sea", "city": false, "open_pvp": false},
-        {"name": "DistalPhalanxes", "fullname": "The Distal Phalanxes", "city": false, "open_pvp": false}
+        {
+            "name": "Static",
+            "fullname": "An expanse of static",
+            "city": false,
+            "open_pvp": false
+        },
+        {
+            "name": "Brillante",
+            "fullname": "The State of Brillante",
+            "city": true,
+            "open_pvp": false
+        },
+        {
+            "name": "GorgonDesert",
+            "fullname": "The Gorgon Desert",
+            "city": false,
+            "open_pvp": true
+        },
+        {
+            "name": "LangleyGreen",
+            "fullname": "Langley Green",
+            "city": false,
+            "open_pvp": false
+        },
+        {
+            "name": "KonoSea",
+            "fullname": "The Kono Brightside Sea",
+            "city": false,
+            "open_pvp": false
+        },
+        {
+            "name": "DistalPhalanxes",
+            "fullname": "The Distal Phalanxes",
+            "city": false,
+            "open_pvp": false
+        }
     ]
 }

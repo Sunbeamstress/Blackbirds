@@ -1,19 +1,64 @@
 {
     "id": [
-        {"quote": "There was a time that the pieces fit, but I watched them fall away\nMildewed and smoldering, strangled by our coveting", "source": "James Maynard Keenan"},
-        {"quote": "The sun shines, but I don't.", "source": "Billy Corgan"},
-        {"quote": "I've journeyed here and there, and back again\nBut in the same old haunts I still find my friends", "source": "Billy Corgan"},
-        {"quote": "And in the eyes of the jackal, I say KABOOM!", "source": "Billy Corgan"},
-        {"quote": "To all my friends: blood makes the blade holy!", "source": "Atmosphere"},
-        {"quote": "We are all searching for someone whose demons play well with our own.", "source": "unknown"},
-        {"quote": "I'm makin' love to the angel of death\nCatchin' feelings, never stumble, retracin' my steps", "source": "Rick Ross"},
-        {"quote": "Froth at the top, dregs at the bottom, but the middle excellent.", "source": "Voltaire"},
-        {"quote": "Those who can make you believe absurdities can make you commit atrocities.", "source": "Voltaire"},
-        {"quote": "Illusion is the first of all pleasures.", "source": "Voltaire"},
-        {"quote": "Talent was not rare; the ability to survive having it was.", "source": "Neal Stephenson"},
-        {"quote": "That is why I never use the Microscope any more to look at things that were made by Men - the rudeness and bungling of Art is painful to view.", "source": "Neal Stephenson"},
-        {"quote": "Hoops of gold are stronger than bands of steel.", "source": "Neal Stephenson"},
-        {"quote": "By populating the world with so many minds, each with its own point of view, God gives us a suggestion of what it means to be omniscient.", "source": "Neal Stephenson"},
-        {"quote": "To merely set foot in such people's houses and show them common courtesy was to be complicit in their whole system of power.", "source": "Neal Stephenson"}
+        {
+            "quote": "There was a time that the pieces fit, but I watched them fall away\nMildewed and smoldering, strangled by our coveting",
+            "source": "James Maynard Keenan"
+        },
+        {
+            "quote": "The sun shines, but I don't.",
+            "source": "Billy Corgan"
+        },
+        {
+            "quote": "I've journeyed here and there, and back again\nBut in the same old haunts I still find my friends",
+            "source": "Billy Corgan"
+        },
+        {
+            "quote": "And in the eyes of the jackal, I say KABOOM!",
+            "source": "Billy Corgan"
+        },
+        {
+            "quote": "To all my friends: blood makes the blade holy!",
+            "source": "Atmosphere"
+        },
+        {
+            "quote": "We are all searching for someone whose demons play well with our own.",
+            "source": "unknown"
+        },
+        {
+            "quote": "I'm makin' love to the angel of death\nCatchin' feelings, never stumble, retracin' my steps",
+            "source": "Rick Ross"
+        },
+        {
+            "quote": "Froth at the top, dregs at the bottom, but the middle excellent.",
+            "source": "Voltaire"
+        },
+        {
+            "quote": "Those who can make you believe absurdities can make you commit atrocities.",
+            "source": "Voltaire"
+        },
+        {
+            "quote": "Illusion is the first of all pleasures.",
+            "source": "Voltaire"
+        },
+        {
+            "quote": "Talent was not rare; the ability to survive having it was.",
+            "source": "Neal Stephenson"
+        },
+        {
+            "quote": "That is why I never use the Microscope any more to look at things that were made by Men - the rudeness and bungling of Art is painful to view.",
+            "source": "Neal Stephenson"
+        },
+        {
+            "quote": "Hoops of gold are stronger than bands of steel.",
+            "source": "Neal Stephenson"
+        },
+        {
+            "quote": "By populating the world with so many minds, each with its own point of view, God gives us a suggestion of what it means to be omniscient.",
+            "source": "Neal Stephenson"
+        },
+        {
+            "quote": "To merely set foot in such people's houses and show them common courtesy was to be complicit in their whole system of power.",
+            "source": "Neal Stephenson"
+        }
     ]
 }

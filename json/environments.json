@@ -1,8 +1,28 @@
 {
     "id": [
-        {"name": "Urban", "short":"urban", "color": 444, "natural": false},
-        {"name": "Grasslands", "short": "grass", "color": 351, "natural": true},
-        {"name": "Forest", "short": "frest", "color": 252, "natural": true},
-        {"name": "Arboreal Forest", "short": "afrst", "color": 232, "natural": true}
+        {
+            "name": "Urban",
+            "short": "urban",
+            "color": 444,
+            "natural": false
+        },
+        {
+            "name": "Grasslands",
+            "short": "grass",
+            "color": 351,
+            "natural": true
+        },
+        {
+            "name": "Forest",
+            "short": "frest",
+            "color": 252,
+            "natural": true
+        },
+        {
+            "name": "Arboreal Forest",
+            "short": "afrst",
+            "color": 232,
+            "natural": true
+        }
     ]
 }
