@@ -39,3 +39,12 @@ def jleft(string, width = 0):
     string_len = len(ansi.strip_ansi(string))
     s = " "
     return string + (s * (width - string_len))
+
+def sanitize(string):
+    "Removes all extraneous characters and control codes from the string."
+    # For now, just removes newlines and whitespace, but will be used later to remove
+    # any form of potentially sensitive input.
+    string = string.strip("\n")
+    string = string.rstrip()
+    string = string.lstrip()
+    return string
