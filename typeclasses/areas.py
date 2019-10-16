@@ -1,6 +1,22 @@
 # Evennia modules.
 from evennia import DefaultObject
 
+# Blackbirds modules.
+from utilities.utils_string import jleft, jright
+
+def area_list():
+    text = f"There are |W{Area.objects.count()}|n areas defined in Blackbirds.\n"
+    for area in Area.objects.all():
+        a_id = str(area.id)
+        a_name = area.name
+        a_fullname = area.fullname()
+        a_is_city = str(area.is_city())
+        a_pvp = str(area.open_pvp())
+
+        text += "\n%s |c|||n %s|g%s|n" % (jright(a_id, 5), jleft(a_name, 20), jleft(a_fullname, 32))
+
+    return text
+
 class Area(DefaultObject):
     def at_object_creation(self):
         self.name = "Unnamed"

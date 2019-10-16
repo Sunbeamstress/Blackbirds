@@ -1,5 +1,6 @@
 from evennia import create_object
 
+from typeclasses.areas import area_list
 from typeclasses.zones import Zone
 from utilities.utils_string import jleft, jright, sanitize
 
@@ -41,6 +42,9 @@ def _edit_zone_parse_input(caller, raw_string, **kwargs):
 
     elif input_list[0] == "pvp":
         zone.db.open_pvp = not zone.db.open_pvp
+
+    elif input_list[0] == "areas":
+        caller.echo(area_list() + "\n")
 
     return "node_edit_selected_zone", {"selected_zone": caller.ndb._menutree.selected_zone}
 
@@ -90,6 +94,8 @@ def node_edit_selected_zone(caller, raw_string, **kwargs):
     text += "\n|513%s |c|||n %s" % (jright("fullname", 10), zone.db.fullname)
     text += "\n|513%s |c|||n %s" % (jright("area", 10), zone.db.area)
     text += "\n|513%s |c|||n %s" % (jright("pvp", 10), zone.db.open_pvp)
+
+    text += "\n\n|513%s |c|||n %s" % (jright("areas", 10), "See a list of areas.")
 
     # The actual "key" is a flexible input handler.
     options.append({"key": "_default", "goto": (_edit_zone_parse_input)})
