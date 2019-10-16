@@ -4,7 +4,9 @@ from collections import defaultdict
 from evennia.utils.utils import (variable_from_module, lazy_property, make_iter, is_iter, list_to_string, to_str)
 
 # Blackbirds modules.
-from utilities.utils_string import AutoPunc
+from commands.default_cmdsets import ChargenCmdSet
+from utilities.utils_display import Line
+from utilities.utils_string import jleft, jright, AutoPunc
 import utilities.utils_directions as dirs
 from typeclasses.environments import Environment
 from typeclasses.areas import Area
@@ -293,3 +295,24 @@ class Room(DefaultRoom):
             return "The Void"
 
         return self.db.zone.fullname
+
+class ChargenRoom(Room):
+    def at_object_creation(self):
+        self.cmdset.add(ChargenCmdSet, permanent = True)
+
+    def format_room_title(self):
+        return Line(col_string = "|035", label = "Character Creation", col_label = "|055")
+
+    def return_appearance(self, looker, **kwargs):
+        if not looker:
+            return ""
+
+        string = self.format_room_title() + "\n"
+
+        desc = self.db.desc
+        if desc:
+            desc = desc.replace("$p", "\n\n")
+            desc = desc.replace("$n", "\n")
+            string += desc
+
+        return string

@@ -14,7 +14,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 
 """
 
-from evennia import default_cmds
+from evennia import default_cmds, CmdSet
 
 from commands.command_roleplay import *
 from commands.command_general import *
@@ -28,6 +28,7 @@ from commands.command_zone import *
 from commands.command_movement import *
 from commands.command_account import *
 from commands.command_map import *
+from commands.command_chargen import *
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -137,3 +138,15 @@ class SessionCmdSet(default_cmds.SessionCmdSet):
         #
         # any commands you add below will overload the default ones.
         #
+
+class ChargenCmdSet(CmdSet):
+    key = "Chargen"
+    # If it turns out it's just too much of a pain in the ass to let players have their default commands.
+    # If used, need to add commands such as help, look, etc. to this command set.
+    # mergetype = "Replace"
+
+    # <Griatch> A nice way to do this is to make a catch-all override Command. Just make a command that you add to that cmdset with aliases for all the commands you want to block, and let the Command.func just echo an error message.
+    # <Griatch> There are CmdSet mergetypes to filter out commands too, should it come to that, but a catch-all Command is nice in that you can make a nicer error message (like "you cannot use that command while in chargen" or something)
+
+    def at_cmdset_creation(self):
+        self.add(CmdChargenBegin())
