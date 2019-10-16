@@ -51,7 +51,7 @@ def _node_list_zones(caller):
     return "zone_admin_base", {"info": info}
 
 def _node_create_zone(caller, raw_string, **kwargs):
-    create_object("typeclasses.newzones.Zone", key = "Test")
+    create_object("typeclasses.zones.Zone", key = "Test")
     info = "Created a new zone."
     return "zone_admin_base", {"info": info}
 
