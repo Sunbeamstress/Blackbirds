@@ -17,7 +17,7 @@
 - [x] Modernize (read: add XTERM colors) room title display.
 - [x] Display light, temperature, water level.
 - [ ] Implement room echoes for remaining room attributes, where applicable.
-- [x] Area handling through JSON.
+- [x] ~~Area handling through JSON.~~
 - [x] ~~Zone handling through JSON.~~
 - [x] Environment handling through JSON.
 - [ ] Exit standardizing and room displaying.
@@ -35,8 +35,8 @@
 - [x] Design menu to manipulate zones.
 
 ## Area Data
-- [ ] Implement Area class.
-- [ ] Design menu to manipulate areas.
+- [x] Implement Area class.
+- [x] Design menu to manipulate areas.
 
 ## Mapping
 - [ ] Feature-complete implementation of map system.

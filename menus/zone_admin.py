@@ -51,9 +51,9 @@ def _node_list_zones(caller):
     return "zone_admin_base", {"info": info}
 
 def _node_create_zone(caller, raw_string, **kwargs):
-    create_object("typeclasses.zones.Zone", key = "Test")
-    info = "Created a new zone."
-    return "zone_admin_base", {"info": info}
+    new_zone = create_object("typeclasses.zones.Zone", key = "NewZone")
+    caller.echo("Created a new zone.")
+    return "node_edit_selected_zone", {"selected_zone": new_zone.id}
 
 def node_delete_zone(caller, raw_string, **kwargs):
     text = "Delete which zone?"
@@ -93,9 +93,6 @@ def node_edit_selected_zone(caller, raw_string, **kwargs):
 
     # The actual "key" is a flexible input handler.
     options.append({"key": "_default", "goto": (_edit_zone_parse_input)})
-
-    # options.append({"key": "name", "desc": zone.name, "goto": (_edit_zone_name)})
-
     options.append({"key": "r", "desc": "Return to the previous menu.", "goto": ("node_edit_zone")})
 
     return text, options

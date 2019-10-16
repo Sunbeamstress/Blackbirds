@@ -1,53 +1,28 @@
-# Python modules.
-import json
+# Evennia modules.
+from evennia import DefaultObject
 
-# Blackbirds modules.
+class Area(DefaultObject):
+    def at_object_creation(self):
+        self.name = "Unnamed"
+        self.db.fullname = "Unnamed Area"
+        self.db.is_city = False
+        self.db.open_pvp = False
+        self.db.zones = []
 
-# Deserialize the environment data file.
-area_data = None
-with open("json/areas.json", "r") as json_file:
-    area_data = json.load(json_file)
+    def fullname(self):
+        return self.db.fullname
 
-area_id = area_data["id"]
+    def is_city(self):
+        return self.db.is_city
 
-class Area():
-    "A class whose purpose is to retrieve data from the areas defined at json/areas.json."
-    def name(self, id = 0):
-        if not self._is_valid_id(id):
-            return "????"
+    def open_pvp(self):
+        return self.db.open_pvp
 
-        return area_id[id]["name"]
+    def add_zone(self, zone):
+        self.db.zones.add(zone)
 
-    def fullname(self, id = 0):
-        if not self._is_valid_id(id):
-            return "?????"
+    def remove_zone(self, zone):
+        self.db.zones.remove(zone)
 
-        return area_id[id]["fullname"]
-
-    def is_city(self, id = 0):
-        if not self._is_valid_id(id):
-            return False
-
-        return area_id[id]["city"]
-
-    def is_open_pvp(self, id = 0):
-        if not self._is_valid_id(id):
-            return False
-
-        return area_id[id]["open_pvp"]
-
-    def __str__(self, id = 0):
-        "Shortcut for get_name()."
-        return self.name(id)
-
-    def _is_valid_id(self, id):
-        try:
-            test_id = area_id[id]
-        except IndexError:
-            return False
-
-        return True
-
-    def __len__(self):
-        "Returns the total number of defined environments."
-        return len(area_id)
+    def zones(self):
+        return self.db.zones

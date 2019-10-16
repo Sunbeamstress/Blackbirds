@@ -268,16 +268,16 @@ class Room(DefaultRoom):
             return "This area is submerged underwater."
 
     def areaname(self):
-        # a = Area()
-        # z = Zone()
-        # return a.name(z.area(self.db.zone))
-        return "UndefinedArea"
+        if not self.db.zone or not self.db.zone.area:
+            return "Static"
+
+        return self.db.zone.area.name
 
     def areafullname(self):
-        # a = Area()
-        # z = Zone()
-        # return a.fullname(z.area(self.db.zone))
-        return "Undefined Area"
+        if not self.db.zone or not self.db.zone.area:
+            return "An expanse of static"
+
+        return self.db.zone.area.db.fullname
 
     def zone(self):
         return self.db.zone
