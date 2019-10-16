@@ -18,7 +18,7 @@
 - [x] Display light, temperature, water level.
 - [ ] Implement room echoes for remaining room attributes, where applicable.
 - [x] Area handling through JSON.
-- [x] Zone handling through JSON.
+- [x] ~~Zone handling through JSON.~~
 - [x] Environment handling through JSON.
 - [ ] Exit standardizing and room displaying.
    - [x] Rewrite of Exit class from the ground up.
@@ -29,6 +29,14 @@
       - [ ] Secret Exits
       - [ ] Org/Class-access Restricted Exits
 - [x] Implement actual room movement code.
+
+## Zone Data
+- [x] Implement Zone class.
+- [x] Design menu to manipulate zones.
+
+## Area Data
+- [ ] Implement Area class.
+- [ ] Design menu to manipulate areas.
 
 ## Mapping
 - [ ] Feature-complete implementation of map system.

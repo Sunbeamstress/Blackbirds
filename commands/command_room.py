@@ -47,8 +47,7 @@ def RoomInfo(ply, tar_room = None):
     r_id = tar_room.id
     r_id_str = "#" + str(tar_room.id)
 
-    zone = Zone()
-    r_zone = zone.name(tar_room.db.zone)
+    r_zone = tar_room.zonename()
 
     env = Environment()
     env_name = env.name(tar_room.db.environment)

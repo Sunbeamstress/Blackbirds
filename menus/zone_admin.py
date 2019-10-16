@@ -1,6 +1,6 @@
 from evennia import create_object
 
-from typeclasses.newzones import Zone
+from typeclasses.zones import Zone
 from utilities.utils_string import jleft, jright, sanitize
 
 def _delete_zone(caller, raw_string, **kwargs):

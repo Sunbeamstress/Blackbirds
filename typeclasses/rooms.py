@@ -1,10 +1,3 @@
-"""
-Room
-
-Rooms are simple containers that has no location of their own.
-
-"""
-
 # Evennia modules.
 from evennia import DefaultRoom
 from collections import defaultdict
@@ -50,7 +43,7 @@ class Room(DefaultRoom):
             "out": None
         }
 
-        self.db.zone = 0
+        self.db.zone = None
         self.db.environment = 0
         self.db.temperature = 30 # How hot/cold the room is.
         self.db.illumination = 15 # The general light level in the room. 0 - dark, 15 - fully lit
@@ -275,22 +268,28 @@ class Room(DefaultRoom):
             return "This area is submerged underwater."
 
     def areaname(self):
-        a = Area()
-        z = Zone()
-        return a.name(z.area(self.db.zone))
+        # a = Area()
+        # z = Zone()
+        # return a.name(z.area(self.db.zone))
+        return "UndefinedArea"
 
     def areafullname(self):
-        a = Area()
-        z = Zone()
-        return a.fullname(z.area(self.db.zone))
+        # a = Area()
+        # z = Zone()
+        # return a.fullname(z.area(self.db.zone))
+        return "Undefined Area"
 
     def zone(self):
         return self.db.zone
 
     def zonename(self):
-        z = Zone()
-        return z.name(self.db.zone)
+        if not self.db.zone:
+            return "Void"
+
+        return self.db.zone.name
 
     def zonefullname(self):
-        z = Zone()
-        return z.fullname(self.db.zone)
+        if not self.db.zone:
+            return "The Void"
+
+        return self.db.zone.fullname

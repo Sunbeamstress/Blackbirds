@@ -62,7 +62,5 @@ class CmdTest(Command):
     locks = "perm(Admin)"
 
     def func(self):
+        pass
         # Menu(self.caller, "menus.testmenu", cmdset_mergetype = "Replace", cmd_on_exit = "look", startnode = "node_test", debug = True)
-        z = Zone()
-        z_rooms = z.rooms(0)
-        self.echo(z_rooms)
