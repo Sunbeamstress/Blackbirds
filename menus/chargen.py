@@ -1,114 +1,149 @@
 # Python modules.
-import re
+import re, string
 
 # Blackbirds modules.
-from utilities.utils_string import jleft, jright, sanitize
+from typeclasses.species import Human, Carven, Sacrilite, Luum, Idol
+from utilities.string import jleft, jright, capital, sanitize
 
-# Gotta move these to a dedicated file later!
-_HUMAN_FILE = """
-Humans, sometimes archaically referred to as Man, are a prolific, versatile people, the very species which gave rise to the term 'humanoid'. Though they are found predominantly along coastlines, mountains, woods, and plains, they are comfortable in a wide variety of temperatures and environments, and can be found living almost anywhere.
+_VALID_UNUSUAL_NAME_CHARS = string.ascii_letters + string.digits + "-" + "." + "'"
 
-  |xHeight |c|||n |W120|ncm |c-|n |W215|ncm |c(|W4|n ft |c-|n |W7|n ft|c)|n
-     |xAge |c|||n    |W18|n |c-|n |W100|n
+def name_validate(new_name, unusual_names = False):
+    valid = True
+    err_msg = ""
 
-  |c-|n Can select almost any archetype, and all but the most exotic abilities.
-  |c-|n Can survive in a broad range of temperatures, but suffer greatly at either
-    extreme.
-  |c-|n Can start as a half-breed, choosing another species from which to draw
-    minor benefits.
-  |c-|n A half-breed Human counts as either species for the purposes of some
-    ability checks.
-  |c-|n Are not subject to certain prejudices amidst the state of Brillante.
+    if len(new_name) < 3 or len(new_name) > 24:
+        valid = False
+        err_msg = f"Your name must be no fewer than 3 and no greater than 24 characters. You attempted to use {len(new_name)} character(s)."
 
-  |c-|n Excellent for beginners, or for testing character builds.
-"""
+    elif not new_name.isalpha():
+        if unusual_names == False:
+            valid = False
+            err_msg = "For your name, you may only use the characters A-Z."
 
-_CARVEN_FILE = """
-Carven are a people spawned from Ninesilver's great deserts, adapted to hot climates, and were the predominant species in the state of Brillante before its occupation. They are characterized by the rapid mutant growth of their bone and chitin, leading to horns, spines, and other appendages in their young teen years, and encrustations of sharp bone over their limbs in middle adulthood.
+        elif new_name.isspace():
+            valid = False
+            err_msg = "As funny as it would be, I'm afraid you can't have a name consisting only of spaces."
 
-  |xHeight |c|||n |W150|ncm |c-|n |W215|ncm |c(|W5|n ft |c-|n |W7|n ft|c)|n
-     |xAge |c|||n    |W18|n |c-|n |W170|n
+        elif not re.search("^[a-zA-Z0-9\-\.\']+$", new_name):
+            valid = False
+            err_msg = "You attempted to use one or more invalid characters in your name. You may use only letters, numbers, dashes, periods, and apostrophes."
 
-  |c-|n Can choose a variety of horns.
-  |c-|n Gains exoskeletal growth based on age, which must be treated or worn away.
-  |c-|n Comfortable in warm weather, and can never feel too hot.
-  |c-|n Cannot move as quickly in cold weather, and will suffer greatly.
-  |c-|n Can be given two or four arms.
-  |c-|n Four-armed Carven are cumbersone, but fearsomely strong.
 
-  |c-|n A good choice for seasoned players, especially those who enjoy battle.
-"""
+        elif not re.search("[a-zA-Z]", new_name):
+            valid = False
+            err_msg = "Your name must include at least one letter."
 
-_SACRILITE_FILE = """
-Originating from the taigas of Lightningshield, the Sacrilites are a hardy and cunning people, with thick, furry body hair. They are often likened to predatory cats, for their claws, fur, and elongated ears. Though they can live comfortably indoors or in the shade of Brillante, their homes are in the mountains, and they can roam nude in the snow without a hint of discomfort.
+        elif not new_name[0].isalpha():
+            valid = False
+            err_msg = "The first character of your name must be a letter."
 
-  |xHeight |c|||n |W150|ncm |c-|n |W245|ncm |c(|W5|n ft |c-|n |W9|n ft|c)|n
-     |xAge |c|||n    |W18|n |c-|n |W65|n
+    return valid, err_msg
 
-  |c-|n Can be given fangs or tusks.
-  |c-|n Their claws make versatile tools for hunting and rending.
-  |c-|n Can climb trees and scale buildings.
-  |c-|n Comfortable in cool weather, and can never feel too cold.
-  |c-|n Can choose heat-, motion-, or night-vision, each with their own benefits
-    and drawbacks.
+def name_selection(caller, new_name = None, no_args = False):
+    if no_args:
+        caller.echo("|RYou must specify a name. This can be from 3 to 24 characters.|n")
+        if caller.db.species.unusual_names:
+            caller.echo("\n |c-|n You may use letters, numbers, dashes, periods, or apostrophes.")
+            caller.echo("\n |c-|n Your name must start with a letter.")
+            caller.echo("\n |c-|n You do not have to capitalize the first letter of your name.")
+        else:
+            caller.echo("\n |c-|n You may only use letters.")
+            caller.echo("\n |c-|n Your name will be automatically capitalized, with the rest converted to")
+            caller.echo("\n   lowercase.")
+        caller.echo("\n")
+        return
 
-  |c-|n Recommended for players with a little experience.
-"""
+    new_name = new_name.strip()
 
-_LUUM_FILE = """
-The people of Colossus Grove, the seaforest. The Luum have coal-colored flesh, set aglow with bioluminescence. Draped in naturally-occuring blossoms and vines, they are like nothing so much as spirits of the deepest woods, brought into humanoid shape. Owing to the peculiar biome from which they evolved, they are incidentally quite comfortable in real oceanic environs.
 
-  |xHeight |c|||n |W60|ncm |c-|n |W335|ncm |c(|W2|n ft |c-|n |W11|n ft|c)|n
-     |xAge |c|||n   |W18|n |c-|n |W1000|n
+    valid, err_msg = name_validate(new_name, caller.db.species.unusual_names)
+    if valid == False:
+        caller.echo(f"|R{err_msg}|n")
+        return
 
-  |c-|n Restricted from certain intensely physical archetypes and abilities.
-  |c-|n Can choose the color and vibrance of their biolight.
-  |c-|n Can choose certain extraneous appendages, such as vines or thorns.
-  |c-|n Can see perfectly in the dark.
-  |c-|n Can briefly survive Neon-rich environs.
-  |c-|n Can reproduce asexually.
-  |c-|n Can eat almost anything, but must eat often.
+    if caller.db.species.unusual_names == False:
+        # Python's built-in capitalize() forces the rest of the string to be lowercase.
+        new_name = new_name.capitalize()
 
-  |c-|n Good for players who want a challenge and don't mind limited options.
-"""
+    if new_name.lower() == "clear":
+        caller.echo("|RSorry, you will have to have a name!|n\n")
+    else:
+        caller.name = new_name
 
-_IDOL_FILE = """
-A warhost of Humanlike automata, numerous enough to comprise a race of their own. With shells of stone, steel, and/or false flesh, no two Idols are the same. Though the great majority of activated Idols were built for killing, the softer, more graceful shapes of others suggest that they may have once belonged to a noble social strata, in an era that time forgot.
+def surname_selection(caller, new_name = None, no_args = False):
+    if no_args:
+        caller.echo("|RYou must specify a surname. This can be from 3 to 24 characters.|n")
+        if caller.db.species.unusual_names:
+            caller.echo("\n |c-|n You may use letters, numbers, dashes, periods, or apostrophes.")
+            caller.echo("\n |c-|n Your surname must start with a letter.")
+            caller.echo("\n |c-|n You do not have to capitalize the first letter of your surname.")
+        else:
+            caller.echo("\n |c-|n You may only use letters.")
+            caller.echo("\n |c-|n Your surname will be automatically capitalized, with the rest converted to")
+            caller.echo("\n   lowercase.")
+        if not caller.db.species.requires_surname:
+            caller.echo("\n\n |c-|n You may opt not to have a surname by entering |Rsurname clear|n.")
+        caller.echo("\n")
+        return
 
-  |xHeight |c|||n |W120|ncm |c-|n |W300|ncm |c(|W4|n ft |c-|n |W10|n ft|c)|n
-     |xAge |c|||n     |W1|n |c-|n |W1000|n
+    new_name = new_name.strip()
 
-  |c-|n Suffer numerous archetypal restrictions, but gain access to exclusive
-    Idol-based archetypes.
-  |c-|n Receive much more detailed information when looking at things.
-  |c-|n Do not need to eat, drink, or sleep, but must maintain their fuel levels.
-  |c-|n Can passively regenerate fuel with the right parts, albeit slowly.
-  |c-|n Do not suffer any fatigue-based penalties, so long as their energy levels
-    are maintained.
-  |c-|n Can obtain and swap components.
-  |c-|n May or may not be anatomically correct.
 
-  |c-|n A difficult species to play; must be unlocked after 200 hours of play time.
-"""
+    valid, err_msg = name_validate(new_name, caller.db.species.unusual_names)
+    if valid == False:
+        caller.echo(f"|R{err_msg}|n")
+        return
+
+    if caller.db.species.unusual_names == False:
+        new_name = capital(new_name) # We won't lowercase in the event of names like McGee
+
+    if new_name.lower() == "clear":
+        caller.db.surname = ""
+    else:
+        caller.db.surname = new_name
+
+def age_selection(caller, new_age = None):
+    min_age = caller.db.species.min_age
+    max_age = caller.db.species.max_age
+
+    if not new_age:
+        caller.echo(f"|RYou must specify an age. For your species, this can be anywhere from {min_age} to {max_age}.\n")
+        return
+
+    if not new_age.isnumeric():
+        caller.echo("|RYou must enter a number.|n\n")
+        return
+
+    new_age = int(new_age)
+    if new_age < min_age:
+        caller.echo(f"|RYour character must be at least {min_age} years of age.|n\n")
+        return
+
+    if new_age > max_age:
+        caller.echo(f"|RYour character can be no older than {max_age} years of age.|n\n")
+        return
+
+    caller.db.age = new_age
 
 def _chargen_base_species_info(caller, raw_string, **kwargs):
     input_string = sanitize(raw_string).lower()
 
+    species = None
     if input_string == "human" or input_string == "humans":
-        caller.echo(_HUMAN_FILE)
-        return "chargen_base"
+        species = Human()
     elif input_string == "carven" or input_string == "carvens":
-        caller.echo(_CARVEN_FILE)
-        return "chargen_base"
+        species = Carven()
     elif input_string == "sacrilite" or input_string == "sacrilites":
-        caller.echo(_SACRILITE_FILE)
-        return "chargen_base"
+        species = Sacrilite()
     elif input_string == "luum" or input_string == "luums" or input_string == "loom" or input_string == "looms":
-        caller.echo(_LUUM_FILE)
-        return "chargen_base"
+        species = Luum()
     elif input_string == "idol" or input_string == "idols":
-        caller.echo(_IDOL_FILE)
-        return "chargen_base"
+        species = Idol()
+
+    if species:
+      caller.echo(species.chargen_documentation + "\n")
+
+    return "chargen_base"
 
 def _chargen_select_species(caller, raw_string, **kwargs):
     species = kwargs.get("species", None)
@@ -117,7 +152,17 @@ def _chargen_select_species(caller, raw_string, **kwargs):
         caller.error_echo("Something went wrong with species selection! Please notify the admin.")
         return "chargen_base"
 
-    caller.db.species = species
+    if species == "Human":
+        caller.db.species = Human()
+    elif species == "Carven":
+        caller.db.species = Carven()
+    elif species == "Sacrilite":
+        caller.db.species = Sacrilite()
+    elif species == "Luum":
+        caller.db.species = Luum()
+    elif species == "Idol":
+        caller.db.species = Idol()
+
     return "chargen_identity"
 
 def _chargen_identity_parse_input(caller, raw_string, **kwargs):
@@ -128,46 +173,33 @@ def _chargen_identity_parse_input(caller, raw_string, **kwargs):
     no_args = True if len(input_list) <= 1 else False
 
     if sub_cmd == "name":
-        if no_args:
-            caller.error_echo("You must specify a name. This can be from 3 to 24 characters.")
-            return "chargen_base"
-
-        new_name = input_list[1]
-        if len(new_name) < 3 or len(new_name) > 24:
-            caller.error_echo(f"Your name must be no fewer than 3 and no greater than 24 characters. You attempted to use {len(new_name)} character(s).")
-            return "chargen_base"
-
-        if not new_name.isalpha():
-            caller.error_echo("For your first name, you may only use the characters A-Z.")
-            return "chargen_base"
-
-        caller.name = new_name
+        name_selection(caller, " ".join(input_list[1:]), no_args)
 
     elif sub_cmd == "surname":
+        surname_selection(caller, " ".join(input_list[1:]), no_args)
+
+    elif sub_cmd == "age":
         if no_args:
-            caller.error_echo("You must specify a surname. This can be from 3 to 24 characters.")
-            return "chargen_base"
+            age_selection(caller, None)
+        else:
+            age_selection(caller, input_list[1])
 
-        new_name = " ".join(input_list[1:])
-        if len(new_name) < 3 or len(new_name) > 24:
-            caller.error_echo(f"Your surname must be no fewer than 3 and no greater than 24 characters. You attempted to use {len(new_name)} character(s).")
-            return "chargen_base"
-
-        if any(char.isdigit() for char in new_name):
-            caller.error_echo("You may not use numbers in your surname.")
-            return "chargen_base"
-
-        caller.db.surname = new_name
-
-    return "chargen_base"
+    return "chargen_identity"
 
 def chargen_identity(caller, raw_string, **kwargs):
-    text = None
+    text = "Next, we'll ask you to fill out some identifying information about your character. It's here that you'll choose a thematically appropriate name, an age, as well as some other details about yourself.\n\nTo change a field, simply type in the name of a |513field|n, along with the desired info. Type in a |513field|n by itself to see what information it will accept. This may change based on your chosen species.\n"
+
+    text += f"\n     |513name|n |c|||n {caller.name}"
+    text += f"\n  |513surname|n |c|||n {caller.db.surname}"
+    text += f"\n      |513age|n |c|||n {caller.db.age}"
 
     options = (
+        {"key": "r", "desc": "Return to species selection.", "goto": "chargen_base"},
         {"key": "_default", "goto": (_chargen_identity_parse_input)},
-        {"key": "r", "desc": "Return to species selection.", "goto": "chargen_base"}
+
     )
+
+    return text, options
 
 def chargen_base(caller, raw_string, **kwargs):
     text = "To begin, choose the species of your character. Enter the name of the species to read more about them. Enter the number to select the one you want."

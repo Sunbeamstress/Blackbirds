@@ -2,7 +2,7 @@ from evennia import create_object
 
 from typeclasses.areas import area_list
 from typeclasses.zones import Zone
-from utilities.utils_string import jleft, jright, sanitize
+from utilities.string import jleft, jright, sanitize
 
 def _delete_zone(caller, raw_string, **kwargs):
     zone = caller.search("#" + raw_string, global_search = True)

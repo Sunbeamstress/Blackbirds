@@ -12,9 +12,10 @@ from evennia import DefaultCharacter
 from evennia.utils import logger
 
 # Blackbirds modules.
-from utilities.utils_communication import ProcessSpeech
-from utilities.utils_display import Line
-import utilities.utils_directions as dirs
+from utilities.communication import ProcessSpeech
+from utilities.display import header
+from utilities.string import article
+import utilities.directions as dirs
 
 class Character(DefaultCharacter):
     """
@@ -45,7 +46,7 @@ class Character(DefaultCharacter):
         self.db.pronoun_him = "her"
         self.db.pronoun_his = "her"
         self.db.pronoun_hiss = "hers"
-        self.db.species = "Human"
+        self.db.species = None
         self.db.archetype = "Citizen"
         self.db.background = "Pauper"
         self.db.prone = 0 # 1 for seated, 2 for lying down
@@ -72,8 +73,8 @@ class Character(DefaultCharacter):
         surname = ""
         if self.db.surname:
             surname = f" {self.db.surname}"
-        string = f"|xThis is |c{self.key}{surname}|n|x, a|n |c{self.db.species}|n|x.|n\n"
-        string += Line()
+        string = f"|xThis is |c{self.key}{surname}|n|x,|n |c{article(self.species())}|n|x.|n\n"
+        string += header()
         string += f"\n{self.db.desc}"
 
         return string
@@ -242,19 +243,24 @@ class Character(DefaultCharacter):
         return True
 
     def at_look(self, target = None, **kwargs):
-        if not target.access(self, "view"):
-            try:
-                return "Could not view '%s'." % target.get_display_name(self, **kwargs)
-            except AttributeError:
-                return "Could not view '%s'." % target.key
+        # If the player has no species or their species doesn't override at_look,
+        # use the default functionality.
+        if not self.db.species or self.db.species.at_look != True:
+            if not target.access(self, "view"):
+                try:
+                    return "Could not view '%s'." % target.get_display_name(self, **kwargs)
+                except AttributeError:
+                    return "Could not view '%s'." % target.key
 
-        description = target.return_appearance(self, **kwargs)
+            description = target.return_appearance(self, **kwargs)
 
-        # the target's at_desc() method.
-        # this must be the last reference to target so it may delete itself when acted on.
-        target.at_desc(looker = self, **kwargs)
+            # the target's at_desc() method.
+            # this must be the last reference to target so it may delete itself when acted on.
+            target.at_desc(looker = self, **kwargs)
 
-        return description
+            return description
+
+        return self.db.species.at_look(self, target = None, **kwargs)
 
     def zone(self):
         loc = self.location
@@ -275,3 +281,6 @@ class Character(DefaultCharacter):
     def coords(self):
         loc = self.location
         return [loc.db.x, loc.db.y, loc.db.z]
+
+    def species(self):
+        return self.db.species.name if self.db.species else "Unknown"

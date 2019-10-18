@@ -59,7 +59,7 @@
    - [ ] Map overriding (neon mode, blindness, etc.)!
 
 ## Cleanup, Maintenance
-- [ ] Fix dumb, inconsistent method name casing (AutoPunc, etc.)
+- [x] Fix dumb, inconsistent method name casing (AutoPunc, etc.)
 - [ ] Look up how database migration works.
 
 ## Evennia System Message Replacements
@@ -69,10 +69,9 @@
 ## Characters
 
 - [x] Need to implement at least a basic chargen and determine what properties a character has.
-   - [ ] First and last name.
-      - Freeform: Type almost anything you want, 32 characters in both fields.
-   - [ ] Age.
-   - [ ] Age of appearance, in case you take good or bad care of yourself.
+   - [x] First and last name.
+   - [x] Age.
+   - [x] ~~Age of appearance, in case you take good or bad care of yourself.~~ (will be handled by mechanics)
    - [ ] An "identity" ("intro" in other RPIs). The string we see if we don't know your name.
    - [ ] **Big Decision**: Haven-style descriptions, with body parts, etc.?
       - [ ] Fields for each body part (lower face, stomach, groin, etc.).
@@ -86,7 +85,7 @@
          * This isn't Haven, no need to code in penises or vaginas. Just write whatever's there.
       - [ ] HIGHLY doubt it will ever be a thing, but possibly specify: can get pregnant?
          * If at all implemented, it would be specifically for establishing who's the mother in any kind of command that allows you to see someone's bloodline. Maybe. I dunno, it's messy.
-   - [ ] Species. Choices pending establishment of setting. Tempted to go human-only, probably won't.
+   - [x] Species. Choices pending establishment of setting. ~~Tempted to go human-only, probably won't.~~
    - [ ] Archetype, a la Haven. Not quite a "class" but serves the same purpose.
    - [ ] Background - poverty, child of politician, that sort of thing.
       * Could influence starting money, allow/deny certain skills at chargen.

@@ -1,11 +1,11 @@
 # Evennia modules.
 from evennia.utils import ansi
 
-def AutoCap(s):
-    s = ansi.strip_ansi(s)
+def capital(s):
+    "Capitalizes the first letter of the string. Differs from Python capitalize() in that it will not perform operations on the rest of the string."
     return "%s%s" % (s[0].upper(), s[1:])
 
-def AutoPunc(s):
+def punctuate(s):
     s = ansi.strip_ansi(s)
     punc = s[-1]
     if not punc in [".", ",", "'", '"', "(", ")", "!", "?", "-"]:
@@ -13,7 +13,7 @@ def AutoPunc(s):
 
     return s
 
-def RPFormat(s):
+def autoformat(s):
     """
     Rudimentary formatting of speech and emoting.
 
@@ -22,8 +22,8 @@ def RPFormat(s):
 
     s = ansi.strip_ansi(s)
 
-    s = AutoCap(s)
-    s = AutoPunc(s)
+    s = capital(s)
+    s = punctuate(s)
 
     s = s.replace("$p", "\n\n")
     s = s.replace("$n", "\n")
@@ -48,3 +48,14 @@ def sanitize(string):
     string = string.rstrip()
     string = string.lstrip()
     return string
+
+def article(string, capitalize = False):
+    "Prefixes a string with 'a ' or 'an ' where appropriate."
+    a = "a"
+    fc = string[0].lower()
+    if fc in ("a", "e", "i", "o", "u"):
+        a = "an"
+
+    a = "%s%s" % (a[0].upper(), a[1:]) if capitalize else a
+
+    return f"{a} {string}"

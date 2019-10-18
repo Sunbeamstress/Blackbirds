@@ -3,8 +3,8 @@ from evennia.server.sessionhandler import SESSIONS
 from evennia.utils import utils
 
 from commands.command import Command
-from utilities.utils_string import (jleft, jright)
-from utilities.utils_display import Line
+from utilities.string import (jleft, jright)
+from utilities.display import header
 
 class CmdLook(Command):
     """
@@ -184,7 +184,7 @@ class CmdWho(Command):
         session_list = SESSIONS.get_sessions()
         session_list = sorted(session_list, key = lambda o: o.account.key)
 
-        self.msg(Line(80, "|m", "Currently Online", "|w"))
+        self.msg(header(80, "|m", "Currently Online", "|w"))
         self.msg("  |xNAME|n                         |xONLINE FOR|n   |xIDLE FOR|n")
 
         for session in session_list:
@@ -208,4 +208,4 @@ class CmdWho(Command):
 
         self.msg("\n\n  |W%s|n |xunique account%s logged in.|n" % (naccounts, "" if naccounts == 1 else "s"))
 
-        self.msg(Line(80, "|m"))
+        self.msg(header(80, "|m"))

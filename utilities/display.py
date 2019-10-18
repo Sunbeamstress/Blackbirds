@@ -23,7 +23,7 @@ class echo():
         ply.msg(f"|w{str}|n")
     
 
-def Notify(title, string):
+def notify(title, string):
     """
     Represents standardized and generic OOC messages from the game, most often
     used during system reloads, news updates, etc.
@@ -32,7 +32,7 @@ def Notify(title, string):
     output_string = title + string
     return output_string
 
-def Line(width = 80, col_string = "|B", label = None, col_label = "|w"):
+def header(width = 80, col_string = "|B", label = None, col_label = "|w"):
     if label:
         return "%s--|n %s%s|n %s%s|n" % (col_string, col_label, label, col_string, "-" * (width - (4 + len(label))))
 

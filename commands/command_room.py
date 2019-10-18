@@ -7,9 +7,9 @@ from commands.command import Command
 from typeclasses.environments import Environment
 from typeclasses.zones import Zone
 from typeclasses.exits import Exit
-from utilities.utils_display import Line
-from utilities.utils_string import jleft, jright
-import utilities.utils_directions as dirs
+from utilities.display import header
+from utilities.string import jleft, jright
+import utilities.directions as dirs
 
 VALID_ROOM_VALUES = ("temperature", "illumination", "water_level")
 VALID_ROOM_FLAGS = ("indoors", "darkness", "natural", "public", "shop", "house", "battleground", "craft_hall", "chapel", "bank")
@@ -53,7 +53,7 @@ def RoomInfo(ply, tar_room = None):
     env_name = env.name(tar_room.db.environment)
     env_color = env.color(tar_room.db.environment)
 
-    string = Line(80, "|y", f"{r_id_str}, {r_name}", "|W")
+    string = header(80, "|y", f"{r_id_str}, {r_name}", "|W")
 
     string += roominfo_entry("Name", r_name, "name", "str")
     string += roominfo_entry("Zone", r_zone, "zone", "id")
@@ -87,7 +87,7 @@ def RoomInfo(ply, tar_room = None):
     string += roominfo_entry("Player Owned", tar_room.db.player_owned, "player_owned", "bool")
     string += roominfo_entry("Owning Player", tar_room.db.player_owner_id, "player_owner_id", "bool")
 
-    string += "\n" + Line(80, "|y")
+    string += "\n" + header(80, "|y")
 
     ply.echo(string)
 

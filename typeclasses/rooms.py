@@ -5,9 +5,9 @@ from evennia.utils.utils import (variable_from_module, lazy_property, make_iter,
 
 # Blackbirds modules.
 from commands.default_cmdsets import ChargenCmdSet
-from utilities.utils_display import Line
-from utilities.utils_string import jleft, jright, AutoPunc
-import utilities.utils_directions as dirs
+from utilities.display import header
+from utilities.string import jleft, jright, punctuate
+import utilities.directions as dirs
 from typeclasses.environments import Environment
 from typeclasses.areas import Area
 from typeclasses.zones import Zone
@@ -215,7 +215,7 @@ class Room(DefaultRoom):
         env = Environment()
         r_env = env.colorshort(self.db.environment)
 
-        return f"|y{AutoPunc(r_name)}|n |213(|n|525{r_zone}, {r_area}|n|213)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n"
+        return f"|y{punctuate(r_name)}|n |213(|n|525{r_zone}, {r_area}|n|213)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n"
 
     def get_temperature_string(self):
         temp = self.db.temperature
@@ -301,7 +301,7 @@ class ChargenRoom(Room):
         self.cmdset.add(ChargenCmdSet, permanent = True)
 
     def format_room_title(self):
-        return Line(col_string = "|035", label = "Character Creation", col_label = "|055")
+        return header(col_string = "|035", label = "Character Creation", col_label = "|055")
 
     def return_appearance(self, looker, **kwargs):
         if not looker:

@@ -75,6 +75,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdOut())
         self.add(CmdMap())
         self.add(CmdTest())
+        self.add(CmdSpeciesChange())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"

@@ -12,7 +12,7 @@ from evennia import Command as BaseCommand
 # from evennia import default_cmds
 
 # Blackbirds modules.
-from utilities.utils_string import (jright, jleft)
+from utilities.string import (jright, jleft)
 
 
 class Command(BaseCommand):

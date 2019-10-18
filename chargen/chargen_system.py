@@ -1,11 +1,11 @@
-from utilities.utils_display import Line
-from utilities.utils_string import jleft, jright
+from utilities.display import header
+from utilities.string import jleft, jright
 
 def column_data(field, result):
     return "|m%s |c|| |w%s|n" % (jright(field, 14), result)
 
 def ChargenStage1(ply):
-    string = Line(col_string = "|035", label = "Character Creation", col_label = "|055")
+    string = header(col_string = "|035", label = "Character Creation", col_label = "|055")
     string += "\nMake yourself, so long as you make yourself free!"
 
     string += "\n"

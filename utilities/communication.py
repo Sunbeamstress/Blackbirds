@@ -1,4 +1,4 @@
-from utilities.utils_string import RPFormat
+from utilities.string import autoformat
 from typeclasses.colors import GameColors
 
 def ProcessSpeech(self, message, msg_self = None, msg_location = None, receivers = None, msg_receivers = None, **kwargs):
@@ -46,7 +46,7 @@ def ProcessSpeech(self, message, msg_self = None, msg_location = None, receivers
             {location}: the location where object is.
     """
 
-    message = RPFormat(message)
+    message = autoformat(message)
     msg_type = "say"
     colors = GameColors()
     light, dark = colors.SPEECH_LIGHT, colors.SPEECH_DARK

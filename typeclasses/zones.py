@@ -2,7 +2,7 @@
 from evennia import DefaultObject
 
 # Blackbirds modules.
-from utilities.utils_string import jleft, jright
+from utilities.string import jleft, jright
 
 def zone_list():
     text = f"There are |W{Zone.objects.count()}|n zones defined in Blackbirds.\n"

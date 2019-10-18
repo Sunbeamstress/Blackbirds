@@ -1,5 +1,5 @@
 from commands.command import Command
-from utilities.utils_string import RPFormat
+from utilities.string import autoformat
 
 class CmdEmote(Command):
     """
@@ -62,7 +62,7 @@ class CmdEmote(Command):
         em_msg = em_msg.replace("@me", self.caller.name)
 
         # Pass entire emote through formatter to auto-capitalize and punctuate.
-        em_msg = RPFormat(em_msg)
+        em_msg = autoformat(em_msg)
 
         # Speech detection:
         if '"' in em_msg:

@@ -1,7 +1,7 @@
 from evennia import create_object
 
 from typeclasses.areas import Area
-from utilities.utils_string import jleft, jright, sanitize
+from utilities.string import jleft, jright, sanitize
 
 def _delete_area(caller, raw_string, **kwargs):
     area = caller.search("#" + raw_string, global_search = True)

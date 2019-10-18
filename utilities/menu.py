@@ -2,7 +2,7 @@ from evennia.utils.evmenu import EvMenu
 from evennia.utils.ansi import strip_ansi
 
 from server.conf import settings
-from utilities.utils_string import jright
+from utilities.string import jright
 
 class Menu(EvMenu):
     def nodetext_formatter(self, nodetext):

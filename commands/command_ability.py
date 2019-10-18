@@ -5,8 +5,8 @@ The ability's commands themselves are not implemented here.
 """
 
 from commands.command import Command
-from utilities.utils_display import Line
-from utilities.utils_string import jright
+from utilities.display import header
+from utilities.string import jright
 
 class CmdAbilities(Command):
     key = "abilities"
@@ -17,8 +17,8 @@ class CmdAbilities(Command):
         ply = self.caller
         headers = {"Might":"Strength", "Acuity":"Vision", "Dexterity":"Agility"}
 
-        ply.echo(Line(80, "|m", "Abilities", "|M"))
+        ply.echo(header(80, "|m", "Abilities", "|M"))
         for h, a in headers.items():
             ply.echo(f"\n\n  |C{h}:|n 1\n|c{jright(a, 16)}|n: 1")
         ply.echo("\n")
-        ply.echo(Line(80, "|m"))
+        ply.echo(header(80, "|m"))
