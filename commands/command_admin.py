@@ -1,13 +1,18 @@
-# IRE-like administration commands, aka my effort to get out of MUXland.
+# Python modules.
+import inspect, sys
 
+# Evennia modules.
 from evennia.server.sessionhandler import SESSIONS
 from evennia.utils import search
+from evennia.utils.utils import mod_import, variable_from_module
 
+# Blackbirds modules.
 from commands.command import Command
 from utilities.display import notify
 from utilities.menu import Menu
 from typeclasses.zones import Zone
 from typeclasses.species import Human, Carven, Sacrilite, Luum, Idol
+from typeclasses.archetypes import Blackbird, Citizen, Privileged, Survivalist
 
 class CmdReload(Command):
     """
@@ -91,3 +96,27 @@ class CmdSpeciesChange(Command):
             ply.echo("Species changed to Idol.")
         else:
             ply.error_echo("That is not a valid species name.")
+
+class CmdArchetypeChange(Command):
+    key = "archetypechange"
+    aliases = ["archchange"]
+    locks = "perm(Admin)"
+
+    def func(self):
+        ply = self.caller
+        archetype = self.word(1).lower()
+
+        if archetype == "blackbird":
+            ply.db.archetype = Blackbird()
+            ply.echo("Archetype changed to Blackbird.")
+        elif archetype == "citizen":
+            ply.db.archetype = Citizen()
+            ply.echo("Archetype changed to Citizen.")
+        elif archetype == "privileged":
+            ply.db.archetype = Privileged()
+            ply.echo("Archetype changed to Privileged.")
+        elif archetype == "survivalist":
+            ply.db.archetype = Survivalist()
+            ply.echo("Archetype changed to Survivalist.")
+        else:
+            ply.error_echo("That is not a valid archetype.")
