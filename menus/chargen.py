@@ -240,32 +240,11 @@ def chargen_pronoun_menu(caller, raw_string, **kwargs):
 
     return text, options
 
-def chargen_background_menu(caller, raw_string, **kwargs):
-    text = "NYI. Pending implementation of backgrounds."
-
-    options = [
-        {"key": "r", "desc": "Return to background and archetype selection.", "goto": "chargen_background"},
-    ]
-
-    return text, options
-
-def chargen_archetype_menu(caller, raw_string, **kwargs):
-    text = "NYI. Pending implementation of archetypes."
-
-    options = [
-        {"key": "r", "desc": "Return to background and archetype selection.", "goto": "chargen_background"},
-    ]
-    
-    return text, options
-
-def chargen_background(caller, raw_string, **kwargs):
-    text = f"Your |Wbackground|n gives us some idea of who your character is, and where they've been. In practice, it only affects starting {CURRENCY_FULL} (money) and equipment, among other small details."
-
-    text = "\n\nYour |Warchetype|n is analogous to a character class/job in other games. In Blackbirds you can build your character to excel at most abilities - archetypes, then, are a way of expressing that your character is very specialized in certain of these abilities. As there are numerous archetypes and they affect even more numerous abilities, it is recommended you find the time to read about them in the help files at your earliest convenience."
+def chargen_archetype(caller, raw_string, **kwargs):
+    text = "Your |Warchetype|n is analogous to a character class/job in other games. In Blackbirds you can build your character to excel at most abilities - archetypes, then, are a way of expressing that your character is very specialized in certain of these abilities. As there are numerous archetypes and they affect even more numerous abilities, it is recommended you find the time to read about them in the help files at your earliest convenience."
 
     options = (
-        {"desc": f"Background: {caller.background()}", "goto": "chargen_background_menu"},
-        {"desc": f"Archetype:  {caller.archetype()}", "goto": "chargen_archetype_menu"},
+        {"desc": f"Archetype:  {caller.archetype()}", "goto": "chargen_archetype"},
         {"key": "r", "desc": "Return to character anatomy.", "goto": "chargen_anatomy"},
     )
 
@@ -283,7 +262,7 @@ def chargen_anatomy(caller, raw_string, **kwargs):
     if caller.db.species.can_be_fourarmed:
         options.append({"desc": anatomy_display("has four arms.", caller.db.has_four_arms), "goto": (anatomy_selection, {"anatomy": "four_arms"})})
 
-    options.append({"key": "n", "desc": "Continue to background and archetype.", "goto": "chargen_background"})
+    options.append({"key": "n", "desc": "Continue to archetype.", "goto": "chargen_archetype"})
     options.append({"key": "r", "desc": "Return to character identity.", "goto": "chargen_identity"})
 
     return text, options

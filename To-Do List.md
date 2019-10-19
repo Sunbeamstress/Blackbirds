@@ -87,7 +87,7 @@
          * If at all implemented, it would be specifically for establishing who's the mother in any kind of command that allows you to see someone's bloodline. Maybe. I dunno, it's messy.
    - [x] Species. Choices pending establishment of setting. ~~Tempted to go human-only, probably won't.~~
    - [ ] Archetype, a la Haven. Not quite a "class" but serves the same purpose.
-   - [ ] Background - poverty, child of politician, that sort of thing.
+   - [x] ~~Background - poverty, child of politician, that sort of thing.~~
       * Could influence starting money, allow/deny certain skills at chargen.
 
 - [ ] Make a nice little tour for them to get acquainted.
