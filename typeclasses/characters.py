@@ -50,8 +50,8 @@ class Character(DefaultCharacter):
         self.db.species = None
 
         # Progression.
-        self.db.archetype = "Citizen"
-        self.db.background = "Pauper"
+        self.db.archetype = None
+        self.db.background = None
 
         # Combat/RP-based statuses.
         self.db.prone = 0 # 1 for seated, 2 for lying down
@@ -303,3 +303,9 @@ class Character(DefaultCharacter):
 
     def species(self):
         return self.db.species.name if self.db.species else "Unknown"
+
+    def background(self):
+        return self.db.background.name if self.db.background else "None"
+
+    def archetype(self):
+        return self.db.archetype.name if self.db.archetype else "None"

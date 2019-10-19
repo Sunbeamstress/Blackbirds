@@ -4,6 +4,7 @@ import re, string
 # Blackbirds modules.
 from typeclasses.species import Human, Carven, Sacrilite, Luum, Idol
 from utilities.string import jleft, jright, capital, sanitize, article
+from world.names import CURRENCY_FULL
 
 _VALID_UNUSUAL_NAME_CHARS = string.ascii_letters + string.digits + "-" + "." + "'"
 
@@ -139,6 +140,8 @@ def anatomy_selection(caller, **kwargs):
         caller.db.has_breasts = not caller.db.has_breasts
     elif anatomy == "pregnancy":
         caller.db.can_carry_child = not caller.db.can_carry_child
+    elif anatomy == "four_arms":
+        caller.db.has_four_arms = not caller.db.has_four_arms
 
 def _chargen_base_species_info(caller, raw_string, **kwargs):
     input_string = sanitize(raw_string).lower()
@@ -210,7 +213,7 @@ def _chargen_identity_parse_input(caller, raw_string, **kwargs):
     if sub_cmd == "name":
         name_selection(caller, " ".join(input_list[1:]), no_args)
 
-    elif sub_cmd == "surname":
+    elif sub_cmd == "surname" or sub_cmd == "lastname":
         surname_selection(caller, " ".join(input_list[1:]), no_args)
 
     elif sub_cmd == "age":
@@ -219,7 +222,7 @@ def _chargen_identity_parse_input(caller, raw_string, **kwargs):
         else:
             age_selection(caller, input_list[1])
 
-    elif sub_cmd == "pronouns":
+    elif sub_cmd == "pronoun" or sub_cmd == "pronouns":
         return "chargen_pronoun_menu"
 
     return "chargen_identity"
@@ -237,13 +240,50 @@ def chargen_pronoun_menu(caller, raw_string, **kwargs):
 
     return text, options
 
+def chargen_background_menu(caller, raw_string, **kwargs):
+    text = "NYI. Pending implementation of backgrounds."
+
+    options = [
+        {"key": "r", "desc": "Return to background and archetype selection.", "goto": "chargen_background"},
+    ]
+
+    return text, options
+
+def chargen_archetype_menu(caller, raw_string, **kwargs):
+    text = "NYI. Pending implementation of archetypes."
+
+    options = [
+        {"key": "r", "desc": "Return to background and archetype selection.", "goto": "chargen_background"},
+    ]
+    
+    return text, options
+
+def chargen_background(caller, raw_string, **kwargs):
+    text = f"Your |Wbackground|n gives us some idea of who your character is, and where they've been. In practice, it only affects starting {CURRENCY_FULL} (money) and equipment, among other small details."
+
+    text = "\n\nYour |Warchetype|n is analogous to a character class/job in other games. In Blackbirds you can build your character to excel at most abilities - archetypes, then, are a way of expressing that your character is very specialized in certain of these abilities. As there are numerous archetypes and they affect even more numerous abilities, it is recommended you find the time to read about them in the help files at your earliest convenience."
+
+    options = (
+        {"desc": f"Background: {caller.background()}", "goto": "chargen_background_menu"},
+        {"desc": f"Archetype:  {caller.archetype()}", "goto": "chargen_archetype_menu"},
+        {"key": "r", "desc": "Return to character anatomy.", "goto": "chargen_anatomy"},
+    )
+
+    return text, options
+
 def chargen_anatomy(caller, raw_string, **kwargs):
     text = f"Here, you'll specify certain aspects of your character's anatomy. Your choices here are dependent on your character's species, and can affect various game mechanics, from clothing slots, to ability use, to the ability to bear children. Please take care in selecting these, as none of these choices are easily altered.\n\nAs {article(caller.db.species.name)}, {caller.name}..."
 
     options = []
     options.append({"desc": anatomy_display("has breasts.", caller.db.has_breasts), "goto": (anatomy_selection, {"anatomy": "breasts"})})
-    options.append({"desc": anatomy_display("can become pregnant.", caller.db.can_carry_child), "goto": (anatomy_selection, {"anatomy": "pregnancy"})})
 
+    if caller.db.species.can_reproduce:
+        options.append({"desc": anatomy_display("can become pregnant.", caller.db.can_carry_child), "goto": (anatomy_selection, {"anatomy": "pregnancy"})})
+
+    if caller.db.species.can_be_fourarmed:
+        options.append({"desc": anatomy_display("has four arms.", caller.db.has_four_arms), "goto": (anatomy_selection, {"anatomy": "four_arms"})})
+
+    options.append({"key": "n", "desc": "Continue to background and archetype.", "goto": "chargen_background"})
     options.append({"key": "r", "desc": "Return to character identity.", "goto": "chargen_identity"})
 
     return text, options
