@@ -76,16 +76,18 @@
    - [ ] **Big Decision**: Haven-style descriptions, with body parts, etc.?
       - [ ] Fields for each body part (lower face, stomach, groin, etc.).
       - [ ] Ability to describe each, freely and on the fly.
-   - [ ] No coded sex/gender (sorry, chuds). You determine your biology.
-      - [ ] Pronouns. As much as I'd love to make them freeform, for grammatical purposes, limited to he/she/they.
+   - [x] No coded sex/gender (sorry, chuds). You determine your biology.
+      - [x] Pronouns. As much as I'd love to make them freeform, for grammatical purposes, limited to he/she/they.
          * This will be given the name of "sex" or "gender" in the code to make it easy to remember.
       - [ ] Detector in our echo class that looks for verbs after "they" pronouns and depluralizes them.
          * Will likely have to hand-code a big dictionary of depluralizations; and try to rely on a generic fallback if the word isn't found.
       - [ ] Specify body parts, such as breasts, that might appear in a slot-based description system.
          * This isn't Haven, no need to code in penises or vaginas. Just write whatever's there.
-      - [ ] HIGHLY doubt it will ever be a thing, but possibly specify: can get pregnant?
-         * If at all implemented, it would be specifically for establishing who's the mother in any kind of command that allows you to see someone's bloodline. Maybe. I dunno, it's messy.
    - [x] Species. Choices pending establishment of setting. ~~Tempted to go human-only, probably won't.~~
+   - [ ] Species-based anatomy.
+      - [x] Reproductive ability.
+      - [x] Two or four arms.
+      - [ ] Idol treads/traction.
    - [ ] Archetype, a la Haven. Not quite a "class" but serves the same purpose.
    - [x] ~~Background - poverty, child of politician, that sort of thing.~~
       * Could influence starting money, allow/deny certain skills at chargen.

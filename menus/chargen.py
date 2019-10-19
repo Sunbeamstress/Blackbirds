@@ -244,7 +244,7 @@ def chargen_archetype(caller, raw_string, **kwargs):
     text = "Your |Warchetype|n is analogous to a character class/job in other games. In Blackbirds you can build your character to excel at most abilities - archetypes, then, are a way of expressing that your character is very specialized in certain of these abilities. As there are numerous archetypes and they affect even more numerous abilities, it is recommended you find the time to read about them in the help files at your earliest convenience."
 
     options = (
-        {"desc": f"Archetype:  {caller.archetype()}", "goto": "chargen_archetype"},
+        {"desc": f"Archetype: {caller.archetype()}", "goto": "chargen_archetype"},
         {"key": "r", "desc": "Return to character anatomy.", "goto": "chargen_anatomy"},
     )
 
