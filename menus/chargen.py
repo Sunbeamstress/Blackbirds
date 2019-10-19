@@ -3,9 +3,16 @@ import re, string
 
 # Blackbirds modules.
 from typeclasses.species import Human, Carven, Sacrilite, Luum, Idol
-from utilities.string import jleft, jright, capital, sanitize
+from utilities.string import jleft, jright, capital, sanitize, article
 
 _VALID_UNUSUAL_NAME_CHARS = string.ascii_letters + string.digits + "-" + "." + "'"
+
+def anatomy_display(text, val):
+    conv_val = "|xNo|n"
+    if val == True:
+        conv_val = "|WYes|n"
+
+    return "%s%s" % (jleft(text, 32), conv_val)
 
 def name_validate(new_name, unusual_names = False):
     valid = True
@@ -165,6 +172,26 @@ def _chargen_select_species(caller, raw_string, **kwargs):
 
     return "chargen_identity"
 
+def pronoun_selection(caller, raw_string, **kwargs):
+    sel = kwargs.get("pronoun_choice")
+    he, him, his, hiss = "he", "him", "his", "his"
+
+    if sel == 1:
+        pass
+    elif sel == 2:
+        he, him, his, hiss = "she", "her", "her", "hers"
+    elif sel == 3:
+        he, him, his, hiss = "they", "them", "their", "theirs"
+    elif sel == 4:
+        he, him, his, hiss = "it", "it", "its", "its"
+
+    caller.db.pronoun_he = he
+    caller.db.pronoun_him = him
+    caller.db.pronoun_his = his
+    caller.db.pronoun_hiss = hiss
+
+    return "chargen_identity"
+
 def _chargen_identity_parse_input(caller, raw_string, **kwargs):
     input_string = sanitize(raw_string)
     input_list = input_string.split()
@@ -184,7 +211,33 @@ def _chargen_identity_parse_input(caller, raw_string, **kwargs):
         else:
             age_selection(caller, input_list[1])
 
+    elif sub_cmd == "pronouns":
+        return "chargen_pronoun_menu"
+
     return "chargen_identity"
+
+def chargen_pronoun_menu(caller, raw_string, **kwargs):
+    text = "You may choose from the following pronouns for your character. These will affect the way your character is referred to throughout the game, as well as which pronouns appear when you are the target of emotes or combat skills.\n\nYou may change these at any time."
+
+    options = (
+        {"desc": "he, him, his, his", "goto": (pronoun_selection, {"pronoun_choice": 1})},
+        {"desc": "she, her, her, hers", "goto": (pronoun_selection, {"pronoun_choice": 2})},
+        {"desc": "they, them, their, theirs", "goto": (pronoun_selection, {"pronoun_choice": 3})},
+        {"desc": "it, it, its, its", "goto": (pronoun_selection, {"pronoun_choice": 4})},
+        {"key": "r", "desc": "Return to character identity.", "goto": "chargen_identity"},
+    )
+
+    return text, options
+
+def chargen_anatomy(caller, raw_string, **kwargs):
+    text = f"Here, you'll specify certain aspects of your character's anatomy. Your choices here are dependent on your character's species, and can affect various game mechanics, from clothing slots, to ability use, to the ability to bear children. Please take care in selecting these, as none of these choices are easily altered.\n\nAs {article(caller.db.species.name)}, {caller.name}..."
+
+    options = []
+    options.append({"desc": anatomy_display("has breasts.", caller.db.has_breasts), "goto": (anatomy_selection, {"anatomy": "breasts"})})
+    options.append({"desc": anatomy_display("has horns.", caller.db.has_horns), "goto": (anatomy_selection, {"anatomy": "horns"})})
+    options.append({"desc": anatomy_display("can become pregnant.", caller.db.can_carry_child), "goto": (anatomy_selection, {"anatomy": "pregnancy"})})
+
+    return text, options
 
 def chargen_identity(caller, raw_string, **kwargs):
     text = "Next, we'll ask you to fill out some identifying information about your character. It's here that you'll choose a thematically appropriate name, an age, as well as some other details about yourself.\n\nTo change a field, simply type in the name of a |513field|n, along with the desired info. Type in a |513field|n by itself to see what information it will accept. This may change based on your chosen species.\n"
@@ -192,11 +245,12 @@ def chargen_identity(caller, raw_string, **kwargs):
     text += f"\n     |513name|n |c|||n {caller.name}"
     text += f"\n  |513surname|n |c|||n {caller.db.surname}"
     text += f"\n      |513age|n |c|||n {caller.db.age}"
+    text += f"\n |513pronouns|n |c|||n {caller.db.pronoun_he}, {caller.db.pronoun_him}, {caller.db.pronoun_his}, {caller.db.pronoun_hiss}"
 
     options = (
+        {"key": "n", "desc": "Continue to anatomical details.", "goto": "chargen_anatomy"},
         {"key": "r", "desc": "Return to species selection.", "goto": "chargen_base"},
         {"key": "_default", "goto": (_chargen_identity_parse_input)},
-
     )
 
     return text, options

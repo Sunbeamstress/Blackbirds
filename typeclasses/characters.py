@@ -42,15 +42,34 @@ class Character(DefaultCharacter):
         self.db.age = 18
         self.db.app_age = 18
         self.db.intro = ""
+        self.db.height = 172 # Approx. 5' 8" in cm
         self.db.pronoun_he = "she"
         self.db.pronoun_him = "her"
         self.db.pronoun_his = "her"
         self.db.pronoun_hiss = "hers"
         self.db.species = None
+
+        # Progression.
         self.db.archetype = "Citizen"
         self.db.background = "Pauper"
+
+        # Combat/RP-based statuses.
         self.db.prone = 0 # 1 for seated, 2 for lying down
-        self.db.height = 172 # Approx. 5' 8" in cm
+
+        # Anatomy.
+        self.db.has_breasts = True
+        self.db.has_genitals = True
+        self.db.can_carry_child = True
+        self.db.exoskeletal_level = 0
+        self.db.has_four_arms = False
+
+        # Descriptions.
+        self.db.fang_desc = "fangs"
+        self.db.tail_desc = "feline"
+        self.db.bioluminescence_desc = "white"
+
+    def update(self):
+        pass
 
     def at_before_say(self, message, **kwargs):
         return message
