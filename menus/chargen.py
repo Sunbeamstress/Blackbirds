@@ -132,6 +132,14 @@ def age_selection(caller, new_age = None):
 
     caller.db.age = new_age
 
+def anatomy_selection(caller, **kwargs):
+    anatomy = kwargs.get("anatomy")
+
+    if anatomy == "breasts":
+        caller.db.has_breasts = not caller.db.has_breasts
+    elif anatomy == "pregnancy":
+        caller.db.can_carry_child = not caller.db.can_carry_child
+
 def _chargen_base_species_info(caller, raw_string, **kwargs):
     input_string = sanitize(raw_string).lower()
 
@@ -234,8 +242,9 @@ def chargen_anatomy(caller, raw_string, **kwargs):
 
     options = []
     options.append({"desc": anatomy_display("has breasts.", caller.db.has_breasts), "goto": (anatomy_selection, {"anatomy": "breasts"})})
-    options.append({"desc": anatomy_display("has horns.", caller.db.has_horns), "goto": (anatomy_selection, {"anatomy": "horns"})})
     options.append({"desc": anatomy_display("can become pregnant.", caller.db.can_carry_child), "goto": (anatomy_selection, {"anatomy": "pregnancy"})})
+
+    options.append({"key": "r", "desc": "Return to character identity.", "goto": "chargen_identity"})
 
     return text, options
 
