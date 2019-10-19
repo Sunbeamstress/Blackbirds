@@ -71,3 +71,9 @@ class Menu(EvMenu):
 
         """
         return nodetext + "\n" + optionstext + "\n\n" + "|xChoose one of the options above, or enter |Rq|x to leave.|n"
+
+    def display_nodetext(self):
+        self.caller.echo(self.nodetext)
+
+    def display_helptext(self):
+        self.caller.echo(self.helptext)
