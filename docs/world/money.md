@@ -19,4 +19,5 @@ The new tokens were a massive security success. The precise means by which amps 
 
 This time, businesses and other institutions in key sectors were given state grants, affording them Amp-reading appliances for free, with the caveat that they had to go completely cashless within a year. Almost all of them made the switch. Those who didn't continued to dabble in increasingly rare physical money, and even today a few converted businesses are known to take cash under the table.
 
+## Talking money
 Amplitude transformed the language of money. Well-to-do people and the upper crust were referred to as *noisy*. They had *loud money*. Previously, someone would have asked to see your money. Now they ask to *hear* it. Amongst the unlearned classes, superstitions abounded about sounds and musical notes that were thought to be especially pleasing, and encourage the accumulation of wealth. Entire musical disciplines sprung from thin air, centering around transacteurs and their strings of fortune.
