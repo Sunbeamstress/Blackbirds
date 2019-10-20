@@ -2,6 +2,6 @@
 
 WORLD_NAME = "Ninesilver"
 
-CURRENCY = "amp"
-CURRENCY_PLURAL = "amps"
+CURRENCY = "dB"
+CURRENCY_PLURAL = "dB"
 CURRENCY_FULL = "Amplitude"

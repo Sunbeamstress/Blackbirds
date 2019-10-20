@@ -59,3 +59,27 @@ def article(string, capitalize = False):
     a = "%s%s" % (a[0].upper(), a[1:]) if capitalize else a
 
     return f"{a} {string}"
+
+def wrap(string, width = 80, initial_indent = 0, subsequent_indent = 0):
+    str_list = string.split()
+    str_list.insert(0, " " * initial_indent)
+
+    output_list = []
+    output_string = ""
+    cur_len = 0
+
+    for i, word in enumerate(str_list):
+        space = " " if i > 1 else ""
+        cur_len += len(ansi.strip_ansi(word))
+        if i > 1:
+            cur_len += 1
+        if cur_len <= width:
+            output_string += space + word
+        else:
+            output_list.append(output_string)
+            cur_len = len(ansi.strip_ansi(word)) + subsequent_indent
+            output_string = (" " * subsequent_indent) + word
+
+    output_list.append(output_string)
+
+    return "\n".join(output_list)

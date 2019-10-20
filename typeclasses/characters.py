@@ -5,10 +5,10 @@ from evennia.utils import logger
 # Blackbirds modules.
 from utilities.color import color_ramp
 from utilities.communication import ProcessSpeech
-from utilities.display import header, divider, column
+from utilities.display import header, divider, column, bullet
 from utilities.string import article
 import utilities.directions as dirs
-from world.names import CURRENCY_FULL
+from world.names import CURRENCY_PLURAL, CURRENCY_FULL
 
 class Character(DefaultCharacter):
     def at_object_creation(self):
@@ -350,22 +350,43 @@ class Character(DefaultCharacter):
         return f"{self.he()}, {self.him()}, {self.his()}, {self.hiss()}"
 
     def score(self):
-        col_width = 9
+        col_width = 10
 
         full_name = f"{self.name} {self.db.surname}" if self.db.surname else self.name
         full_age = f"{self.db.app_age} |x(|n{self.db.age}|x)|n" if self.db.app_age != self.db.age else self.db.age
 
+        hp_string = "|013%s|055%s |013%s|055%s|n" % ("0" * (4 - len(str(self.hp()))), self.hp(), "0" * (4 - len(str(self.max_hp()))), self.max_hp())
+        en_string = "|013%s|055%s |013%s|055%s|n" % ("0" * (4 - len(str(self.en()))), self.en(), "0" * (4 - len(str(self.max_en()))), self.max_en())
+        xp_string = "|202%s|505%s |202%s|505%s|n" % ("0" * (4 - len(str(self.xp()))), self.xp(), "0" * (4 - len(str(self.max_xp()))), self.max_xp())
+        sc_string = "|200%s|511%s |200%s|511%s|n" % ("0" * (4 - len(str(self.sc()))), self.sc(), "0" * (4 - len(str(self.max_sc()))), self.max_sc())
+
         string = ""
-        string += column("Name", full_name, title_width = col_width)
-        string += "\n" + column("Age", full_age, title_width = col_width)
-        string += "\n" + column("Species", self.species(), title_width = col_width)
-        string += "\n" + column("Pronouns", f"{self.pronouns()}", title_width = col_width)
-        string += "\n" + column("Archetype", self.archetype(), title_width = col_width)
+        string += f"Infiltration Unit |W{full_name}|n, Prefect Initiate"
+        string += "\n" + divider()
+        string += "\n|cCharacter Information|n"
 
-        string += "\n"
+        string += "\n" + column("Age", full_age, title_width = col_width, value_width = 24)
+        string += column("Health", hp_string, title_width = col_width)
+        string += "\n" + column("Species", self.species(), title_width = col_width, value_width = 24)
+        string += column("Endurance", en_string, title_width = col_width)
+        string += "\n" + column("Pronouns", f"{self.pronouns()}", title_width = col_width, value_width = 24)
+        string += column("Experience", xp_string, title_width = col_width)
+        string += "\n" + column("Archetype", self.archetype(), title_width = col_width, value_width = 24)
+        string += column("Scars", sc_string, title_width = col_width)
 
-        string += f"\n|yYour {CURRENCY_FULL} stands at |Y{self.db.money}|y.|n"
+        string += "\n\n|cOrganizations & Allegiances|n"
+
+        string += "\n" + bullet("You are a |WCitizen|n of the |WState of Brillante|n.")
+        string += "\n" + bullet("You are a |WPrefect Initiate|n in the |WCoalhound Corps|n.")
+        string += "\n" + bullet("You worship |WNever-Knows-Best, the Massacre Spirit|n.")
+
+        string += "\n\n|cAssets & Money|n"
+        string += "\n" + bullet("You do not own any buildings.")
+        string += "\n" + bullet("You have accumulated |C113,805|n karma.")
+        string += "\n" + bullet(f"|yYour {CURRENCY_FULL} stands at |Y{self.db.money} {CURRENCY_PLURAL}|y.|n", color = "320")
 
         string += "\n" + divider()
+        string += "\nType |Rab|n to see your learned abilities."
+        string += "\nType |Rcr|n to see all currencies you own."
 
         return string
