@@ -8,7 +8,7 @@ from utilities.communication import ProcessSpeech
 from utilities.display import header, divider, column, bullet
 from utilities.string import article
 import utilities.directions as dirs
-from world.names import CURRENCY_PLURAL, CURRENCY_FULL
+from world.names import CURRENCY, CURRENCY_FULL
 
 class Character(DefaultCharacter):
     def at_object_creation(self):
@@ -383,7 +383,7 @@ class Character(DefaultCharacter):
         string += "\n\n|cAssets & Money|n"
         string += "\n" + bullet("You do not own any buildings.")
         string += "\n" + bullet("You have accumulated |C113,805|n karma.")
-        string += "\n" + bullet(f"|yYour {CURRENCY_FULL} stands at |Y{self.db.money} {CURRENCY_PLURAL}|y.|n", color = "320")
+        string += "\n" + bullet(f"|yYour {CURRENCY_FULL} stands at |Y{self.db.money} {CURRENCY}|y.|n", color = "320")
 
         string += "\n" + divider()
         string += "\nType |Rab|n to see your learned abilities."
