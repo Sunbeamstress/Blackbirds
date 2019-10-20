@@ -1,3 +1,6 @@
+# Python modules.
+import random
+
 # Evennia modules.
 from evennia import DefaultCharacter
 from evennia.utils import logger
@@ -382,7 +385,8 @@ class Character(DefaultCharacter):
 
         string += "\n\n|cAssets & Money|n"
         string += "\n" + bullet("You do not own any buildings.")
-        string += "\n" + bullet("You have accumulated |C113,805|n karma.")
+        string += "\n" + bullet(f"You have accumulated |C{random.randint(1, 1000000):,}|n Karma.")
+        string += "\n" + bullet(f"You have accumulated |M{random.randint(1, 1000):,}|n Neon.")
         string += "\n" + bullet(f"|yYour {CURRENCY_FULL} stands at |Y{self.db.money} {CURRENCY}|y.|n", color = "320")
 
         string += "\n" + divider()
