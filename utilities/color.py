@@ -7,7 +7,7 @@ def color_ramp(cur_val, max_val, cap = False):
     r, g = None, None
 
     if cur_val >= max_val and cap == True:
-        color = "135"
+        color = "055"
     else:
         g = 5 if perc > 50 else round((perc * 2) / 20)
         r = 5 if perc < 50 else round(5 - (((perc - 50) * 2) / 20))

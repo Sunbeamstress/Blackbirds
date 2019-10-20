@@ -24,7 +24,7 @@ class Character(DefaultCharacter):
 
         # Stats.
         self.db.hp = {"current": 20, "max": 20} # Hit points.
-        self.db.ft = {"current": 0, "max": 100} # Fatigue.
+        self.db.en = {"current": 100, "max": 100} # Endurance.
         self.db.sc = {"current": 0, "max": 3} # Scars (lives).
         self.db.xp = {"current": 0, "max": 1000} # Experience.
         self.db.archetype = None
@@ -93,17 +93,23 @@ class Character(DefaultCharacter):
     def max_hp(self):
         return self.db.hp["max"]
 
-    def ft(self):
-        return self.db.ft["current"]
+    def en(self):
+        return self.db.en["current"]
 
-    def max_ft(self):
-        return self.db.ft["max"]
+    def max_en(self):
+        return self.db.en["max"]
 
     def sc(self):
         return self.db.sc["current"]
 
     def max_sc(self):
         return self.db.sc["max"]
+
+    def xp(self):
+        return self.db.xp["current"]
+
+    def max_xp(self):
+        return self.db.xp["max"]
 
     def in_chargen(self):
         c = self.location.__class__.__name__
@@ -121,13 +127,19 @@ class Character(DefaultCharacter):
         p_string = ""
 
         if status == "default":
-            for stat in ["hp", "ft", "sc"]:
+            # Core stats.
+            for stat in ["hp", "en"]:
                 m_cur, m_max = getattr(self, stat), getattr(self, "max_" + stat)
                 c = color_ramp(m_cur(), m_max(), cap = True)
                 c_string = "".join(c)
                 s_string = "|013%s|n|%s%s|n" % ("0" * (3 - len(str(m_cur()))), c_string, str(m_cur()))
                 p_string += "|x%s|c|||n%s " % (stat.upper(), s_string)
 
+            # Scars.
+
+            # Statuses.
+
+            # Cap that bad boy off.
             p_string += "|x-|n "
 
         elif status == "chargen":
