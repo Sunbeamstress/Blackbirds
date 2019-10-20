@@ -1,42 +1,15 @@
-"""
-Characters
-
-Characters are (by default) Objects setup to be puppeted by Accounts.
-They are what you "see" in game. The Character class in this module
-is setup to be the "default" character type created by the default
-creation commands.
-
-"""
 # Evennia modules.
 from evennia import DefaultCharacter
 from evennia.utils import logger
 
 # Blackbirds modules.
+from utilities.color import color_ramp
 from utilities.communication import ProcessSpeech
 from utilities.display import header
 from utilities.string import article
 import utilities.directions as dirs
 
 class Character(DefaultCharacter):
-    """
-    The Character defaults to reimplementing some of base Object's hook methods with the
-    following functionality:
-
-    at_basetype_setup - always assigns the DefaultCmdSet to this object type
-                    (important!)sets locks so character cannot be picked up
-                    and its commands only be called by itself, not anyone else.
-                    (to change things, use at_object_creation() instead).
-    at_after_move(source_location) - Launches the "look" command after every move.
-    at_post_unpuppet(account) -  when Account disconnects from the Character, we
-                    store the current location in the pre_logout_location Attribute and
-                    move it to a None-location so the "unpuppeted" character
-                    object does not need to stay on grid. Echoes "Account has disconnected"
-                    to the room.
-    at_pre_puppet - Just before Account re-connects, retrieves the character's
-                    pre_logout_location Attribute and move it back on the grid.
-    at_post_puppet - Echoes "AccountName has entered the game" to the room.
-
-    """
     def at_object_creation(self):
         self.db.surname = ""
         self.db.age = 18
@@ -49,9 +22,12 @@ class Character(DefaultCharacter):
         self.db.pronoun_hiss = "hers"
         self.db.species = None
 
-        # Progression.
+        # Stats.
+        self.db.hp = {"current": 20, "max": 20} # Hit points.
+        self.db.ft = {"current": 0, "max": 100} # Fatigue.
+        self.db.sc = {"current": 0, "max": 3} # Scars (lives).
+        self.db.xp = {"current": 0, "max": 1000} # Experience.
         self.db.archetype = None
-        self.db.xp = 0
 
         # Combat/RP-based statuses.
         self.db.prone = 0 # 1 for seated, 2 for lying down
@@ -111,6 +87,24 @@ class Character(DefaultCharacter):
     def error_echo(self, string, prompt = False):
         self.echo(string, prompt = prompt, error = True)
 
+    def hp(self):
+        return self.db.hp["current"]
+
+    def max_hp(self):
+        return self.db.hp["max"]
+
+    def ft(self):
+        return self.db.ft["current"]
+
+    def max_ft(self):
+        return self.db.ft["max"]
+
+    def sc(self):
+        return self.db.sc["current"]
+
+    def max_sc(self):
+        return self.db.sc["max"]
+
     def in_chargen(self):
         c = self.location.__class__.__name__
         return c == "ChargenRoom"
@@ -122,15 +116,24 @@ class Character(DefaultCharacter):
         return "default"
 
     def prompt(self):
+        "Returns the object's prompt, if applicable."
         status = self.prompt_status()
+        p_string = ""
+
         if status == "default":
-            "Returns the object's prompt, if applicable."
-            # Placeholder for now - replace with real one later.
-            HP, MP, END, WIL = 500, 500, 1500, 1500
-            p_string = f"|cH:|n{HP} |cM:|n{MP} |cE:|n{END} |cW:|n{END} |x-|n "
-            return p_string
+            for stat in ["hp", "ft", "sc"]:
+                m_cur, m_max = getattr(self, stat), getattr(self, "max_" + stat)
+                c = color_ramp(m_cur(), m_max(), cap = True)
+                c_string = "".join(c)
+                s_string = "|013%s|n|%s%s|n" % ("0" * (3 - len(str(m_cur()))), c_string, str(m_cur()))
+                p_string += "|x%s|c|||n%s " % (stat.upper(), s_string)
+
+            p_string += "|x-|n "
+
         elif status == "chargen":
-            return "|035" + ("-" * 80)
+            p_string = "|035" + ("-" * 80)
+
+        return p_string
 
     def coordinates(self):
         if not self.location:

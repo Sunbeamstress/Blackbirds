@@ -120,3 +120,17 @@ class CmdArchetypeChange(Command):
             ply.echo("Archetype changed to Survivalist.")
         else:
             ply.error_echo("That is not a valid archetype.")
+
+class CmdSetHp(Command):
+    key = "sethp"
+    locks = "perm(Admin)"
+
+    def func(self):
+        ply = self.caller
+        hp = self.word(1)
+        if not hp.isnumeric():
+            ply.error_echo("Use a number, ding-dong.")
+            return
+
+        ply.db.hp["current"] = int(hp)
+        ply.echo(f"You set your HP to |G{hp}|n.")
