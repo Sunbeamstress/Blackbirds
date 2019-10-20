@@ -1,13 +1,13 @@
 # Blackbirds modules.
 from commands.command import Command
 from typeclasses.environments import Environment
-from utilities.display import header
+from utilities.display import header, divider
 from utilities.string import jleft, jright
 
 def EnvironmentList(ply):
     env = Environment()
 
-    string = header(80, "|y", "Environments", "|W")
+    string = header("Environments", color = "y")
     string += "\n   |222ID Name                    Short  Natural|n"
 
     for i in range(len(env)):
@@ -19,7 +19,7 @@ def EnvironmentList(ply):
             e_is_natural = "|WYes|n"
         string += "\n|W%s|n|x:|n |%d%s|n|x%s|n%s" % (jright(str(i), 4), e_color, jleft(e_name, 24), jleft(e_short, 7), e_is_natural)
 
-    string += "\n" + header(80, "|y")
+    string += "\n" + divider(color = "y")
 
     ply.echo(string)
 

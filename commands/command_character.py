@@ -28,3 +28,12 @@ class CmdDescribe(Command):
         elif self.word(1) == "here" or self.word(1) == "room":
             room = self.caller.location
             DescribeRoom(self.caller, room, description)
+
+class CmdScore(Command):
+    key = "score"
+    aliases = ["sc"]
+    locks = "cmd:all()"
+
+    def func(self):
+        ply = self.caller
+        ply.echo(ply.score())

@@ -5,9 +5,10 @@ from evennia.utils import logger
 # Blackbirds modules.
 from utilities.color import color_ramp
 from utilities.communication import ProcessSpeech
-from utilities.display import header
+from utilities.display import header, divider, column
 from utilities.string import article
 import utilities.directions as dirs
+from world.names import CURRENCY_FULL
 
 class Character(DefaultCharacter):
     def at_object_creation(self):
@@ -28,6 +29,7 @@ class Character(DefaultCharacter):
         self.db.sc = {"current": 0, "max": 3} # Scars (lives).
         self.db.xp = {"current": 0, "max": 1000} # Experience.
         self.db.archetype = None
+        self.db.money = 0
 
         # Combat/RP-based statuses.
         self.db.prone = 0 # 1 for seated, 2 for lying down
@@ -69,7 +71,7 @@ class Character(DefaultCharacter):
         if self.db.surname:
             surname = f" {self.db.surname}"
         string = f"|xThis is |c{self.key}{surname}|n|x,|n |c{article(self.species())}|n|x.|n\n"
-        string += header()
+        string += divider()
         string += f"\n{self.db.desc}"
 
         return string
@@ -331,3 +333,39 @@ class Character(DefaultCharacter):
 
     def archetype(self):
         return self.db.archetype.name if self.db.archetype else "None"
+
+    def he(self):
+        return self.db.pronoun_he
+
+    def him(self):
+        return self.db.pronoun_him
+
+    def his(self):
+        return self.db.pronoun_his
+
+    def hiss(self):
+        return self.db.pronoun_hiss
+
+    def pronouns(self):
+        return f"{self.he()}, {self.him()}, {self.his()}, {self.hiss()}"
+
+    def score(self):
+        col_width = 9
+
+        full_name = f"{self.name} {self.db.surname}" if self.db.surname else self.name
+        full_age = f"{self.db.app_age} |x(|n{self.db.age}|x)|n" if self.db.app_age != self.db.age else self.db.age
+
+        string = ""
+        string += column("Name", full_name, title_width = col_width)
+        string += "\n" + column("Age", full_age, title_width = col_width)
+        string += "\n" + column("Species", self.species(), title_width = col_width)
+        string += "\n" + column("Pronouns", f"{self.pronouns()}", title_width = col_width)
+        string += "\n" + column("Archetype", self.archetype(), title_width = col_width)
+
+        string += "\n"
+
+        string += f"\n|yYour {CURRENCY_FULL} stands at |Y{self.db.money}|y.|n"
+
+        string += "\n" + divider()
+
+        return string

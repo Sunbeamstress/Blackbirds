@@ -5,7 +5,7 @@ from evennia.utils.utils import (variable_from_module, lazy_property, make_iter,
 
 # Blackbirds modules.
 from commands.default_cmdsets import ChargenCmdSet
-from utilities.display import header
+from utilities.display import header, divider
 from utilities.string import jleft, jright, punctuate
 import utilities.directions as dirs
 from typeclasses.environments import Environment
@@ -301,7 +301,7 @@ class ChargenRoom(Room):
         self.cmdset.add(ChargenCmdSet, permanent = True)
 
     def format_room_title(self):
-        return header(col_string = "|035", label = "Character Creation", col_label = "|055")
+        return header("Character Creation", color = "035", title_color = "055")
 
     def return_appearance(self, looker, **kwargs):
         if not looker:

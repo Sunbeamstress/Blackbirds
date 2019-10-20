@@ -28,7 +28,7 @@ from evennia.utils.utils import (lazy_property, to_str, make_iter, is_iter, vari
 
 # Blackbirds stuff.
 from server.conf import settings
-from utilities.display import header
+from utilities.display import header, divider
 
 _MAX_NR_CHARACTERS = settings.MAX_NR_CHARACTERS
 _MULTISESSION_MODE = settings.MULTISESSION_MODE
@@ -193,7 +193,7 @@ class Account(DefaultAccount):
                         # character is "free to puppet"
                         result.append(f"\n    |C{char.key}|n")
 
-            look_string = header(80, "|c", "Blackbirds", "|M") + "\n" + "".join(result) + "\n" + header(80, "|c")
+            look_string = header("Blackbirds", color = "c", title_color = "M") + "\n" + "".join(result) + "\n" + divider(color = "c")
             return look_string
 
     def at_post_login(self, session = None, **kwargs):

@@ -7,7 +7,7 @@ from commands.command import Command
 from typeclasses.environments import Environment
 from typeclasses.zones import Zone
 from typeclasses.exits import Exit
-from utilities.display import header
+from utilities.display import header, divider
 from utilities.string import jleft, jright
 import utilities.directions as dirs
 
@@ -53,7 +53,7 @@ def RoomInfo(ply, tar_room = None):
     env_name = env.name(tar_room.db.environment)
     env_color = env.color(tar_room.db.environment)
 
-    string = header(80, "|y", f"{r_id_str}, {r_name}", "|W")
+    string = header(f"{r_id_str}, {r_name}", color = "y")
 
     string += roominfo_entry("Name", r_name, "name", "str")
     string += roominfo_entry("Zone", r_zone, "zone", "id")
@@ -87,7 +87,7 @@ def RoomInfo(ply, tar_room = None):
     string += roominfo_entry("Player Owned", tar_room.db.player_owned, "player_owned", "bool")
     string += roominfo_entry("Owning Player", tar_room.db.player_owner_id, "player_owner_id", "bool")
 
-    string += "\n" + header(80, "|y")
+    string += "\n" + divider(color = "y")
 
     ply.echo(string)
 

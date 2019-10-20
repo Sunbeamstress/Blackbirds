@@ -4,7 +4,7 @@ from evennia.utils import utils
 
 from commands.command import Command
 from utilities.string import (jleft, jright)
-from utilities.display import header
+from utilities.display import header, divider
 
 class CmdLook(Command):
     """
@@ -184,7 +184,7 @@ class CmdWho(Command):
         session_list = SESSIONS.get_sessions()
         session_list = sorted(session_list, key = lambda o: o.account.key)
 
-        self.msg(header(80, "|m", "Currently Online", "|w"))
+        self.msg(header("Currently Online", color = "m"))
         self.msg("  |xNAME|n                         |xONLINE FOR|n   |xIDLE FOR|n")
 
         for session in session_list:
@@ -208,4 +208,4 @@ class CmdWho(Command):
 
         self.msg("\n\n  |W%s|n |xunique account%s logged in.|n" % (naccounts, "" if naccounts == 1 else "s"))
 
-        self.msg(header(80, "|m"))
+        self.msg(divider(color = "m"))

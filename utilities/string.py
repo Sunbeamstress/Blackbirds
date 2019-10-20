@@ -31,14 +31,14 @@ def autoformat(s):
     return s
 
 def jright(string, width = 0):
+    string = str(string)
     string_len = len(ansi.strip_ansi(string))
-    s = " "
-    return (s * (width - string_len)) + string
+    return (" " * (width - string_len)) + string
 
 def jleft(string, width = 0):
+    string = str(string)
     string_len = len(ansi.strip_ansi(string))
-    s = " "
-    return string + (s * (width - string_len))
+    return string + (" " * (width - string_len))
 
 def sanitize(string):
     "Removes all extraneous characters and control codes from the string."
