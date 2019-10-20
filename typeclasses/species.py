@@ -34,6 +34,7 @@ class Species():
         self.can_eat_anything = False
 
         # Misc.
+        self.playable = True
         self.chargen_documentation = None
 
     def at_look(self):
@@ -150,3 +151,34 @@ class Idol(Species):
         target.at_desc(looker = self, **kwargs)
 
         return description
+
+class Blackbird(Species):
+    def __init__(self):
+        super().__init__()
+        self.name = "Blackbird"
+        self.plural_name = "Blackbirds"
+        self.min_age = 18
+        self.max_age = 9999
+        self.min_height = 1
+        self.max_height = 9999
+        self.min_temp = -273
+        self.max_temp = 9999
+        self.max_neon = 9999
+        self.requires_surname = False
+        self.unusual_names = True
+        self.can_eat = True
+        self.can_drink = True
+        self.can_sleep = True
+        self.can_reproduce = True
+        self.can_reproduce_asexually = True
+        self.has_horns = True
+        self.has_exoskeleton = True
+        self.can_be_fourarmed = True
+        self.has_fangs = True
+        self.has_tail = True
+        self.has_claws = True
+        self.has_bioluminescence = True
+        self.has_plant_appendages = True
+        self.can_eat_anything = True
+        self.playable = False
+        self.chargen_documentation = "A mysterious breed."
