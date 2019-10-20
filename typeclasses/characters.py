@@ -127,6 +127,8 @@ class Character(DefaultCharacter):
         p_string = ""
 
         if status == "default":
+            stat_string = ""
+            
             # Core stats.
             for stat in ["hp", "en"]:
                 m_cur, m_max = getattr(self, stat), getattr(self, "max_" + stat)
@@ -135,9 +137,17 @@ class Character(DefaultCharacter):
                 s_string = "|013%s|n|%s%s|n" % ("0" * (3 - len(str(m_cur()))), c_string, str(m_cur()))
                 p_string += "|x%s|c|||n%s " % (stat.upper(), s_string)
 
+            # Experience.
+            p_string += "|504XP|c|||n|202%s|505%s|n " % ("0" * (len(str(self.max_xp())) - len(str(self.xp()))), self.xp())
+
             # Scars.
+            p_string += "|411SC|r|||n|R%s|n " % ("*" * self.sc()) if self.sc() > 0 else ""
 
             # Statuses.
+            stat_string += "|cp|n" if self.db.prone > 0 else ""
+
+            stat_string += " " if len(stat_string) >= 1 else ""
+            p_string += stat_string
 
             # Cap that bad boy off.
             p_string += "|x-|n "
