@@ -50,3 +50,4 @@ nosetests.xml
 
 # PyCharm config
 .idea
+personal notes/*
