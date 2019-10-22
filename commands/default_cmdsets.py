@@ -79,6 +79,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdArchetypeChange())
         self.add(CmdSetHp())
         self.add(CmdScore())
+        self.add(CmdPronounChange())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"

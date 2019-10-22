@@ -185,21 +185,21 @@ def _chargen_select_species(caller, raw_string, **kwargs):
 
 def pronoun_selection(caller, raw_string, **kwargs):
     sel = kwargs.get("pronoun_choice")
-    he, him, his, hiss = "he", "him", "his", "his"
+    they, them, their, theirs = "they", "them", "their", "theirs"
 
     if sel == 1:
-        pass
+        they, them, their, theirs = "he", "him", "his", "his"
     elif sel == 2:
-        he, him, his, hiss = "she", "her", "her", "hers"
+        they, them, their, theirs = "she", "her", "her", "hers"
     elif sel == 3:
-        he, him, his, hiss = "they", "them", "their", "theirs"
+        they, them, their, theirs = "they", "them", "their", "theirs"
     elif sel == 4:
-        he, him, his, hiss = "it", "it", "its", "its"
+        they, them, their, theirs = "it", "it", "its", "its"
 
-    caller.db.pronoun_he = he
-    caller.db.pronoun_him = him
-    caller.db.pronoun_his = his
-    caller.db.pronoun_hiss = hiss
+    caller.db.pronoun_they = they
+    caller.db.pronoun_them = them
+    caller.db.pronoun_their = their
+    caller.db.pronoun_theirs = theirs
 
     return "chargen_identity"
 
@@ -273,7 +273,7 @@ def chargen_identity(caller, raw_string, **kwargs):
     text += f"\n     |513name|n |c|||n {caller.name}"
     text += f"\n  |513surname|n |c|||n {caller.db.surname}"
     text += f"\n      |513age|n |c|||n {caller.db.age}"
-    text += f"\n |513pronouns|n |c|||n {caller.db.pronoun_he}, {caller.db.pronoun_him}, {caller.db.pronoun_his}, {caller.db.pronoun_hiss}"
+    text += f"\n |513pronouns|n |c|||n {caller.pronouns()}"
 
     options = (
         {"key": "n", "desc": "Continue to anatomical details.", "goto": "chargen_anatomy"},

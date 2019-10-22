@@ -134,3 +134,38 @@ class CmdSetHp(Command):
 
         ply.db.hp["current"] = int(hp)
         ply.echo(f"You set your HP to |G{hp}|n.")
+
+class CmdPronounChange(Command):
+    key = "pronounchange"
+    aliases = ["prochange"]
+    locks = "perm(Admin)"
+
+    def func(self):
+        ply = self.caller
+        pronoun_set = self.word(1)
+
+        if pronoun_set in ["1", "he", "male", "m"]:
+            ply.db.pronoun_they = "he"
+            ply.db.pronoun_them = "him"
+            ply.db.pronoun_their = "his"
+            ply.db.pronoun_theirs = "his"
+        elif pronoun_set in ["2", "she", "female", "f"]:
+            ply.db.pronoun_they = "she"
+            ply.db.pronoun_them = "her"
+            ply.db.pronoun_their = "her"
+            ply.db.pronoun_theirs = "hers"
+        elif pronoun_set in ["3", "plural", "t"]:
+            ply.db.pronoun_they = "they"
+            ply.db.pronoun_them = "them"
+            ply.db.pronoun_their = "their"
+            ply.db.pronoun_theirs = "theirs"
+        elif pronoun_set in ["4", "neuter", "genderless", "n", "g"]:
+            ply.db.pronoun_they = "it"
+            ply.db.pronoun_them = "it"
+            ply.db.pronoun_their = "its"
+            ply.db.pronoun_theirs = "its"
+        else:
+            ply.error_echo("Please choose from the following values:\n  1, 2, 3, 4\n  he, she, plural, neuter\n  male, female, genderless  \n  m, f, t, n/g")
+            return
+
+        ply.echo(f"Your pronouns have been set to {ply.pronouns()}.")

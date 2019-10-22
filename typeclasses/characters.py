@@ -1,5 +1,5 @@
 # Python modules.
-import random
+import re, random
 
 # Evennia modules.
 from evennia import DefaultCharacter
@@ -9,7 +9,7 @@ from evennia.utils import logger
 from utilities.color import color_ramp
 from utilities.communication import ProcessSpeech
 from utilities.display import header, divider, column, bullet
-from utilities.string import an
+from utilities.string import an, capital, plural, message_token_pluralize, message_token_capitalize
 import utilities.directions as dirs
 from world.names import CURRENCY, CURRENCY_FULL
 
@@ -20,10 +20,10 @@ class Character(DefaultCharacter):
         self.db.app_age = 18
         self.db.intro = ""
         self.db.height = 172 # Approx. 5' 8" in cm
-        self.db.pronoun_he = "she"
-        self.db.pronoun_him = "her"
-        self.db.pronoun_his = "her"
-        self.db.pronoun_hiss = "hers"
+        self.db.pronoun_they = "they"
+        self.db.pronoun_them = "them"
+        self.db.pronoun_their = "their"
+        self.db.pronoun_theirs = "theirs"
         self.db.species = None
 
         # Stats.
@@ -337,20 +337,20 @@ class Character(DefaultCharacter):
     def archetype(self):
         return self.db.archetype.name if self.db.archetype else "None"
 
-    def he(self):
-        return self.db.pronoun_he
+    def they(self):
+        return self.db.pronoun_they
 
-    def him(self):
-        return self.db.pronoun_him
+    def them(self):
+        return self.db.pronoun_them
 
-    def his(self):
-        return self.db.pronoun_his
+    def their(self):
+        return self.db.pronoun_their
 
-    def hiss(self):
-        return self.db.pronoun_hiss
+    def theirs(self):
+        return self.db.pronoun_theirs
 
     def pronouns(self):
-        return f"{self.he()}, {self.him()}, {self.his()}, {self.hiss()}"
+        return f"{self.they()}, {self.them()}, {self.their()}, {self.theirs()}"
 
     def score(self):
         col_width = 10
@@ -394,3 +394,72 @@ class Character(DefaultCharacter):
         string += "\nType |Rcr|n to see all currencies you own."
 
         return string
+
+    def pluralize(self, string):
+        "Shortcut for the plural() string utility. Only pluralizes the word if the character's pronouns are not neutral."
+        if self.they() == "they":
+            return string
+
+        return plural(string)
+
+    def message(self, self_m = None, target = None, tar_m = None, witness_m = None):
+        """A specifically formatted message that originates from the Character. Special tokens are used to populate data and facilitate the writing of combat or other game messages.
+
+        self_m = The message the originating character sees.
+        target = A valid character object, not the self.
+        tar_m = The message the target sees, if any.
+        witness_m = A third-party message that others in the room see.
+        
+        TARGET: The target's name. Not used in tar_m.
+        TARGET_THEY, TARGET_THEM, TARGET_THEIR, TARGET_THEIRS: The target's pronouns. Not used in tar_m.
+        PLAYER: The character's name. Not used in self_m.
+        PLAYER_THEY, PLAYER_THEM, PLAYER_THEIR, PLAYER_THEIRS: The character's pronouns. Not used in self_m.
+        !verb: A verb originating from the character. Should be written in singular form, and will become plural if the pronouns accept it.
+        #verb: A verb originating from the target. Should be written in singular form, and will become plural if the pronouns accept it.
+        +word: The word is to be capitalized."""
+
+        if self_m == None:
+            return
+
+        if target and tar_m == None:
+            return
+
+        if target:
+            self_m = self_m.replace("TARGET_THEY", target.they())
+            self_m = self_m.replace("TARGET_THEM", target.them())
+            self_m = self_m.replace("TARGET_THEIR", target.their())
+            self_m = self_m.replace("TARGET_THEIRS", target.theirs())
+            self_m = self_m.replace("TARGET", target.name)
+            self_m = message_token_pluralize(self_m, "#", target)
+            self_m = message_token_capitalize(self_m)
+
+        if tar_m:
+            tar_m = tar_m.replace("PLAYER_THEY", self.they())
+            tar_m = tar_m.replace("PLAYER_THEM", self.them())
+            tar_m = tar_m.replace("PLAYER_THEIR", self.their())
+            tar_m = tar_m.replace("PLAYER_THEIRS", self.theirs())
+            tar_m = tar_m.replace("PLAYER", self.name)
+            tar_m = message_token_pluralize(tar_m, "!", self)
+            tar_m = message_token_capitalize(tar_m)
+
+        if witness_m:
+            witness_m = witness_m.replace("TARGET_THEY", target.they())
+            witness_m = witness_m.replace("TARGET_THEM", target.them())
+            witness_m = witness_m.replace("TARGET_THEIR", target.their())
+            witness_m = witness_m.replace("TARGET_THEIRS", target.theirs())
+            witness_m = witness_m.replace("TARGET", target.name)
+            witness_m = witness_m.replace("PLAYER_THEY", self.they())
+            witness_m = witness_m.replace("PLAYER_THEM", self.them())
+            witness_m = witness_m.replace("PLAYER_THEIR", self.their())
+            witness_m = witness_m.replace("PLAYER_THEIRS", self.theirs())
+            witness_m = witness_m.replace("PLAYER", self.name)
+            witness_m = message_token_pluralize(witness_m, "!", self)
+            witness_m = message_token_pluralize(witness_m, "#", target)
+            witness_m = message_token_capitalize(witness_m)
+
+        self.echo(self_m, prompt = True)
+        if tar_m:
+            target.echo(tar_m, prompt = True)
+        if witness_m:
+            # room.echo(witness_m, prompt = True)
+            pass

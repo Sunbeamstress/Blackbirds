@@ -1,5 +1,5 @@
 # Python modules.
-import inflect
+import re, inflect
 
 # Evennia modules.
 from evennia.utils import ansi
@@ -93,13 +93,22 @@ def plural(string):
     inf.classical()
     return inf.plural(string)
 
-def pro_verb(pronoun, verb):
-    """Returns 'pronoun verb', with verb pluralized or singular depending on pronoun.
-    You must always pass the verb in the plural form, or it will reverse the intended output!
+def message_token_pluralize(string, token, tar):
+    reg = re.search(r"(" + token + "\w+)", string)
+    if reg:
+        found_words = reg.groups()
+        for word in found_words:
+            tar_word = word[1:]
+            string = string.replace(word, tar.pluralize(tar_word))
 
-    Ex: pro_verb(ply.db.pronoun_he, 'swings')
-        --> 'she swings'
-        --> 'they swing'"""
+    return string
 
-    inf = inflect.engine()
-    return f"{pronoun}, {inf.plural(verb)}"
+def message_token_capitalize(string):
+    reg = re.search(r"(\+\w+)", string)
+    if reg:
+        found_words = reg.groups()
+        for word in found_words:
+            tar_word = word[1:]
+            string = string.replace(word, capital(tar_word))
+
+    return string
