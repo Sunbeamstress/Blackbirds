@@ -186,14 +186,16 @@ def RoomValue(ply, tar_room = None, val_name = None, val = None):
         ply.error_echo("You can only set that room property to a number between 0 and 15.")
         return
 
-    if not val_name in tar_room.db:
+    if getattr(tar_room.db, val_name) == None:
         ply.error_echo("That room doesn't seem to have the property you're trying to modify.")
         return
 
-    tar_room.db[val_name] = val
+    setattr(tar_room.db, val_name, val)
     ply.echo(f"You set {tar_room.name}'s {val_name} to {str(val)}.")
 
 def RoomFlag(ply, tar_room = None, flag_name = None, flag = None):
+    flag = flag.lower()
+
     if not flag_name:
         ply.error_echo("Which room property are you trying to modify?")
         return
@@ -202,18 +204,19 @@ def RoomFlag(ply, tar_room = None, flag_name = None, flag = None):
         ply.error_echo("You may only set that property to true or false.")
         return
 
-    if not tar_room.db[flag_name]:
+    if getattr(tar_room.db, flag_name) == None:
         ply.error_echo("That room doesn't seem to have the property you're trying to modify.")
         return
 
     if not flag:
-        tar_room.db[flag_name] = not tar_room.db[flag_name]
+        setattr(tar_room.db, flag_name, not getattr(tar_room.db, flag_name))
+        # tar_room.db[flag_name] = not tar_room.db[flag_name]
     elif flag == "true":
-        tar_room.db[flag_name] = True
+        setattr(tar_room.db, flag_name, True)
     elif flag == "false":
-        tar_room.db[flag_name] = False
+        setattr(tar_room.db, flag_name, False)
 
-    ply.echo(f"You set {tar_room.name}'s {flag_name} to {str(tar_room.db[flag_name])}.")
+    ply.echo(f"You set {tar_room.name}'s {flag_name} to {str(getattr(tar_room.db, flag_name))}.")
 
 class CmdRoom(Command):
     """

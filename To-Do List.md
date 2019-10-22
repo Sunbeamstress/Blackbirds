@@ -106,3 +106,8 @@
    - [ ] Implement JOB command to take/manage jobs. Current idea is you put in a request at a business and its owner is notified that you want a job. From there they can JOB HIRE you.
    - [ ] Implement WORK command. Flags the player as being at work. As long as they don't leave the business premises for five minutes they'll get their pay for the day.
    - [ ] Payment is handled daily - you can work once a day, seven days a week. If you miss three or more days in a row, your pay for that day is docked (based on how many you missed), with an explanation given that you weren't working enough. The next day worked will give you full pay again.
+
+## Objects
+
+### Misc. Object Stuff
+- [ ] Flower language
