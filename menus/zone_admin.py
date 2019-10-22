@@ -14,6 +14,13 @@ def _delete_zone(caller, raw_string, **kwargs):
 
     return "node_delete_zone"
 
+def _delete_zone_room(caller, raw_string, **kwargs):
+    zone = caller.ndb._menutree.selected_zone
+    r = kwargs.get("selected_room")
+
+    zone.remove_room(r)
+    caller.echo("Room removed.")
+
 def _edit_zone_parse_input(caller, raw_string, **kwargs):
     zone = caller.search("#" + str(caller.ndb._menutree.selected_zone), global_search = True)
     if not zone:
@@ -42,6 +49,12 @@ def _edit_zone_parse_input(caller, raw_string, **kwargs):
 
     elif input_list[0] == "pvp":
         zone.db.open_pvp = not zone.db.open_pvp
+
+    elif input_list[0] == "rooms":
+        return "node_edit_selected_zone_rooms", {"selected_zone": caller.ndb._menutree.selected_zone}
+
+    elif input_list[0] == "clearrooms":
+        zone.clear_rooms()
 
     elif input_list[0] == "areas":
         caller.echo(area_list() + "\n")
@@ -80,11 +93,29 @@ def node_edit_zone(caller, raw_string, **kwargs):
 
     return text, options
 
+def node_edit_selected_zone_rooms(caller, raw_string, **kwargs):
+    caller.ndb._menutree.selected_zone = kwargs.get("selected_zone", None)
+    zone = caller.search("#" + str(caller.ndb._menutree.selected_zone), global_search = True)
+    if not zone:
+        caller.error_echo("Something seems to have gone wrong.")
+        return "zone_admin_base"
+
+    text = "Enter a room's number to delete it from the zone."
+    options = []
+
+    for i, r in enumerate(zone.db.rooms):
+        options.append({"key": str(i), "desc": r.name, "goto": (_delete_zone_room, {"selected_room": r})})
+
+    options.append({"key": "r", "desc": "Return to the previous menu.", "goto": ("node_edit_selected_zone", {"selected_zone": caller.ndb._menutree.selected_zone})})
+
+    return text, options
+
 def node_edit_selected_zone(caller, raw_string, **kwargs):
     caller.ndb._menutree.selected_zone = kwargs.get("selected_zone", None)
     zone = caller.search("#" + str(caller.ndb._menutree.selected_zone), global_search = True)
     if not zone:
         caller.error_echo("Something seems to have gone wrong.")
+        return "zone_admin_base"
 
     text = ""
     options = []
@@ -94,6 +125,9 @@ def node_edit_selected_zone(caller, raw_string, **kwargs):
     text += "\n|513%s |c|||n %s" % (jright("fullname", 10), zone.db.fullname)
     text += "\n|513%s |c|||n %s" % (jright("area", 10), zone.db.area)
     text += "\n|513%s |c|||n %s" % (jright("pvp", 10), zone.db.open_pvp)
+
+    text += "\n\n|513%s |c|||n %s" % (jright("rooms", 10), "Edit this zone's rooms.")
+    text += "\n|513%s |c|||n %s" % (jright("clearrooms", 10), "Clear all of this zone's rooms.")
 
     text += "\n\n|513%s |c|||n %s" % (jright("areas", 10), "See a list of areas.")
 

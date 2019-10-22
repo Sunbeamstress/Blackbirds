@@ -273,13 +273,16 @@ class Room(DefaultRoom):
         if not self.db.zone or not self.db.zone.area:
             return "Static"
 
-        return self.db.zone.area.name
+        return self.db.zone.area_name()
 
     def areafullname(self):
         if not self.db.zone or not self.db.zone.area:
             return "An expanse of static"
 
-        return self.db.zone.area.db.fullname
+        return self.db.zone.area_fullname()
+
+    def set_zone(self, tar_zone):
+        self.db.zone = tar_zone
 
     def zone(self):
         return self.db.zone
@@ -294,7 +297,7 @@ class Room(DefaultRoom):
         if not self.db.zone:
             return "The Void"
 
-        return self.db.zone.fullname
+        return self.db.zone.fullname()
 
 class ChargenRoom(Room):
     def at_object_creation(self):

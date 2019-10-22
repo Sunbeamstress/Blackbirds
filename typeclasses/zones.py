@@ -31,14 +31,29 @@ class Zone(DefaultObject):
     def area(self):
         return self.db.area
 
+    def area_name(self):
+        return "Static" if not self.db.area else self.db.area.name
+
+    def area_fullname(self):
+        return "An expanse of static" if not self.db.area else self.db.area.fullname
+
     def open_pvp(self):
         return self.db.open_pvp
 
     def add_room(self, room):
-        self.db.rooms.add(room)
+        if room in self.db.rooms:
+            return
+
+        self.db.rooms.append(room)
 
     def remove_room(self, room):
         self.db.rooms.remove(room)
 
     def rooms(self):
         return self.db.rooms
+
+    def clear_rooms(self):
+        for room in self.db.rooms:
+            room.db.zone = None
+
+        self.db.rooms = []

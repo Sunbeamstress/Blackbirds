@@ -93,7 +93,7 @@ def RoomInfo(ply, tar_room = None):
 
 def RoomRename(ply, tar_room = None, new_name = None):
     if not new_name or new_name == "":
-        ply.echo("You must specify a name for the room.")
+        ply.error_echo("You must specify a name for the room.")
         return
 
     r_id = tar_room.id
@@ -110,13 +110,13 @@ def RoomTemperature(ply, tar_room = None, new_temp = None):
 
 def RoomEnvironment(ply, tar_room = None, new_env = None):
     if not new_env:
-        ply.echo("You must specify an environment by number. See |Renvironment list|n for all current environments.")
+        ply.error_echo("You must specify an environment by number. See |Renvironment list|n for all current environments.")
         return
 
     try:
         eid = int(new_env)
     except ValueError:
-        ply.echo("You must enter a number.")
+        ply.error_echo("You must enter a number.")
         return
 
     env = Environment()
@@ -130,16 +130,16 @@ def RoomEnvironment(ply, tar_room = None, new_env = None):
 
 def RoomCreateExit(ply, tar_room = None, dir = None, dest = None):
     if not dir:
-        ply.echo("|xYou must specify a direction.|n")
+        ply.error_echo("|xYou must specify a direction.|n")
         return
 
     if not dirs.valid_direction(dir):
-        ply.echo("|xYou must supply a valid direction.|n")
+        ply.error_echo("|xYou must supply a valid direction.|n")
         return
 
     destination = ply.search(dest, global_search = True)
     if not destination:
-        ply.echo("|xThat does not appear to be a valid room.|n")
+        ply.error_echo("|xThat does not appear to be a valid room.|n")
         return
 
     full_dir = dirs.valid_direction(dir)
@@ -152,20 +152,35 @@ def RoomCreateExit(ply, tar_room = None, dir = None, dest = None):
 
 def RoomDeleteExit(ply, tar_room = None, dir = None):
     if not dir:
-        ply.echo("|xYou must specify a direction.|n")
+        ply.error_echo("|xYou must specify a direction.|n")
         return
 
     if not dirs.valid_direction(dir):
-        ply.echo("|xYou must supply a valid direction.|n")
+        ply.error_echo("|xYou must supply a valid direction.|n")
         return
 
     full_dir = dirs.valid_direction(dir)
     e, err_msg = tar_room.delete_exit(full_dir)
     if not e:
-        ply.echo(err_msg)
+        ply.error_echo(err_msg)
         return
 
     ply.echo(f"You delete the {full_dir}ward exit.")
+
+def RoomZone(ply, tar_room = None, zone = None):
+    if not zone:
+        ply.error_echo("You must specify a zone.")
+        return
+
+    tar_zone = ply.search("#" + zone, global_search = True)
+    if not tar_zone:
+        ply.error_echo(f"No zone with the id {zone} could be found.")
+        return
+
+    tar_room.set_zone(tar_zone)
+    tar_zone.add_room(tar_room)
+
+    ply.echo(f"Set the room's zone to |W{tar_zone.name}|n.")
 
 def RoomValue(ply, tar_room = None, val_name = None, val = None):
     if not val_name:
@@ -288,6 +303,8 @@ class CmdRoom(Command):
             RoomCreateExit(ply, tar_room, self.word(2 + shift), self.word(3 + shift))
         elif sub_cmd == "unlink":
             RoomDeleteExit(ply, tar_room, args)
+        elif sub_cmd == "zone":
+            RoomZone(ply, tar_room, args)
         elif sub_cmd in VALID_ROOM_VALUES:
             # Generic function to set numeric room values.
             RoomValue(ply, tar_room, sub_cmd, args)

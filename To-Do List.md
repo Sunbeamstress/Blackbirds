@@ -10,7 +10,7 @@
    - [ ] Rooms
    - [ ] All sessions (game-wide emotes)
 - [ ] Standardize prompt, ensure it displays after literally everything.
-   - [ ] Make the prompt display actual useful data once character creation is fleshed out.
+   - [x] Make the prompt display actual useful data once character creation is fleshed out.
 
 ## Room Data
 - [x] Determine what properties rooms need. Obvious ones: Environment, area, indoors/outdoors, water, etc.
@@ -43,7 +43,7 @@
    - [ ] Map class.
       - [x] Initializes the grid.
       - [x] Quickly obtains all rooms in current zone.
-         - [ ] Need to profile various methods for speed: gather all rooms whose zone value matches, store rooms in zone JSON, etc.
+         - [x] Need to profile various methods for speed: gather all rooms whose zone value matches, store rooms in zone JSON, etc.
       - [ ] Draws rooms within visible range.
          - [ ] Room color varies based on environment.
       - [ ] Draws exit links between applicable rooms.
@@ -110,4 +110,4 @@
 ## Objects
 
 ### Misc. Object Stuff
-- [ ] Flower language
+- [ ] Flower language!
