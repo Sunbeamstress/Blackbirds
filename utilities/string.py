@@ -1,3 +1,6 @@
+# Python modules.
+import inflect
+
 # Evennia modules.
 from evennia.utils import ansi
 
@@ -49,16 +52,17 @@ def sanitize(string):
     string = string.lstrip()
     return string
 
-def article(string, capitalize = False):
-    "Prefixes a string with 'a ' or 'an ' where appropriate."
-    a = "a"
-    fc = string[0].lower()
-    if fc in ("a", "e", "i", "o", "u"):
-        a = "an"
+def an(string, capitalize = False):
+    "Prefixes a string with 'a ' or 'an ' where appropriate. Pass 'capitalize == True' to capitalize the article."
+    inf = inflect.engine()
+    string = capital(inf.a(string)) if capitalize == True else inf.a(string)
 
-    a = "%s%s" % (a[0].upper(), a[1:]) if capitalize else a
+    return string
 
-    return f"{a} {string}"
+def ord(string):
+    "Returns the ordinal (1 --> 1st) of the string. You can also pass numbers."
+    inf = inflect.engine()
+    return inf.ordinal(string)
 
 def wrap(string, width = 80, initial_indent = 0, subsequent_indent = 0):
     str_list = string.split()
@@ -83,3 +87,19 @@ def wrap(string, width = 80, initial_indent = 0, subsequent_indent = 0):
     output_list.append(output_string)
 
     return "\n".join(output_list)
+
+def plural(string):
+    inf = inflect.engine()
+    inf.classical()
+    return inf.plural(string)
+
+def pro_verb(pronoun, verb):
+    """Returns 'pronoun verb', with verb pluralized or singular depending on pronoun.
+    You must always pass the verb in the plural form, or it will reverse the intended output!
+
+    Ex: pro_verb(ply.db.pronoun_he, 'swings')
+        --> 'she swings'
+        --> 'they swing'"""
+
+    inf = inflect.engine()
+    return f"{pronoun}, {inf.plural(verb)}"

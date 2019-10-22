@@ -9,7 +9,7 @@ from evennia.utils import logger
 from utilities.color import color_ramp
 from utilities.communication import ProcessSpeech
 from utilities.display import header, divider, column, bullet
-from utilities.string import article
+from utilities.string import an
 import utilities.directions as dirs
 from world.names import CURRENCY, CURRENCY_FULL
 
@@ -73,7 +73,7 @@ class Character(DefaultCharacter):
         surname = ""
         if self.db.surname:
             surname = f" {self.db.surname}"
-        string = f"|xThis is |c{self.key}{surname}|n|x,|n |c{article(self.species())}|n|x.|n\n"
+        string = f"|xThis is |c{self.key}{surname}|n|x,|n |c{an(self.species())}|n|x.|n\n"
         string += divider()
         string += f"\n{self.db.desc}"
 

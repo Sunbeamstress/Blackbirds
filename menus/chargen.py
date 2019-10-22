@@ -3,7 +3,7 @@ import re, string
 
 # Blackbirds modules.
 from typeclasses.species import Human, Carven, Sacrilite, Luum, Idol
-from utilities.string import jleft, jright, capital, sanitize, article
+from utilities.string import jleft, jright, capital, sanitize, an
 from world.names import CURRENCY_FULL
 
 _VALID_UNUSUAL_NAME_CHARS = string.ascii_letters + string.digits + "-" + "." + "'"
@@ -251,7 +251,7 @@ def chargen_archetype(caller, raw_string, **kwargs):
     return text, options
 
 def chargen_anatomy(caller, raw_string, **kwargs):
-    text = f"Here, you'll specify certain aspects of your character's anatomy. Your choices here are dependent on your character's species, and can affect various game mechanics, from clothing slots, to ability use, to the ability to bear children. Please take care in selecting these, as none of these choices are easily altered.\n\nAs {article(caller.db.species.name)}, {caller.name}..."
+    text = f"Here, you'll specify certain aspects of your character's anatomy. Your choices here are dependent on your character's species, and can affect various game mechanics, from clothing slots, to ability use, to the ability to bear children. Please take care in selecting these, as none of these choices are easily altered.\n\nAs {an(caller.db.species.name)}, {caller.name}..."
 
     options = []
     options.append({"desc": anatomy_display("has breasts.", caller.db.has_breasts), "goto": (anatomy_selection, {"anatomy": "breasts"})})
