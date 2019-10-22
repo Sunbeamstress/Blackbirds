@@ -50,4 +50,6 @@ nosetests.xml
 
 # PyCharm config
 .idea
+
+# Blackbirds-specific stuff
 personal notes/*
