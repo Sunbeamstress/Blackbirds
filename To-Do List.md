@@ -40,16 +40,16 @@
 
 ## Mapping
 - [ ] Feature-complete implementation of map system.
-   - [ ] Map class.
+   - [x] Map class.
       - [x] Initializes the grid.
       - [x] Quickly obtains all rooms in current zone.
          - [x] Need to profile various methods for speed: gather all rooms whose zone value matches, store rooms in zone JSON, etc.
-      - [ ] Draws rooms within visible range.
+      - [x] Draws rooms within visible range.
          - [ ] Room color varies based on environment.
       - [ ] Draws exit links between applicable rooms.
          - [ ] Determine how to display one-way exits.
          - [ ] Conceal secret exits.
-      - [ ] Displays header and footer with room name, zone name, and coordinate data.
+      - [ ] Displays header and footer with ~~room name, zone name, and~~ coordinate data.
    - [ ] Submapping and partitioning.
    - [ ] Background and texturing.
       - [ ] Background color can be defined by and vary from zone to zone.

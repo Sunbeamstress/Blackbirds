@@ -45,6 +45,8 @@ class Room(DefaultRoom):
             "out": None
         }
 
+        self.db.desc = "The space around you cannot be made sense of - the only concession to the mortal mind is that amidst the inchoate and swirling static that surrounds you, the visual noise underfoot is as solid as stone, serving as a \"floor.\" All around you is a relentless buzzing of junk data, and with it, the sound of an impossibly vast ocean, churning and hissing away into eternity."
+
         self.db.zone = None
         self.db.environment = 0
         self.db.temperature = 30 # How hot/cold the room is.
@@ -154,7 +156,7 @@ class Room(DefaultRoom):
         # Grab all accessible objects in room.
         visible = (con for con in self.contents if con != looker and con.access(looker, "view"))
         exit_list = self.get_exits()
-        users, things = [], []
+        players, things = [], []
 
         for con in visible:
             # Get the content's name.
@@ -165,17 +167,15 @@ class Room(DefaultRoom):
                 # if con.account.is_superuser:
                 #     users.append(f"|Y{key}|n")
                 # else:
-                users.append(f"{con.name}")
+                players.append(f"{con.name}")
 
             else:
                 # Goes into our generic list of items.
                 things.append(con.db.long_desc)
 
         string = self.format_room_title()
-
-        string += "\n%s" % Map(looker).draw_map()
-
-        string += "\n%s" % self.get_temperature_string()
+        string += "\n%s" % Map(looker, max_width = 9, max_height = 9).draw_map()
+        string += "\n%s " % self.get_temperature_string()
 
         desc = self.db.desc
         if desc:
@@ -187,10 +187,10 @@ class Room(DefaultRoom):
             for item in things:
                 string += f" |c{item}|n"
 
-        if users:
-            for user in users:
-                u_desc = f" |C{user} is here.|n"
-                string += u_desc
+        if players:
+            for player in players:
+                p_desc = f" |C{player} is here.|n"
+                string += p_desc
 
         # string += "\n  %s" % self.get_illumination_string()
         if self.db.water_level > 0:

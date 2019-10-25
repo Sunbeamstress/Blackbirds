@@ -105,9 +105,6 @@ def RoomRename(ply, tar_room = None, new_name = None):
 def RoomRedescribe(ply, tar_room = None, new_desc = None):
     pass
 
-def RoomTemperature(ply, tar_room = None, new_temp = None):
-    pass
-
 def RoomEnvironment(ply, tar_room = None, new_env = None):
     if not new_env:
         ply.error_echo("You must specify an environment by number. See |Renvironment list|n for all current environments.")
@@ -201,7 +198,10 @@ def RoomValue(ply, tar_room = None, val_name = None, val = None):
         ply.error_echo("You may only set that room property to a number.")
         return
 
-    if val < 0 or val > 15:
+    if val_name == "temperature" and not -294 < val < 10000:
+        ply.error_echo("You can only set the temperature to a number between -293 and 10000.")
+        return
+    elif val_name != "temperature" and (val < 0 or val > 15):
         ply.error_echo("You can only set that room property to a number between 0 and 15.")
         return
 
@@ -293,6 +293,9 @@ class CmdRoom(Command):
         if not sub_cmd:
             self.get_syntax()
             return
+
+        # Helper for common subcommand shortenings.
+        sub_cmd = "temperature" if sub_cmd == "temp" else sub_cmd
 
         # Determine valid subcommand by argument.
         if sub_cmd == "info":
