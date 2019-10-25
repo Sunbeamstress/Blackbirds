@@ -44,9 +44,9 @@ class Map():
         self.orig_y = caller.y()
         self.orig_z = caller.z()
         self.min_x = self.orig_x - self.x_range
-        self.max_x = self.orig_x + self.x_range + 1
+        self.max_x = self.orig_x + self.x_range
         self.min_y = self.orig_y - self.y_range
-        self.max_y = self.orig_y + self.y_range + 1
+        self.max_y = self.orig_y + self.y_range
         self.cur_x = None
         self.cur_y = None
         self.cur_z = None
@@ -60,40 +60,48 @@ class Map():
         # Existent rooms get filled in appropriately, whereas we treat all blank space as
         # 'the background.'
 
-        # Behold, the legendary double list comprehension
-        # TEMP: place a period to represent a blank space
-        return [[str(" . ") for col in range(self.min_x, self.max_x)] for row in range(self.min_y, self.max_y)]
+        g_list = {}
+        for y in range(self.min_y, self.max_y + 1):
+            g_list[y] = {}
+            for x in range(self.min_x, self.max_x + 1):
+                g_list[y][x] = ("|b___|n")
+
+        return g_list
 
     def _get_zone_rooms(self, id):
-        pass
-        # Gather all rooms in the zone.
-        # z = Zone()
-        # room_list = z.rooms(id)
-        # coord_list = []
+        zone = self.caller.zone()
+        if not zone:
+            return {}
 
-        # for r in room_list:
-        #     x, y, z = r.db.x, r.db.y, r.db.z
-        #     # Throw out any rooms not on our z-level, or outside the map's range.
-        #     if z != self.orig_z or (x < self.min_x or x > self.max_x) or (y < self.min_y or y > self.max_y):
-        #         continue
+        r_list = {}
+        for room in zone.rooms():
+            y, x = room.db.y, room.db.x
+            if self.min_y < y < self.max_y and self.min_x < x < self.max_x:
+                if y not in r_list.keys():
+                    r_list[y] = []
 
-        #     coord_list = 
+                r_list[y].append(x)
 
-        # return coord_list
+        return r_list
 
     def _populate_grid(self):
         self.cur_x = self.min_x
         self.cur_y = self.min_y
 
-        for y in range(self.min_y, self.max_y):
-            for x in range(self.min_x, self.max_x):
-
-                self.grid[y][x] = "[ ]"
+        for y in range(self.min_y, self.max_y + 1):
+            for x in range(self.min_x, self.max_x + 1):
+                if y in self.rooms.keys():
+                    if x in self.rooms[y]:
+                        self.grid[y][x] = "|W[ ]|n"
 
     def draw_map(self):
+        self._populate_grid()
+
         map_string = ""
-        for row in self.grid:
-            map_string += " ".join(row)
+        for y in range(self.max_y, self.min_y, -1):
+            for x in range(self.min_x, self.max_x + 1):
+                map_string += self.grid[y][x] + " "
             map_string += "\n\n"
 
         return map_string
+        # return str(self.grid)

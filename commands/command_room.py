@@ -177,6 +177,10 @@ def RoomZone(ply, tar_room = None, zone = None):
         ply.error_echo(f"No zone with the id {zone} could be found.")
         return
 
+    if tar_room.zone():
+        z = tar_room.zone()
+        z.remove_room(tar_room)
+
     tar_room.set_zone(tar_zone)
     tar_zone.add_room(tar_room)
 

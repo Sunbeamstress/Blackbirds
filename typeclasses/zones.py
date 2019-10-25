@@ -47,7 +47,8 @@ class Zone(DefaultObject):
         self.db.rooms.append(room)
 
     def remove_room(self, room):
-        self.db.rooms.remove(room)
+        if room in self.db.rooms:
+            self.db.rooms.remove(room)
 
     def rooms(self):
         return self.db.rooms

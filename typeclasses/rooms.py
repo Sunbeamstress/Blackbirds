@@ -174,7 +174,6 @@ class Room(DefaultRoom):
         string = self.format_room_title()
 
         string += "\n%s" % Map(looker).draw_map()
-        string += "\n\n%s" % Map(looker)._get_zone_rooms(looker.zone())
 
         string += "\n%s" % self.get_temperature_string()
 
