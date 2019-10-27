@@ -122,7 +122,8 @@ class Map():
 
                     # Set the room's node to its environment color.
                     color = self.rooms[y][x].environment_color()
-                    self.grid[y][x] = "|%s[|n |%s]|n" % (color, color)
+                    cen_sym = "|M@|n" if y == self.caller.y() and x == self.caller.x() else " "
+                    self.grid[y][x] = "|%s[|n%s|%s]|n" % (color, cen_sym, color)
 
     def draw_map(self):
         self._populate_grid()
