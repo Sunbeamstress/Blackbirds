@@ -298,6 +298,14 @@ class Room(DefaultRoom):
 
         return self.db.zone.fullname()
 
+    def environment(self):
+        return self.db.environment
+
+    def environment_color(self):
+        env = Environment()
+        return env.color(self.db.environment)
+
+
 class ChargenRoom(Room):
     def at_object_creation(self):
         self.cmdset.add(ChargenCmdSet, permanent = True)
