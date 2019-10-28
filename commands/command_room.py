@@ -49,9 +49,8 @@ def RoomInfo(ply, tar_room = None):
 
     r_zone = tar_room.zonename()
 
-    env = Environment()
-    env_name = env.name(tar_room.db.environment)
-    env_color = env.color(tar_room.db.environment)
+    env_name = tar_room.environment()
+    env_color = tar_room.environment_color()
 
     string = header(f"{r_id_str}, {r_name}", color = "y")
 
@@ -116,14 +115,16 @@ def RoomEnvironment(ply, tar_room = None, new_env = None):
         ply.error_echo("You must enter a number.")
         return
 
-    env = Environment()
-    env_name = env.name(eid)
-    env_color = env.color(eid)
+    env = ply.search("#" + new_env, global_search = True)
+    if not env:
+        ply.error_echo("That is not a valid environment.")
+        return
+
+    tar_room.db.environment = env
 
     r_id = tar_room.id
     r_name = tar_room.name
-    tar_room.db.environment = eid
-    ply.echo(f"You set room #{r_id}, {r_name}, to use the |{env_color}{env_name}|n environment.")
+    ply.echo(f"You set room #{r_id}, {r_name}, to use the |{tar_room.environment_color()}{tar_room.environment()}|n environment.")
 
 def RoomCreateExit(ply, tar_room = None, dir = None, dest = None):
     if not dir:

@@ -48,14 +48,13 @@ class Room(DefaultRoom):
         self.db.desc = "The space around you cannot be made sense of - the only concession to the mortal mind is that amidst the inchoate and swirling static that surrounds you, the visual noise underfoot is as solid as stone, serving as a \"floor.\" All around you is a relentless buzzing of junk data, and with it, the sound of an impossibly vast ocean, churning and hissing away into eternity."
 
         self.db.zone = None
-        self.db.environment = 0
+        self.db.environment = None
         self.db.temperature = 30 # How hot/cold the room is.
         self.db.illumination = 15 # The general light level in the room. 0 - dark, 15 - fully lit
         self.db.darkness = False # Whether or not the room is unnaturally dark. Overrides illumination.
 
         # Room flags - physical states
         self.db.indoors = False # Is the room outside or not?
-        self.db.natural = False # Is the room characterized by greenery, earth, and other non-manmade environs?
         self.db.water_level = 0 # How much water does the room have in it? 0: None; 10: Completely submerged.
 
         # Room flags - municipal states
@@ -211,8 +210,7 @@ class Room(DefaultRoom):
         r_area = self.areaname()
         r_zone = self.zonefullname()
 
-        env = Environment()
-        r_env = env.colorshort(self.db.environment)
+        r_env = "|%s%s|n" % (self.environment_color(), self.environment_short())
 
         return f"|y{punctuate(r_name)}|n |213(|n|525{r_zone}, {r_area}|n|213)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n"
 
@@ -299,11 +297,13 @@ class Room(DefaultRoom):
         return self.db.zone.fullname()
 
     def environment(self):
-        return self.db.environment
+        return self.db.environment.name if self.db.environment else "????????"
+
+    def environment_short(self):
+        return self.db.environment.short() if self.db.environment else "?????"
 
     def environment_color(self):
-        env = Environment()
-        return env.color(self.db.environment)
+        return self.db.environment.color() if self.db.environment else "500"
 
 
 class ChargenRoom(Room):

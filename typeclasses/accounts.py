@@ -29,6 +29,7 @@ from evennia.utils.utils import (lazy_property, to_str, make_iter, is_iter, vari
 # Blackbirds stuff.
 from server.conf import settings
 from utilities.display import header, divider
+from utilities.string import jleft, jright
 
 _MAX_NR_CHARACTERS = settings.MAX_NR_CHARACTERS
 _MULTISESSION_MODE = settings.MULTISESSION_MODE
@@ -178,6 +179,8 @@ class Account(DefaultAccount):
                 result.append("\n\n   |xAvailable character%s|n%s|x:|n" % (string_s_ending, charmax > 1 and " |x(|n%s|x/|n%s|x)|n" % (len(characters), ply_char_max) or ""))
 
                 for char in characters:
+                    fullname = f"{char.key} {char.surname()}" if char.db.surname else f"{char.key}"
+
                     csessions = char.sessions.all()
                     if csessions:
                         for sess in csessions:
@@ -191,7 +194,7 @@ class Account(DefaultAccount):
                                               % (char.key, ", ".join(char.permissions.all())))
                     else:
                         # character is "free to puppet"
-                        result.append(f"\n    |C{char.key}|n")
+                        result.append("\n    |C%s|n%s|x%s|n" % (jleft(char.key, 16), jleft(char.species(), 14), fullname))
 
             look_string = header("Blackbirds", color = "c", title_color = "M") + "\n" + "".join(result) + "\n" + divider(color = "c")
             return look_string

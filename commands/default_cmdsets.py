@@ -57,6 +57,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdRoom())
         self.add(CmdReload())
         self.add(CmdEnvironment())
+        self.add(CmdEnvironments())
         self.add(CmdArea())
         self.add(CmdAreas())
         self.add(CmdZone())

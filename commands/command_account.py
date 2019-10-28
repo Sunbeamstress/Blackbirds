@@ -86,7 +86,6 @@ class CmdChar(Command):
                                                 location = None,
                                                 home = None,
                                                 permissions = permissions)
-            new_character.db.in_chargen = 1 # 1 = first stage of chargen.
             # only allow creator (and developers) to puppet this char
             new_character.locks.add("puppet:id(%i) or pid(%i) or perm(Developer) or pperm(Developer);delete:id(%i) or perm(Admin)" %
                                     (new_character.id, account.id, account.id))

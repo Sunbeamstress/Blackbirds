@@ -331,6 +331,9 @@ class Character(DefaultCharacter):
         loc = self.location
         return [loc.db.x, loc.db.y, loc.db.z]
 
+    def surname(self):
+        return self.db.surname if self.db.surname else ""
+
     def species(self):
         return self.db.species.name if self.db.species else "Unknown"
 
