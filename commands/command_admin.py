@@ -73,25 +73,25 @@ class CmdUpdate(Command):
             for o in Room.objects.all():
                 o.update()
         elif obj_type == "characters":
-            for o in Characters.objects.all():
+            for o in Character.objects.all():
                 o.update()
         elif obj_type == "environments":
-            for o in Environments.objects.all():
+            for o in Environment.objects.all():
                 o.update()
         elif obj_type == "zones":
-            for o in Zones.objects.all():
+            for o in Zone.objects.all():
                 o.update()
         elif obj_type == "areas":
-            for o in Areas.objects.all():
+            for o in Area.objects.all():
                 o.update()
         elif obj_type == "archetypes":
-            for o in Archetypes.objects.all():
+            for o in Archetype.objects.all():
                 o.update()
         elif obj_type == "species":
             for o in Species.objects.all():
                 o.update()
         elif obj_type == "exits":
-            for o in Exits.objects.all():
+            for o in Exit.objects.all():
                 o.update()
         else:
             ply.error_echo("You must specify a Python class to update. Valid classes are:")

@@ -33,6 +33,7 @@ class Character(DefaultCharacter):
         self.db.xp = {"current": 0, "max": 1000} # Experience.
         self.db.archetype = None
         self.db.money = 0
+        self.db.neon = 0
 
         # Combat/RP-based statuses.
         self.db.prone = 0 # 1 for seated, 2 for lying down
@@ -50,7 +51,7 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        pass
+        self.db.neon = 0
 
     def at_before_say(self, message, **kwargs):
         return message
@@ -355,6 +356,15 @@ class Character(DefaultCharacter):
     def pronouns(self):
         return f"{self.they()}, {self.them()}, {self.their()}, {self.theirs()}"
 
+    def rubric(self):
+        return self.account.db.rubric
+
+    def neon(self):
+        return self.db.neon
+
+    def money(self):
+        return self.db.money
+
     def score(self):
         col_width = 10
 
@@ -388,9 +398,9 @@ class Character(DefaultCharacter):
 
         string += "\n\n|cAssets & Money|n"
         string += "\n" + bullet("You do not own any buildings.")
-        string += "\n" + bullet(f"You have accumulated |C{random.randint(1, 1000000):,}|n Karma.")
-        string += "\n" + bullet(f"You have accumulated |M{random.randint(1, 1000):,}|n Neon.")
-        string += "\n" + bullet(f"|yYour {CURRENCY_FULL} stands at |Y{self.db.money} {CURRENCY}|y.|n", color = "320")
+        string += "\n" + bullet(f"You have accumulated |C{self.rubric():,}|n Rubric.")
+        string += "\n" + bullet(f"You have accumulated |M{self.neon():,}|n Neon.")
+        string += "\n" + bullet(f"|yYour {CURRENCY_FULL} stands at |Y{self.money():.3f} {CURRENCY}|y.|n", color = "320")
 
         string += "\n" + divider()
         string += "\nType |Rab|n to see your learned abilities."
