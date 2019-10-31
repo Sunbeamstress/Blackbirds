@@ -6,8 +6,13 @@ class Ability():
     "A core ability - each has their own rules and command sets. Training these boosts the appropriate AbilityTree."
     def __init__(self):
         self._can_train = True
+        self._costs_rubric = False
         self._levels = 5
         self._description = "An undefined ability."
+        self._cost = 10
+
+    def update(self):
+        pass
 
     def can_train(self):
         return self._can_train
@@ -26,6 +31,10 @@ class Ability():
     def at_ability_creation(self):
         "Called when the game initializes the ability. Use to set its properties."
         pass
+
+    def get_cost(self):
+        "Returns the base cost of the ability in experience."
+        return self._cost
 
 class AbilityTree(Ability):
     """
@@ -47,4 +56,7 @@ class AbilityTree(Ability):
 
     def add_ability(self, ab_class):
         "Use this method in conjunction with at_ability_tree_creation() to subscribe abilities to the tree."
-        pass
+        self._supported_abilities.append(ab_class)
+
+    def get_abilities(self):
+        return [ab for ab in self._supported_abilities]
