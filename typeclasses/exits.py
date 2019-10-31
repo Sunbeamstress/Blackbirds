@@ -11,6 +11,9 @@ class Exit(DefaultObject):
         self.source = None
         self.destination = None
 
+    def update(self):
+        pass
+
     def __str__(self):
         return self.destination
 

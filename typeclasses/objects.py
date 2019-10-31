@@ -165,6 +165,9 @@ class Object(DefaultObject):
         self.db.long_desc = "An object lies here."
         self.db.short_desc = "a nondescript object"
 
+    def update(self):
+        pass
+
     def echo(self, string, prompt = False):
         # At this moment, simply a lazy method wrapper that sends a message to the object,
         # then displays a prompt.

@@ -113,6 +113,7 @@ class Account(DefaultAccount):
                      "attrcreate:perm(Admins);"
         self.attributes.add("_playable_characters", [], lockstring = lockstring)
         self.attributes.add("_saved_protocol_flags", {}, lockstring = lockstring)
+        self.db.rubric = 0
 
     def at_first_login(self, **kwargs):
         """
@@ -263,6 +264,9 @@ class Account(DefaultAccount):
         "Returns the object's prompt, if applicable."
         p_string = f"|M---|n"
         return p_string
+
+    def update(self):
+        self.db.rubric = self.db.rubric or 0
 
 
 class Guest(DefaultGuest):

@@ -37,6 +37,9 @@ class Species():
         self.playable = True
         self.chargen_documentation = None
 
+    def update(self):
+        pass
+
     def at_look(self):
         return False
 

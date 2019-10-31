@@ -25,6 +25,9 @@ class Zone(DefaultObject):
         self.db.open_pvp = False
         self.db.rooms = []
 
+    def update(self):
+        pass
+
     def fullname(self):
         return self.db.fullname
 

@@ -25,6 +25,9 @@ class Area(DefaultObject):
         self.db.open_pvp = False
         self.db.zones = []
 
+    def update(self):
+        pass
+
     def fullname(self):
         return self.db.fullname
 

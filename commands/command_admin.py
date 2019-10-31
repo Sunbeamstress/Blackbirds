@@ -4,15 +4,23 @@ import inspect, sys
 # Evennia modules.
 from evennia.server.sessionhandler import SESSIONS
 from evennia.utils import search
-from evennia.utils.utils import mod_import, variable_from_module
+from evennia.utils.utils import mod_import, variable_from_module, class_from_module
 
 # Blackbirds modules.
 from commands.command import Command
-from utilities.display import notify
+from utilities.classes import class_from_name
+from utilities.display import notify, bullet, header, divider
 from utilities.menu import Menu
+from server.conf import settings
+
+from typeclasses.accounts import Account
+from typeclasses.archetypes import Archetype, Blackbird, Citizen, Privileged, Survivalist
+from typeclasses.areas import Area
+from typeclasses.characters import Character
+from typeclasses.environments import Environment
+from typeclasses.exits import Exit
+from typeclasses.species import Species, Human, Carven, Sacrilite, Luum, Idol
 from typeclasses.zones import Zone
-from typeclasses.species import Human, Carven, Sacrilite, Luum, Idol
-from typeclasses.archetypes import Blackbird, Citizen, Privileged, Survivalist
 
 class CmdReload(Command):
     """
@@ -38,30 +46,90 @@ class CmdReload(Command):
         SESSIONS.announce_all(notify("Game", f"The system is reloading{reason}, please be patient."))
         SESSIONS.portal_restart_server()
 
-class CmdMakeAdmin(Command):
-    """
-    Gives the targetted account admin privileges.
+class CmdUpdate(Command):
+    key = "update"
+    locks = "perm(Developer)"
+    help_category = "Admin"
 
-    |xUsage:|n
-      |Rmakeadmin <account>|n
-    """
-    key = "makeadmin"
-    locks = "perm(<Superuser>)"
     def func(self):
         ply = self.caller
-        # tar = search.account_search(self.word(1))
-        if not self.args:
-            ply.echo("You must specify the name of an account.")
+
+        obj_type = self.word(1)
+        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "archetypes", "species", "exits")
+
+        if not obj_type:
+            ply.error_echo("You must specify a Python class to update. Valid classes are:")
+            for o in valid_objs:
+                ply.echo(bullet(o))
             return
 
-        tar = search.account_search(self.word(1))[0]
-        if not tar:
-            ply.echo("No account by that name could be found.")
+        obj_type = obj_type.lower()
+
+        if obj_type == "accounts":
+            for o in Account.objects.all():
+                o.update()
+        elif obj_type == "rooms":
+            Room = class_from_module(settings.BASE_ROOM_TYPECLASS)
+            for o in Room.objects.all():
+                o.update()
+        elif obj_type == "characters":
+            for o in Characters.objects.all():
+                o.update()
+        elif obj_type == "environments":
+            for o in Environments.objects.all():
+                o.update()
+        elif obj_type == "zones":
+            for o in Zones.objects.all():
+                o.update()
+        elif obj_type == "areas":
+            for o in Areas.objects.all():
+                o.update()
+        elif obj_type == "archetypes":
+            for o in Archetypes.objects.all():
+                o.update()
+        elif obj_type == "species":
+            for o in Species.objects.all():
+                o.update()
+        elif obj_type == "exits":
+            for o in Exits.objects.all():
+                o.update()
+        else:
+            ply.error_echo("You must specify a Python class to update. Valid classes are:")
+            for o in valid_objs:
+                ply.echo(bullet(o))
             return
 
-        ply.echo(f"Ding! Your target account is: {tar}")
-        # tar.cmdset.add(default_cmds.AdminCmdSet, permanent = True)
+        ply.echo(f"All |W{obj_type}|n have been updated.")
 
+class CmdList(Command):
+    key = "list"
+    locks = "perm(Developer)"
+
+    def func(self):
+        ply = self.caller
+        obj_type = self.word(1)
+        obj_list = []
+        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "archetypes", "species", "exits")
+
+        if obj_type not in valid_objs:
+            ply.error_echo("You must specify a valid Python class to list. Valid classes are:")
+            for o in valid_objs:
+                ply.echo(bullet(o))
+            return
+
+        if obj_type == "rooms":
+            obj_list = [o for o in class_from_module(settings.BASE_ROOM_TYPECLASS).objects.all()]
+        else:
+            # To-do: make this less ghetto as all hell
+            d_o = obj_type[:-1] if obj_type != "species" else "species" # quick depluralizing of obj_type
+            obj_list = [o for o in class_from_name("typeclasses." + obj_type, d_o.capitalize()).objects.all()]
+
+        ply.echo(header(obj_type.capitalize()))
+
+        for o in obj_list:
+            ply.echo(bullet(f"{o.name}"))
+
+        ply.echo(divider())
 
 class CmdTest(Command):
     key = "test"

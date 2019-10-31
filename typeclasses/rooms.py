@@ -79,6 +79,9 @@ class Room(DefaultRoom):
         self.db.symbol = None
         self.db.symbol_override = False
 
+    def update(self):
+        pass
+
     def get_exits(self):
         exit_list = []
         for dir, obj in self.db.exits.items():

@@ -23,6 +23,9 @@ class Environment(DefaultObject):
         self.db.color = "305"
         self.db.natural = False
 
+    def update(self):
+        pass
+
     def short(self):
         return self.db.short
 
