@@ -80,8 +80,9 @@
       - [x] Pronouns. As much as I'd love to make them freeform, for grammatical purposes, limited to he/she/they.
          * This will be given the name of "sex" or "gender" in the code to make it easy to remember.
       - [ ] Detector in our echo class that looks for verbs after "they" pronouns and depluralizes them.
-         * Will likely have to hand-code a big dictionary of depluralizations; and try to rely on a generic fallback if the word isn't found.
-      - [ ] Specify body parts, such as breasts, that might appear in a slot-based description system.
+         * ~~Will likely have to hand-code a big dictionary of depluralizations; and try to rely on a generic fallback if the word isn't found.~~
+         * lmao nevermind python rules
+      - [x] Specify body parts, such as breasts, that might appear in a slot-based description system.
          * This isn't Haven, no need to code in penises or vaginas. Just write whatever's there.
    - [x] Species. Choices pending establishment of setting. ~~Tempted to go human-only, probably won't.~~
    - [ ] Species-based anatomy.
@@ -96,9 +97,11 @@
 
 ### Abilities
 
-- [x] Define ability and ability tree classes.
-- [ ] Describe core ability trees and the individual abilities beneath them.
-   - [ ] Implement logic to tally up total level in a tree, based on which abilities belong to it.
+- [ ] Implement abilities.
+   - [ ] Define ability and ability tree classes.
+      - [ ] Implementation question: store each player's individual ability as its own object, or use a dictionary stored on the player?
+   - [ ] Describe core ability trees and the individual abilities beneath them.
+      - [ ] Implement logic to tally up total level in a tree, based on which abilities belong to it.
 
 ### Employment
 

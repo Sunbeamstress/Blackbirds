@@ -6,6 +6,8 @@ from evennia import DefaultCharacter
 from evennia.utils import logger
 
 # Blackbirds modules.
+from abilities.trees import *
+from typeclasses.abilities import AbilityTree
 from utilities.color import color_ramp
 from utilities.communication import ProcessSpeech
 from utilities.display import header, divider, column, bullet
@@ -35,6 +37,12 @@ class Character(DefaultCharacter):
         self.db.money = 0
         self.db.neon = 0
 
+        # Abilities.
+        self.db.abilities = []
+        self.db.abilities["might"] = Might()
+        self.db.abilities["dexterity"] = Dexterity()
+        self.db.abilities["acuity"] = Acuity()
+
         # Combat/RP-based statuses.
         self.db.prone = 0 # 1 for seated, 2 for lying down
 
@@ -51,7 +59,10 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        self.db.neon = 0
+        self.db.abilities = {}
+        self.db.abilities["might"] = Might()
+        self.db.abilities["dexterity"] = Dexterity()
+        self.db.abilities["acuity"] = Acuity()
 
     def at_before_say(self, message, **kwargs):
         return message
@@ -156,7 +167,7 @@ class Character(DefaultCharacter):
             p_string += stat_string
 
             # Cap that bad boy off.
-            p_string += "|x-|n "
+            p_string += "|x·|n "
 
         elif status == "chargen":
             p_string = "|035" + ("-" * 80)
