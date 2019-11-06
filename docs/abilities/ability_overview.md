@@ -83,22 +83,22 @@ Abilities in Blackbirds cost Ability Points (AP). Characters earn AP every time 
 Because abilities directly correlate to the power of a character, certain measures are taken to either slow down the rate at which a character can grow, or to halt them in a certain direction entirely.
 
 **How strong can a character get?**
-    - Although there are certain limitations on which abilities you can mix and match (see below), there is no true upper limit to how much AP a character can accumulate. The current plan calls for the required XP per point of AP to climb drastically every ten AP - to a point that around the fifties, it will become quite slow.
+- Although there are certain limitations on which abilities you can mix and match (see below), there is no true upper limit to how much AP a character can accumulate. The current plan calls for the required XP per point of AP to climb drastically every ten AP - to a point that around the fifties, it will become quite slow.
 
-    - This is deliberate - a very old and very established character, especially one who has been roleplaying almost constantly during their lifetime, can and *should* be markedly more powerful than most characters. But it's going to take them a while.
+- This is deliberate - a very old and very established character, especially one who has been roleplaying almost constantly during their lifetime, can and *should* be markedly more powerful than most characters. But it's going to take them a while.
 
-    - As stated above, a special "account-based" AP is earned, at a much slower rate than regular AP. This small boost allows your next character to catch up slightly - you don't have to start as a peasant, squabbling in the mud, every single time.
+- As stated above, a special "account-based" AP is earned, at a much slower rate than regular AP. This small boost allows your next character to catch up slightly - you don't have to start as a peasant, squabbling in the mud, every single time.
 
 **What stops you from dumping all of your points into every skill you have?**
-    - Each ability has a maximum level of 3 (with very few exceptions).
+- Each ability has a maximum level of 3 (with very few exceptions).
 
-    - However, each ability tree itself has a maximum level of 9, at which point you can no longer spend AP on any ability in the tree. This means you can max out only three abilities, or choose to spread out your AP a little more evenly.
+- However, each ability tree itself has a maximum level of 9, at which point you can no longer spend AP on any ability in the tree. This means you can max out only three abilities, or choose to spread out your AP a little more evenly.
 
-    - As all hidden ability trees require at least one ability to be fully upgraded to Level 3, this means you have to make careful choices as to how to distribute your AP.
+- As all hidden ability trees require at least one ability to be fully upgraded to Level 3, this means you have to make careful choices as to how to distribute your AP.
 
 **What if you make a mistake and spent your points on the wrong ability? What if you change your mind?**
-    - It is possible to unlearn an ability, though you're refunded only half of the ability's cost, rounded down (Lv 3: 2, Lv 2: 1, Lv 1: 0).
+- It is possible to unlearn an ability, though you're refunded only half of the ability's cost, rounded down (Lv 3: 2, Lv 2: 1, Lv 1: 0).
 
-    - This becomes incredibly undesirable to do at much higher AP levels, as you will take longer and longer to earn AP, so choose carefully!
+- This becomes incredibly undesirable to do at much higher AP levels, as you will take longer and longer to earn AP, so choose carefully!
 
 ## Types of Abilities
