@@ -6,8 +6,6 @@ from evennia import DefaultCharacter
 from evennia.utils import logger
 
 # Blackbirds modules.
-from abilities.trees import *
-from typeclasses.abilities import AbilityTree
 from utilities.color import color_ramp
 from utilities.communication import ProcessSpeech
 from utilities.display import header, divider, column, bullet
@@ -37,10 +35,7 @@ class Character(DefaultCharacter):
         self.db.neon = 0
 
         # Abilities.
-        self.db.abilities = []
-        self.db.abilities["might"] = Might()
-        self.db.abilities["dexterity"] = Dexterity()
-        self.db.abilities["acuity"] = Acuity()
+        self.db.abilities = {}
 
         # Combat/RP-based statuses.
         self.db.prone = 0 # 1 for seated, 2 for lying down
@@ -58,7 +53,7 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        self.db.archetype = None
+        self.db.abilities = {}
 
     def at_before_say(self, message, **kwargs):
         return message
@@ -163,12 +158,22 @@ class Character(DefaultCharacter):
             p_string += stat_string
 
             # Cap that bad boy off.
-            p_string += "|x·|n "
+            p_string += "|x-|n "
 
         elif status == "chargen":
             p_string = "|035" + ("-" * 80)
 
         return p_string
+
+    def has_ability(self, ability_key, level = 1):
+        "Checks to see if the player has a given ability. If a level is provided, it will only pass True if the ability score is that level or higher."
+        if not ability_key in self.db.abilities:
+            return False
+
+        if self.db.abilities[ability_key] < level:
+            return False
+
+        return True
 
     def coordinates(self):
         if not self.location:

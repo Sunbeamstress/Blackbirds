@@ -7,12 +7,19 @@ from evennia.utils import search
 from evennia.utils.utils import mod_import, variable_from_module, class_from_module
 
 # Blackbirds modules.
+from abilities.core_stats import *
+from abilities.misc import *
+
 from commands.command import Command
+
+from utilities.abilities import ability_list
 from utilities.classes import class_from_name
 from utilities.display import notify, bullet, header, divider
 from utilities.menu import Menu
+
 from server.conf import settings
 
+from typeclasses.abilities import Ability
 from typeclasses.accounts import Account
 from typeclasses.areas import Area
 from typeclasses.characters import Character
@@ -132,8 +139,13 @@ class CmdTest(Command):
     locks = "perm(Admin)"
 
     def func(self):
-        pass
         # Menu(self.caller, "menus.testmenu", cmdset_mergetype = "Replace", cmd_on_exit = "look", startnode = "node_test", debug = True)
+        # ab_list = Ability.__subclasses__()
+        ab_list = [ab for ab in Ability.__subclasses__()]
+
+        for ab in ab_list:
+            a = ab()
+            self.echo(f"\n|W{a.name}|n\n{a.key}\n|x{a._description}|n\n")
 
 class CmdSpeciesChange(Command):
     key = "specieschange"
