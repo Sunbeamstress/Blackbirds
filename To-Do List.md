@@ -89,7 +89,7 @@
       - [x] Reproductive ability.
       - [x] Two or four arms.
       - [ ] Idol treads/traction.
-   - [ ] Archetype, a la Haven. Not quite a "class" but serves the same purpose.
+   - [x] ~~Archetype, a la Haven. Not quite a "class" but serves the same purpose.~~ Not needed at this time.
    - [x] ~~Background - poverty, child of politician, that sort of thing.~~
       * Could influence starting money, allow/deny certain skills at chargen.
 

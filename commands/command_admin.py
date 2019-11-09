@@ -14,7 +14,6 @@ from utilities.menu import Menu
 from server.conf import settings
 
 from typeclasses.accounts import Account
-from typeclasses.archetypes import Archetype, Blackbird, Citizen, Privileged, Survivalist
 from typeclasses.areas import Area
 from typeclasses.characters import Character
 from typeclasses.environments import Environment
@@ -55,7 +54,7 @@ class CmdUpdate(Command):
         ply = self.caller
 
         obj_type = self.word(1)
-        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "archetypes", "species", "exits")
+        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "species", "exits")
 
         if not obj_type:
             ply.error_echo("You must specify a Python class to update. Valid classes are:")
@@ -84,9 +83,6 @@ class CmdUpdate(Command):
         elif obj_type == "areas":
             for o in Area.objects.all():
                 o.update()
-        elif obj_type == "archetypes":
-            for o in Archetype.objects.all():
-                o.update()
         elif obj_type == "species":
             for o in Species.objects.all():
                 o.update()
@@ -109,7 +105,7 @@ class CmdList(Command):
         ply = self.caller
         obj_type = self.word(1)
         obj_list = []
-        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "archetypes", "species", "exits")
+        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "species", "exits")
 
         if obj_type not in valid_objs:
             ply.error_echo("You must specify a valid Python class to list. Valid classes are:")
@@ -164,30 +160,6 @@ class CmdSpeciesChange(Command):
             ply.echo("Species changed to Idol.")
         else:
             ply.error_echo("That is not a valid species name.")
-
-class CmdArchetypeChange(Command):
-    key = "archetypechange"
-    aliases = ["archchange"]
-    locks = "perm(Admin)"
-
-    def func(self):
-        ply = self.caller
-        archetype = self.word(1).lower()
-
-        if archetype == "blackbird":
-            ply.db.archetype = Blackbird()
-            ply.echo("Archetype changed to Blackbird.")
-        elif archetype == "citizen":
-            ply.db.archetype = Citizen()
-            ply.echo("Archetype changed to Citizen.")
-        elif archetype == "privileged":
-            ply.db.archetype = Privileged()
-            ply.echo("Archetype changed to Privileged.")
-        elif archetype == "survivalist":
-            ply.db.archetype = Survivalist()
-            ply.echo("Archetype changed to Survivalist.")
-        else:
-            ply.error_echo("That is not a valid archetype.")
 
 class CmdSetHp(Command):
     key = "sethp"

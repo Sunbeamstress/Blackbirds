@@ -240,16 +240,6 @@ def chargen_pronoun_menu(caller, raw_string, **kwargs):
 
     return text, options
 
-def chargen_archetype(caller, raw_string, **kwargs):
-    text = "Your |Warchetype|n is analogous to a character class/job in other games. In Blackbirds you can build your character to excel at most abilities - archetypes, then, are a way of expressing that your character is very specialized in certain of these abilities. As there are numerous archetypes and they affect even more numerous abilities, it is recommended you find the time to read about them in the help files at your earliest convenience."
-
-    options = (
-        {"desc": f"Archetype: {caller.archetype()}", "goto": "chargen_archetype"},
-        {"key": "r", "desc": "Return to character anatomy.", "goto": "chargen_anatomy"},
-    )
-
-    return text, options
-
 def chargen_anatomy(caller, raw_string, **kwargs):
     text = f"Here, you'll specify certain aspects of your character's anatomy. Your choices here are dependent on your character's species, and can affect various game mechanics, from clothing slots, to ability use, to the ability to bear children. Please take care in selecting these, as none of these choices are easily altered.\n\nAs {an(caller.db.species.name)}, {caller.name}..."
 
@@ -262,7 +252,7 @@ def chargen_anatomy(caller, raw_string, **kwargs):
     if caller.db.species.can_be_fourarmed:
         options.append({"desc": anatomy_display("has four arms.", caller.db.has_four_arms), "goto": (anatomy_selection, {"anatomy": "four_arms"})})
 
-    options.append({"key": "n", "desc": "Continue to archetype.", "goto": "chargen_archetype"})
+    options.append({"key": "n", "desc": "Continue to |RTBD|n.", "goto": "chargen_anatomy"})
     options.append({"key": "r", "desc": "Return to character identity.", "goto": "chargen_identity"})
 
     return text, options

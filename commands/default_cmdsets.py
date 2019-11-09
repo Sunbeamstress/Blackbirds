@@ -77,7 +77,6 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdMap())
         self.add(CmdTest())
         self.add(CmdSpeciesChange())
-        self.add(CmdArchetypeChange())
         self.add(CmdSetHp())
         self.add(CmdScore())
         self.add(CmdPronounChange())

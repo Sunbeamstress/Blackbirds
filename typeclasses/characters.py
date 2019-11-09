@@ -33,7 +33,6 @@ class Character(DefaultCharacter):
         self.db.en = {"current": 100, "max": 100} # Endurance.
         self.db.sc = {"current": 0, "max": 3} # Scars (lives).
         self.db.xp = {"current": 0, "max": 1000} # Experience.
-        self.db.archetype = None
         self.db.money = 0
         self.db.neon = 0
 
@@ -59,10 +58,7 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        self.db.abilities = {}
-        self.db.abilities["might"] = Might()
-        self.db.abilities["dexterity"] = Dexterity()
-        self.db.abilities["acuity"] = Acuity()
+        self.db.archetype = None
 
     def at_before_say(self, message, **kwargs):
         return message
@@ -349,9 +345,6 @@ class Character(DefaultCharacter):
     def species(self):
         return self.db.species.name if self.db.species else "Unknown"
 
-    def archetype(self):
-        return self.db.archetype.name if self.db.archetype else "None"
-
     def they(self):
         return self.db.pronoun_they
 
@@ -398,7 +391,7 @@ class Character(DefaultCharacter):
         string += column("Endurance", en_string, title_width = col_width)
         string += "\n" + column("Pronouns", f"{self.pronouns()}", title_width = col_width, value_width = 24)
         string += column("Experience", xp_string, title_width = col_width)
-        string += "\n" + column("Archetype", self.archetype(), title_width = col_width, value_width = 24)
+        string += "\n" + (" " * 39)
         string += column("Scars", sc_string, title_width = col_width)
 
         string += "\n\n|cOrganizations & Allegiances|n"

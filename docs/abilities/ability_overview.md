@@ -99,6 +99,8 @@ Because abilities directly correlate to the power of a character, certain measur
 **What if you make a mistake and spent your points on the wrong ability? What if you change your mind?**
 - It is possible to unlearn an ability, though you're refunded only half of the ability's cost, rounded down (Lv 3: 2, Lv 2: 1, Lv 1: 0).
 
+- If the ability you're attempting to unlearn is a prerequisite for an unlocked hidden ability tree, you cannot unlearn it until you've unlearned every ability in that tree.
+
 - This becomes incredibly undesirable to do at much higher AP levels, as you will take longer and longer to earn AP, so choose carefully!
 
 ## Types of Abilities
