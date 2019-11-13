@@ -102,5 +102,3 @@ Because abilities directly correlate to the power of a character, certain measur
 - If the ability you're attempting to unlearn is a prerequisite for an unlocked hidden ability tree, you cannot unlearn it until you've unlearned every ability in that tree.
 
 - This becomes incredibly undesirable to do at much higher AP levels, as you will take longer and longer to earn AP, so choose carefully!
-
-## Types of Abilities
