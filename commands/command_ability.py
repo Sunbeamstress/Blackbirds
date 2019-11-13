@@ -53,7 +53,7 @@ def display_ability_info(ply, ab):
                 prefix = f"  |{tier_color}{tier} |c|||n "
 
             formatted_text = None
-            if text[:4] == "cmd:":
+            if text[:4].lower() == "cmd:":
                 cmd_text = text[4:].strip()
                 cmd_color = "300" if lvl < tier else "R"
                 formatted_text = f"{prefix}|{color}Grants use of the |{cmd_color}{cmd_text.upper()}|{color} command."
