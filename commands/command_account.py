@@ -8,6 +8,7 @@ from commands.command import Command
 
 _MAX_NR_CHARACTERS = settings.MAX_NR_CHARACTERS
 _MULTISESSION_MODE = settings.MULTISESSION_MODE
+_START_LOCATION = settings.START_LOCATION
 
 class CmdChar(Command):
     def __init__(self):
@@ -83,7 +84,7 @@ class CmdChar(Command):
             # create the character
             permissions = settings.PERMISSION_ACCOUNT_DEFAULT
             new_character = create.create_object(typeclass, key = new_key,
-                                                location = None,
+                                                location = _START_LOCATION,
                                                 home = None,
                                                 permissions = permissions)
             # only allow creator (and developers) to puppet this char
