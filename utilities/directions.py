@@ -1,6 +1,6 @@
 DIRECTION_MAP = ("northwest", "north", "northeast", "west", "east", "southwest", "south", "southeast", "up", "down", "in", "out")
 ABBR_DIRECTION_MAP = ("nw", "n", "ne", "w", "e", "sw", "s", "se", "u", "d", "in", "out")
-OPP_DIRECTION_MAP = ("southeast", "south", "southwest", "east", "west", "northeast", "north", "southwest", "down", "up", "out", "in")
+OPP_DIRECTION_MAP = ("southeast", "south", "southwest", "east", "west", "northeast", "north", "northwest", "down", "up", "out", "in")
 
 def get_full_direction(dir):
     dir = dir.lower()
