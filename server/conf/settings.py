@@ -36,10 +36,16 @@ from server.conf import color_definitions as c
 
 # This is the name of your game. Make it catchy!
 SERVERNAME = "Blackbirds"
-GAME_SLOGAN = "For those who love the rain."
+GAME_SLOGAN = "Surrealist synthwave fantasy."
 
 TELNET_ENABLED = True
+TELNET_PORTS = [4000]
 TELNET_OOB_ENABLED = True
+
+# This is a security setting protecting against host poisoning
+# attacks.  It defaults to allowing all. In production, make
+# sure to change this to your actual host addresses/IPs.
+ALLOWED_HOSTS = ["*"]
 
 WEBSERVER_ENABLED = True
 WEBCLIENT_ENABLED = False
@@ -130,9 +136,9 @@ BASE_SCRIPT_TYPECLASS = "typeclasses.scripts.Script"
 # is Limbo (#2).
 DEFAULT_HOME = "#2"
 # The start position for new characters. Default is Limbo (#2).
-#  MULTISESSION_MODE = 0, 1 - used by default unloggedin create command
-#  MULTISESSION_MODE = 2, 3 - used by default character_create command
-START_LOCATION = "#2"
+START_LOCATION = "#70"
+# The room items are sent to upon deletion.
+DELETION_ROOM = "#98"
 # Lookups of Attributes, Tags, Nicks, Aliases can be aggressively
 # cached to avoid repeated database hits. This often gives noticeable
 # performance gains since they are called so often. Drawback is that
