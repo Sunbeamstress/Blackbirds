@@ -260,6 +260,9 @@ class Account(DefaultAccount):
         if prompt == True:
             self.msg(prompt = self.prompt())
 
+    def error_echo(self, string, prompt = False):
+        self.echo(string, prompt = prompt, error = True)
+
     def prompt(self):
         "Returns the object's prompt, if applicable."
         p_string = f"|M---|n"
