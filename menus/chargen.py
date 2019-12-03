@@ -2,24 +2,27 @@
 import re, string
 
 # Blackbirds modules.
+from server.conf import settings
 from typeclasses.species import Human, Carven, Sacrilite, Luum, Idol
+from utilities.characters import name_is_taken
 from utilities.string import jleft, jright, capital, sanitize, an
 from world.names import CURRENCY_FULL
 
-_VALID_UNUSUAL_NAME_CHARS = string.ascii_letters + string.digits + "-" + "." + "'"
+_SPAWN_ROOM = settings.SPAWN_ROOM
 
 def anatomy_display(text, val):
-    conv_val = "|xNo|n"
-    if val == True:
-        conv_val = "|WYes|n"
-
+    conv_val = "|WYes|n" if val == True else "|xNo|n"
     return "%s%s" % (jleft(text, 32), conv_val)
 
 def name_validate(new_name, unusual_names = False):
     valid = True
     err_msg = ""
 
-    if len(new_name) < 3 or len(new_name) > 24:
+    if name_is_taken(new_name):
+        valid = False
+        err_msg = f"The name {new_name} is already taken. Please use another."
+
+    elif len(new_name) < 3 or len(new_name) > 24:
         valid = False
         err_msg = f"Your name must be no fewer than 3 and no greater than 24 characters. You attempted to use {len(new_name)} character(s)."
 
@@ -179,7 +182,12 @@ def _chargen_select_species(caller, raw_string, **kwargs):
     elif species == "Luum":
         caller.db.species = Luum()
     elif species == "Idol":
-        caller.db.species = Idol()
+        if caller.check_permstring("Developer"):
+            caller.db.species = Idol()
+        else:
+            # caller.error_echo("You must play for at least 200 hours to access the Idol species. Please make another selection.")
+            caller.error_echo("The Idol species is unfinished, and currently unavailable. Please make another selection.")
+            return "chargen_base"
 
     return "chargen_identity"
 
@@ -274,14 +282,14 @@ def chargen_identity(caller, raw_string, **kwargs):
     return text, options
 
 def chargen_base(caller, raw_string, **kwargs):
-    text = "To begin, choose the species of your character. Enter the name of the species to read more about them. Enter the number to select the one you want."
+    text = "To begin, choose the species of your character. Enter the name of the species to read more about them. Enter the number to select the one you want.\n\n|RPlease note that this character generation process is in an unfinished state!|n"
 
     options = (
         {"desc": "Human", "goto": (_chargen_select_species, {"species": "Human"})},
         {"desc": "Carven", "goto": (_chargen_select_species, {"species": "Carven"})},
         {"desc": "Sacrilite", "goto": (_chargen_select_species, {"species": "Sacrilite"})},
         {"desc": "Luum", "goto": (_chargen_select_species, {"species": "Luum"})},
-        {"desc": "Idol", "goto": (_chargen_select_species, {"species": "Idol"})},
+        {"desc": "|xIdol|n", "goto": (_chargen_select_species, {"species": "Idol"})},
         {"key": "_default", "goto": (_chargen_base_species_info)},
     )
 

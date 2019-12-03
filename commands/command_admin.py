@@ -221,3 +221,23 @@ class CmdPronounChange(Command):
             return
 
         ply.echo(f"Your pronouns have been set to {ply.pronouns()}.")
+
+class CmdGoto(Command):
+    key = "goto"
+    aliases = ["tel", "tele", "teleport"]
+    locks = "perm(Admin)"
+
+    def func(self):
+        ply = self.caller
+        tar = self.word(1)
+
+        dest = ply.search(tar, global_search = True)
+        if not dest:
+            self.error_echo("No player or room by that name was found.")
+            return
+
+        # We found a target, teleport to it.
+
+        # Target is a player.
+
+        # Target is a room.

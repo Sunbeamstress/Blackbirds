@@ -55,6 +55,7 @@ class Room(DefaultRoom):
 
         # Room flags - physical states
         self.db.indoors = False # Is the room outside or not?
+        self.db.insulated = False # Does the room ignore weather and maintain a comfortable temperature?
         self.db.water_level = 0 # How much water does the room have in it? 0: None; 10: Completely submerged.
 
         # Room flags - municipal states
@@ -177,13 +178,16 @@ class Room(DefaultRoom):
 
         string = self.format_room_title()
         string += "\n%s" % Map(looker, max_width = 9, max_height = 9).draw_map()
-        string += "\n%s " % self.get_temperature_string()
 
         desc = self.db.desc
         if desc:
             desc = desc.replace("$p", "\n\n")
             desc = desc.replace("$n", "\n")
-            string += desc
+
+            if not self.db.insulated:
+                desc = f"{self.get_temperature_string()} {desc}"
+
+            string += f"\n{desc}"
 
         if things:
             for item in things:
@@ -199,9 +203,9 @@ class Room(DefaultRoom):
             string += "\n  %s" % self.get_water_level_string()
 
         if exit_list:
-            string += "\n|235You see exits leading " + list_to_string(exit_list) + "|n."
+            string += "\n\n|235You see exits leading " + list_to_string(exit_list) + "|n."
         else:
-            string += "\n|235You see no exits.|n"
+            string += "\n\n|235You see no exits.|n"
 
         return string
 

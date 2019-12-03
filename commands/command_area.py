@@ -5,7 +5,6 @@ from utilities.menu import Menu
 
 class CmdArea(Command):
     key = "area"
-    aliases = ["areas"]
     locks = "perm(Builder)"
     help_category = "Admin"
 

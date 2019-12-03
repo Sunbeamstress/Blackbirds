@@ -115,10 +115,9 @@ class Map():
                         shift_y, shift_x = 0, 0
                         if e_dir in DIR_SHIFT:
                             shift_y, shift_x = DIR_SHIFT[e_dir][0], DIR_SHIFT[e_dir][1]
-
-                        # if shift_y != 0 and shift_x != 0:
-                        sym = DIR_SYM[e_dir]
-                        self.grid[y + shift_y][x + shift_x] = f"|w{sym}|n"
+                            # if shift_y != 0 and shift_x != 0:
+                            sym = DIR_SYM[e_dir]
+                            self.grid[y + shift_y][x + shift_x] = f"|w{sym}|n"
 
                     # Set the room's node to its environment color.
                     color = self.rooms[y][x].environment_color()

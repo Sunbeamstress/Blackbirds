@@ -137,8 +137,12 @@ BASE_SCRIPT_TYPECLASS = "typeclasses.scripts.Script"
 DEFAULT_HOME = "#2"
 # The start position for new characters. Default is Limbo (#2).
 START_LOCATION = "#70"
+# The room players are put into upon completing character creation.
+SPAWN_LOCATION = "#105"
 # The room items are sent to upon deletion.
-DELETION_ROOM = "#98"
+DELETION_ROOM = "#103"
+# The hangout spot for admin/developers.
+ADMIN_ROOM = "#104"
 # Lookups of Attributes, Tags, Nicks, Aliases can be aggressively
 # cached to avoid repeated database hits. This often gives noticeable
 # performance gains since they are called so often. Drawback is that
