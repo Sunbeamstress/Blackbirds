@@ -14,10 +14,6 @@ import utilities.directions as dirs
 VALID_ROOM_VALUES = ("temperature", "illumination", "water_level")
 VALID_ROOM_FLAGS = ("indoors", "darkness", "natural", "public", "shop", "house", "battleground", "craft_hall", "chapel", "bank")
 
-def DescribeRoom(ply, room, description):
-    room.db.desc = description
-    ply.echo(f"|xRoom description changed. The room will now be described as:|n\n{room.db.desc}")
-
 def roominfo_entry(attr_name, nice_value, var_name, type_reminder, cust_str_color = "W"):
     translated_value = "|c---|n"
 
@@ -97,12 +93,18 @@ def RoomRename(ply, tar_room = None, new_name = None):
 
     r_id = tar_room.id
     r_id_str = "#" + str(tar_room.id)
-    previous_name = tar_room.name
-    tar_room.name = new_name
-    ply.echo(f"Room {r_id_str}'s name has been changed from {previous_name} to {tar_room.name}.")
+    previous_name = tar_room.db.fullname
+    tar_room.db.fullname = new_name
+    ply.echo(f"Room {r_id_str}'s name has been changed from {previous_name} to {tar_room.fullname()}.")
 
 def RoomRedescribe(ply, tar_room = None, new_desc = None):
-    pass
+    if tar_room:
+        if new_desc.lower() in ("none", "clear", "empty", "erase", "wipe"):
+            tar_room.db.desc = ""
+            ply.echo("Room description cleared.")
+        else:
+            tar_room.db.desc = description
+            ply.echo(f"Room description changed. The room will now be described as:|n\n{tar_room.description()}")
 
 def RoomEnvironment(ply, tar_room = None, new_env = None):
     if not new_env:

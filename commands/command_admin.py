@@ -1,8 +1,8 @@
 # Python modules.
-import inspect, sys
+import inspect, sys, inflect
 
 # Evennia modules.
-from evennia.server.sessionhandler import SESSIONS
+from evennia.server.sessionhandler import SESSION_HANDLER
 from evennia.utils import search
 from evennia.utils.utils import mod_import, variable_from_module, class_from_module
 
@@ -14,7 +14,8 @@ from commands.command import Command
 
 from utilities.abilities import ability_list
 from utilities.classes import class_from_name
-from utilities.display import notify, bullet, header, divider
+from utilities.debugging import debug_echo
+from utilities.display import notify, bullet, header, divider, gecho
 from utilities.menu import Menu
 
 from server.conf import settings
@@ -49,8 +50,8 @@ class CmdReload(Command):
         reason = ""
         if self.args:
             reason = "%s" % self.args.rstrip(".")
-        SESSIONS.announce_all(notify("Game", f"The system is reloading{reason}, please be patient."))
-        SESSIONS.portal_restart_server()
+        SESSION_HANDLER.announce_all(notify("Game", f"The system is reloading{reason}, please be patient."))
+        SESSION_HANDLER.portal_restart_server()
 
 class CmdUpdate(Command):
     key = "update"
@@ -139,10 +140,7 @@ class CmdTest(Command):
     locks = "perm(Admin)"
 
     def func(self):
-        # Menu(self.caller, "menus.testmenu", cmdset_mergetype = "Replace", cmd_on_exit = "look", startnode = "node_test", debug = True)
-        # ab_list = Ability.__subclasses__()
         ab_list = [ab for ab in Ability.__subclasses__()]
-
         for ab in ab_list:
             a = ab()
             self.echo(f"\n|W{a.name}|n\n{a.key}\n|x{a._description}|n\n")
@@ -223,21 +221,78 @@ class CmdPronounChange(Command):
         ply.echo(f"Your pronouns have been set to {ply.pronouns()}.")
 
 class CmdGoto(Command):
-    key = "goto"
-    aliases = ["tel", "tele", "teleport"]
+    key = "go"
+    aliases = ["goto", "tel", "tele", "teleport"]
+    locks = "perm(Admin)"
+
+    def func(self):
+        ply = self.caller
+        tar = self.word(1)
+        loc = None
+
+        if tar in ("chargen", "intro", "newbie"):
+            tar = settings.START_LOCATION
+        elif tar in ("deletion", "trash"):
+            tar = settings.DELETION_ROOM
+        elif tar in ("admin", "satellite", "pools"):
+            tar = settings.ADMIN_ROOM
+
+        dest = ply.search(tar, global_search = True)
+        if not dest:
+            self.error_echo("No player, object, or room by that name was found.")
+            return
+
+        # Target is not a room - try to get their location.
+        if dest.has_account:
+            loc = dest.location
+            if not loc:
+                self.error_echo("That target does not seem to have a room you can teleport to.")
+                return
+        else:
+            loc = dest
+
+        # Continue as normal.
+        if ply.move_to(loc, quiet = True, move_msg = f"You fling yourself through spacetime, and halt abruptly at {loc.fullname()}."):
+            pass
+        else:
+            self.error_echo("Teleportation failed.")
+
+class CmdDelete(Command):
+    key = "delete"
+    aliases = ["del"]
     locks = "perm(Admin)"
 
     def func(self):
         ply = self.caller
         tar = self.word(1)
 
-        dest = ply.search(tar, global_search = True)
-        if not dest:
-            self.error_echo("No player or room by that name was found.")
+        # If the target is a player or object, send it to the deletion room. Everything else is removed the normal way.
+        tar = ply.search(tar, global_search = True)
+
+        if not tar:
+            self.error_echo("There doesn't appear to be anything by that name to delete.")
             return
 
-        # We found a target, teleport to it.
+        tar.location = ply.search(settings.DELETION_ROOM, global_search = True)
+        self.echo(f"You send {tar.name} (#{tar.id}) to deletion for processing.")
 
-        # Target is a player.
+class CmdInflect(Command):
+    key = "inflect"
+    aliases = ["inf"]
+    locks = "perm(Developer)"
 
-        # Target is a room.
+    def iecho(self, string):
+        self.caller.echo(f"|c[|CInflect|c]:|n {string}")
+
+    def func(self):
+        ply = self.caller
+        arg = self.word(1)
+        string = self.words(2)
+
+        inf = inflect.engine()
+        inf.classical()
+
+        if arg == "plural":
+            self.iecho(inf.plural(string))
+        elif arg == "pluraladj" or arg == "plural_adj":
+            self.iecho(inf.plural_adj(string))

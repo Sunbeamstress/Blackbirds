@@ -1,8 +1,11 @@
+from utilities.debugging import debug_echo
+
 class Species():
     def __init__(self):
         # Species-specific naming info.
         self.name = None
         self.plural_name = None
+        self.society = None
 
         # Physical characteristics.
         self.min_age = 0
@@ -43,12 +46,54 @@ class Species():
     def at_look(self):
         return False
 
+    def age_description(self, a):
+        low, high = self.min_age, self.max_age
+        a_perc = (a * 100) / high
+
+        if a < low:
+            return "juvenile"
+        if a_perc >= 85:
+            return "ancient"
+        if a_perc >= 60:
+            return "elderly"
+        if a_perc >= 41:
+            return "middle-aged"
+        if a_perc >= 30:
+            return "adult"
+        if a_perc >= 21:
+            return "young adult"
+        return "young"
+
+    def height_description(self, h):
+        low, high = self.min_height, self.max_height
+        h_perc = ((h - low) * high) / (high - low)
+
+        if h < low:
+            return "stunted"
+        if h > high:
+            return "unnatural"
+        if h_perc >= 95:
+            return "incredibly tall"
+        if h_perc >= 85:
+            return "very tall"
+        if h_perc >= 70:
+            return "tall"
+        if h_perc >= 50:
+            return "average"
+        if h_perc >= 30:
+            return "sub-average"
+        if h_perc >= 15:
+            return "short"
+        if h_perc >= 5:
+            return "diminutive"
+
 class Human(Species):
     def __init__(self):
         super().__init__()
 
         self.name = "Human"
         self.plural_name = "Humans"
+        self.society = "Humanity"
         self.min_age = 18
         self.max_age = 100
         self.min_height = 120
@@ -65,6 +110,7 @@ class Carven(Species):
 
         self.name = "Carven"
         self.plural_name = "Carven"
+        self.society = "Carvendom"
         self.min_age = 18
         self.max_age = 170
         self.min_height = 150
@@ -84,6 +130,7 @@ class Sacrilite(Species):
 
         self.name = "Sacrilite"
         self.plural_name = "Sacrilites"
+        self.society = "Sacrility"
         self.min_age = 18
         self.max_age = 65
         self.min_height = 150
@@ -103,6 +150,7 @@ class Luum(Species):
 
         self.name = "Luum"
         self.plural_name = "Luumi"
+        self.society = "Luumdom"
         self.min_age = 18
         self.max_age = 1000
         self.min_height = 60
@@ -125,6 +173,7 @@ class Idol(Species):
 
         self.name = "Idol"
         self.plural_name = "Idols"
+        self.society = "Synthesis"
         self.min_age = 1
         self.max_age = 1000
         self.min_height = 100
@@ -160,6 +209,7 @@ class Blackbird(Species):
         super().__init__()
         self.name = "Blackbird"
         self.plural_name = "Blackbirds"
+        self.society = "the Assassinocracy"
         self.min_age = 18
         self.max_age = 9999
         self.min_height = 1
@@ -184,4 +234,4 @@ class Blackbird(Species):
         self.has_plant_appendages = True
         self.can_eat_anything = True
         self.playable = False
-        self.chargen_documentation = "A mysterious breed."
+        self.chargen_documentation = "A mutant strain; a forbidden breed."

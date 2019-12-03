@@ -82,6 +82,9 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdPronounChange())
         self.add(CmdUpdate())
         self.add(CmdList())
+        self.add(CmdGoto())
+        self.add(CmdDelete())
+        self.add(CmdInflect())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"

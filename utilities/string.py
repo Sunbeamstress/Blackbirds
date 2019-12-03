@@ -90,7 +90,7 @@ def wrap(string, width = 80, initial_indent = 0, subsequent_indent = 0):
 
 def plural(string):
     inf = inflect.engine()
-    inf.classical()
+    inf.classical(ancient = True)
     return inf.plural(string)
 
 def message_token_pluralize(string, token, tar):

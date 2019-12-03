@@ -1,30 +1,8 @@
+# Evennia modules.
+from evennia.server.sessionhandler import SESSION_HANDLER
+
 # Blackbirds modules.
-from utilities.string import jleft, jright, wrap
-
-class echo():
-    def tar(self, tar, src, tar_str, src_str):
-        # tar - target of the echo
-        # src - source, object it emanates from (used for pronouns)
-        # tar_str - what the target sees
-        # src_str - what the source sees
-        pass
-
-    def tar_room(self, tar, src, tar_str, src_str, room_str):
-        # same as tar, but passes a third formatted message to the room
-        # room_str - what the room sees
-        pass
-
-    def room(self, room, str):
-        # Echo to room
-        pass
-
-    def game(self, str):
-        # Echo to game
-        pass
-
-    def func(self, ply, str):
-        ply.msg(f"|w{str}|n")
-    
+from utilities.string import autoformat, jleft, jright, wrap
 
 def notify(title, string):
     """
@@ -68,3 +46,6 @@ def bullet(string, width = 80, color = "c", indent = 1):
     string = wrap(prefix + string, initial_indent = 1, subsequent_indent = 3)
 
     return string
+
+def gecho(string):
+    players = [acc.echo(f"{autoformat(string)}") for acc in SESSION_HANDLER.all_connected_accounts()]

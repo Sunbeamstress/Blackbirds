@@ -62,6 +62,10 @@ class Command(BaseCommand):
         ply = self.caller
         ply.echo(string = string, error = error, prompt = prompt)
 
+    def error_echo(self, string, prompt = False):
+        ply = self.caller
+        ply.error_echo(string = string, prompt = prompt)
+
     def word_count(self):
         """
         Usage: self.word_count()

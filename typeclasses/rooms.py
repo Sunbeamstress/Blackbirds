@@ -45,7 +45,8 @@ class Room(DefaultRoom):
             "out": None
         }
 
-        self.db.desc = "The space around you cannot be made sense of - the only concession to the mortal mind is that amidst the inchoate and swirling static that surrounds you, the visual noise underfoot is as solid as stone, serving as a \"floor.\" All around you is a relentless buzzing of junk data, and with it, the sound of an impossibly vast ocean, churning and hissing away into eternity."
+        self.db.fullname = ""
+        self.db.desc = ""
 
         self.db.zone = None
         self.db.environment = None
@@ -81,7 +82,7 @@ class Room(DefaultRoom):
         self.db.symbol_override = False
 
     def update(self):
-        pass
+        self.db.fullname = ""
 
     def get_exits(self):
         exit_list = []
@@ -179,7 +180,7 @@ class Room(DefaultRoom):
         string = self.format_room_title()
         string += "\n%s" % Map(looker, max_width = 9, max_height = 9).draw_map()
 
-        desc = self.db.desc
+        desc = self.description()
         if desc:
             desc = desc.replace("$p", "\n\n")
             desc = desc.replace("$n", "\n")
@@ -210,7 +211,7 @@ class Room(DefaultRoom):
         return string
 
     def format_room_title(self):
-        r_name = self.name
+        r_name = self.fullname()
         r_id = self.id
         r_id_zeroes = "0" * (4 - len(str(r_id)))
 
@@ -220,6 +221,15 @@ class Room(DefaultRoom):
         r_env = "|%s%s|n" % (self.environment_color(), self.environment_short())
 
         return f"|y{punctuate(r_name)}|n |213(|n|525{r_zone}, {r_area}|n|213)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n"
+
+    def fullname(self):
+        return self.db.fullname if self.db.fullname else "Empty Room"
+
+    def description(self):
+        if self.db.desc and self.db.desc != "":
+            return self.db.desc
+
+        return "The space around you cannot be made sense of - the only concession to the mortal mind is that amidst the inchoate and swirling static that surrounds you, the visual noise underfoot is as solid as stone, serving as a \"floor.\" All around you is a relentless buzzing of junk data, and with it, the sound of an impossibly vast ocean, churning and hissing away into eternity."
 
     def get_temperature_string(self):
         temp = self.db.temperature

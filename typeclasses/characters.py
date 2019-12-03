@@ -18,7 +18,7 @@ class Character(DefaultCharacter):
         self.db.surname = ""
         self.db.age = 18
         self.db.app_age = 18
-        self.db.intro = ""
+        self.db.identity = ""
         self.db.height = 172 # Approx. 5' 8" in cm
         self.db.pronoun_they = "they"
         self.db.pronoun_them = "them"
@@ -37,6 +37,9 @@ class Character(DefaultCharacter):
         # Abilities.
         self.db.abilities = {}
 
+        # Nicknames.
+        self.db.nicks = {}
+
         # Combat/RP-based statuses.
         self.db.prone = 0 # 1 for seated, 2 for lying down
 
@@ -53,7 +56,7 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        self.db.abilities = {}
+        self.db.nicks = {}
 
     def at_before_say(self, message, **kwargs):
         return message
@@ -73,14 +76,38 @@ class Character(DefaultCharacter):
         if not looker:
             return ""
 
-        surname = ""
-        if self.db.surname:
-            surname = f" {self.db.surname}"
-        string = f"|xThis is |c{self.key}{surname}|n|x,|n |c{an(self.species())}|n|x.|n\n"
-        string += divider()
-        string += f"\n{self.db.desc}"
+        # Grab the looker's height, and target's height.
+        l_h, s_h = looker.db.height, self.db.height
+        h_comp = "about the same height as"
+        # Get what percentage of height the looker is compared to the target.
+        h_perc = (l_h * 100) / s_h
+        # Looker is taller.
+        if h_perc >= 200:
+            h_comp = "utterly dwarfed by"
+        elif h_perc >= 175:
+            h_comp = "far smaller than"
+        elif h_perc >= 150:
+            h_comp = "much shorter than"
+        elif h_perc >= 125:
+            h_comp = "visibly shorter than"
+        # Looker is shorter.
+        elif h_perc <= 80:
+            h_comp = "visibly taller than"
+        elif h_perc <= 60:
+            h_comp = "much taller than"
+        elif h_perc <= 40:
+            h_comp = "far larger than"
+        elif h_perc <= 20:
+            h_comp = "monstrous compared to"
+
+        string  = f"{capital(self.nickname(looker))}. {capital(self.they())} {self.pluralize('appear')} to be {an(self.age_description())} {self.species()}."
+        string += f"\n{capital(self.they())} {self.pluralize('are')} {self.height_description()} for {self.their()} kind, {h_comp} you."
+        string += f"\n\n{self.description()}"
 
         return string
+
+    def return_precise_appearance(self, looker = None, **kwargs):
+        pass
 
     def echo(self, string, prompt = False, error = False):
         # At this moment, simply a lazy method wrapper that sends a message to the object,
@@ -221,11 +248,13 @@ class Character(DefaultCharacter):
         destination = exit.get_destination()
         self.move_to(destination)
 
-    def move_to(self, destination, quiet = False, move_hooks = True, **kwargs):
+    def move_to(self, destination, quiet = False, move_hooks = True, move_msg = None, **kwargs):
         # self: obvious.
         # destination: handled by dir-based move method
         # quiet: if true, won't display enter/exit messages
         # move_hooks: if False, bypasses at_move/before_move on objects
+        # move_msg: A message to be passed on to the at_after_move() method. Displays a custom
+        #           message before the room is displayed.
 
         # should return True if move was successful, and False if not
 
@@ -239,7 +268,7 @@ class Character(DefaultCharacter):
             self.error_echo("%s%s" % (string, "" if err is None else " (%s)" % err))
             return
 
-        errtxt = ("Couldn't perform move ('%s'). Contact an admin.")
+        errtxt = ("Method move_to failed at: ('%s').")
 
         # Convert destination to actual room.
         destination = self.search(destination, global_search = True)
@@ -270,6 +299,7 @@ class Character(DefaultCharacter):
                 error_msg(errtxt % "at_announce_move()", err)
                 return False
 
+        # Perform the movement itself.
         try:
             self.location = destination
         except Exception as err:
@@ -286,7 +316,7 @@ class Character(DefaultCharacter):
 
         if move_hooks:
             # Perform eventual extra commands on the receiving location
-            # (the object has already arrived at this point)
+            # (the object has already arrived at this point).
             try:
                 destination.at_object_receive(self, source_location)
             except Exception as err:
@@ -297,12 +327,20 @@ class Character(DefaultCharacter):
         # (usually calling 'look')
         if move_hooks:
             try:
-                self.at_after_move(source_location)
+                self.at_after_move(source_location, move_msg = move_msg)
             except Exception as err:
-                error_msg(errtxt % "at_after_move", err)
+                error_msg(errtxt % "at_after_move()", err)
                 return False
 
         return True
+
+    def at_after_move(self, source_location, move_msg = None, **kwargs):
+        "Performed as the last step after a successful movement. By default, displays the room."
+        if move_msg:
+            self.echo(move_msg)
+
+        if self.location.access(self, "view"):
+            self.msg(self.at_look(self.location))
 
     def at_look(self, target = None, **kwargs):
         # If the player has no species or their species doesn't override at_look,
@@ -422,6 +460,10 @@ class Character(DefaultCharacter):
         if self.they() == "they":
             return string
 
+        # Sometimes we have to step in, in special cases where the inflect engine fails.
+        if string == "are":
+            return "is"
+
         return plural(string)
 
     def message(self, self_m = None, target = None, tar_m = None, witness_m = None):
@@ -485,3 +527,39 @@ class Character(DefaultCharacter):
         if witness_m:
             # room.echo(witness_m, prompt = True)
             pass
+
+    def description(self):
+        return self.db.desc if self.db.desc else "A strangely nondescript person."
+
+    def change_description(self, new_desc):
+        old_desc = self.db.desc
+        if new_desc in ("none", "clear", "empty", "erase", "wipe"):
+            self.db.desc = ""
+            self.echo(f"You clear your description.")
+        else:
+            self.db.desc = new_desc
+            self.echo(f"Your description has been changed to:\n|x{self.description()}|n")
+
+        if old_desc:
+            self.echo(f"\n\nYour old description was:\n|x{old_desc}|n")
+
+    def identity(self):
+        return self.db.identity if self.db.identity else "an unremarkable person"
+
+    def nickname(self, looker):
+        if not looker:
+            return self.identity()
+
+        if looker == self:
+            return self.name
+
+        if looker in self.db.nicks:
+            return self.db.nicks[looker]
+
+        return self.identity()
+
+    def age_description(self):
+        return self.db.species.age_description(self.db.age)
+
+    def height_description(self):
+        return self.db.species.height_description(self.db.height)
