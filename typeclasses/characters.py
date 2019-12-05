@@ -6,10 +6,11 @@ from evennia import DefaultCharacter
 from evennia.utils import logger
 
 # Blackbirds modules.
+from typeclasses.bodyparts import BodyPart
 from utilities.color import color_ramp
 from utilities.communication import ProcessSpeech
 from utilities.display import header, divider, column, bullet
-from utilities.string import an, capital, plural, message_token_pluralize, message_token_capitalize
+from utilities.string import an, capital, plural, message_token_pluralize, message_token_capitalize, jright
 import utilities.directions as dirs
 from world.names import CURRENCY, CURRENCY_FULL
 
@@ -40,7 +41,36 @@ class Character(DefaultCharacter):
         # Nicknames.
         self.db.nicks = {}
 
+        # Body system. Stores coverage, descriptions, and more.
+        self.db.body = {}
+        self.db.body["hair"] = BodyPart(key = "hair", plural_name = "hair", can_be_missing = False, can_be_injured = False)
+        self.db.body["left_eye"] = BodyPart(key = "left_eye", aliases = ["leye"], fullname = "left eye")
+        self.db.body["right_eye"] = BodyPart(key = "right_eye", aliases = ["reye"], fullname = "right eye")
+        self.db.body["face"] = BodyPart(key = "face", can_be_missing = False)
+        self.db.body["neck"] = BodyPart(key = "neck", aliases = ["throat"], can_be_missing = False)
+        self.db.body["chest"] = BodyPart(key = "chest", can_be_missing = False)
+        self.db.body["nipples"] = BodyPart(key = "nipples", plural_name = "nipples", can_be_injured = False)
+        self.db.body["stomach"] = BodyPart(key = "stomach", can_be_missing = False)
+        self.db.body["upper_back"] = BodyPart(key = "upper_back", fullname = "upper back", can_be_missing = False)
+        self.db.body["lower_back"] = BodyPart(key = "lower_back", fullname = "lower back", can_be_missing = False)
+        self.db.body["upper_left_arm"] = BodyPart(key = "upper_left_arm", fullname = "upper left arm")
+        self.db.body["lower_left_arm"] = BodyPart(key = "lower_left_arm", fullname = "lower left arm")
+        self.db.body["upper_right_arm"] = BodyPart(key = "upper_right_arm", fullname = "upper right arm")
+        self.db.body["lower_right_arm"] = BodyPart(key = "lower_right_arm", fullname = "lower right arm")
+        self.db.body["left_hand"] = BodyPart(key = "left_hand", fullname = "left hand")
+        self.db.body["right_hand"] = BodyPart(key = "right_hand", fullname = "right hand")
+        self.db.body["genitals"] = BodyPart(key = "genitals", plural_name = "genitalia", is_inappropriate = True)
+        self.db.body["buttocks"] = BodyPart(key = "buttocks", plural_name = "buttocks", can_be_missing = False)
+        self.db.body["upper_left_leg"] = BodyPart(key = "upper_left_leg", fullname = "upper left leg")
+        self.db.body["lower_left_leg"] = BodyPart(key = "lower_left_leg", fullname = "lower left leg")
+        self.db.body["upper_right_leg"] = BodyPart(key = "upper_right_leg", fullname = "upper right leg")
+        self.db.body["lower_right_leg"] = BodyPart(key = "lower_right_leg", fullname = "lower right leg")
+        self.db.body["left_foot"] = BodyPart(key = "left_foot", fullname = "left foot")
+        self.db.body["right_foot"] = BodyPart(key = "right_foot", fullname = "right foot")
+
         # Combat/RP-based statuses.
+        self.db.balance = True # This being non-persistent is deliberate.
+        self.db.balance_time = 0
         self.db.prone = 0 # 1 for seated, 2 for lying down
 
         # Anatomy.
@@ -56,7 +86,31 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        self.db.nicks = {}
+        self.db.body = {}
+        self.db.body["hair"] = BodyPart(key = "hair", plural_name = "hair", can_be_missing = False, can_be_injured = False)
+        self.db.body["left_eye"] = BodyPart(key = "left_eye", aliases = ["leye"], fullname = "left eye")
+        self.db.body["right_eye"] = BodyPart(key = "right_eye", aliases = ["reye"], fullname = "right eye")
+        self.db.body["face"] = BodyPart(key = "face", can_be_missing = False)
+        self.db.body["neck"] = BodyPart(key = "neck", aliases = ["throat"], can_be_missing = False)
+        self.db.body["chest"] = BodyPart(key = "chest", can_be_missing = False)
+        self.db.body["nipples"] = BodyPart(key = "nipples", plural_name = "nipples", can_be_injured = False)
+        self.db.body["stomach"] = BodyPart(key = "stomach", can_be_missing = False)
+        self.db.body["upper_back"] = BodyPart(key = "upper_back", fullname = "upper back", can_be_missing = False)
+        self.db.body["lower_back"] = BodyPart(key = "lower_back", fullname = "lower back", can_be_missing = False)
+        self.db.body["upper_left_arm"] = BodyPart(key = "upper_left_arm", fullname = "upper left arm")
+        self.db.body["lower_left_arm"] = BodyPart(key = "lower_left_arm", fullname = "lower left arm")
+        self.db.body["upper_right_arm"] = BodyPart(key = "upper_right_arm", fullname = "upper right arm")
+        self.db.body["lower_right_arm"] = BodyPart(key = "lower_right_arm", fullname = "lower right arm")
+        self.db.body["left_hand"] = BodyPart(key = "left_hand", fullname = "left hand")
+        self.db.body["right_hand"] = BodyPart(key = "right_hand", fullname = "right hand")
+        self.db.body["genitals"] = BodyPart(key = "genitals", plural_name = "genitalia", is_inappropriate = True)
+        self.db.body["buttocks"] = BodyPart(key = "buttocks", plural_name = "buttocks", can_be_missing = False)
+        self.db.body["upper_left_leg"] = BodyPart(key = "upper_left_leg", fullname = "upper left leg")
+        self.db.body["lower_left_leg"] = BodyPart(key = "lower_left_leg", fullname = "lower left leg")
+        self.db.body["upper_right_leg"] = BodyPart(key = "upper_right_leg", fullname = "upper right leg")
+        self.db.body["lower_right_leg"] = BodyPart(key = "lower_right_leg", fullname = "lower right leg")
+        self.db.body["left_foot"] = BodyPart(key = "left_foot", fullname = "left foot")
+        self.db.body["right_foot"] = BodyPart(key = "right_foot", fullname = "right foot")
 
     def at_before_say(self, message, **kwargs):
         return message
@@ -100,9 +154,12 @@ class Character(DefaultCharacter):
         elif h_perc <= 20:
             h_comp = "monstrous compared to"
 
-        string  = f"{capital(self.nickname(looker))}. {capital(self.they())} {self.pluralize('appear')} to be {an(self.age_description())} {self.species()}."
-        string += f"\n{capital(self.they())} {self.pluralize('are')} {self.height_description()} for {self.their()} kind, {h_comp} you."
-        string += f"\n\n{self.description()}"
+        string  = f"|xYou know this one as {capital(self.nickname(looker))}. {capital(self.they())} {self.pluralize('appear')} to be {an(self.age_description())} {self.species()}.|n"
+        string += f"\n|x{capital(self.they())} {self.pluralize('are')} {self.height_description()} for {self.their()} kind, {h_comp} you.|n"
+        string += "\n"
+        # string += f"\n\n{self.description()}"
+        for b_part in self.db.body:
+            string += f"\n|m{jright(self.db.body[b_part].key, 20)}|n |c|||n {self.db.body[b_part].fullname}"
 
         return string
 
@@ -169,26 +226,29 @@ class Character(DefaultCharacter):
                 m_cur, m_max = getattr(self, stat), getattr(self, "max_" + stat)
                 c = color_ramp(m_cur(), m_max(), cap = True)
                 c_string = "".join(c)
-                s_string = "|013%s|n|%s%s|n" % ("0" * (3 - len(str(m_cur()))), c_string, str(m_cur()))
-                p_string += "|x%s|c|||n%s " % (stat.upper(), s_string)
+                s_string = f"|013{'0' * (3 - len(str(m_cur())))}|n|{c_string}{str(m_cur())}|n"
+                p_string += f"|x{stat.upper()}|c|||n{s_string} "
 
             # Experience.
-            p_string += "|504XP|c|||n|202%s|505%s|n " % ("0" * (len(str(self.max_xp())) - len(str(self.xp()))), self.xp())
+            p_string += f"|504XP|c|||n|202{'0' * (len(str(self.max_xp())) - len(str(self.xp())))}|505{self.xp()}|n "
 
             # Scars.
-            p_string += "|411SC|r|||n|R%s|n " % ("*" * self.sc()) if self.sc() > 0 else ""
+            p_string += f"|411SC|r|||n|R{'*' * self.sc()}|n " if self.sc() > 0 else ""
 
             # Statuses.
             stat_string += "|cp|n" if self.db.prone > 0 else ""
 
-            stat_string += " " if len(stat_string) >= 1 else ""
+            stat_string += "" if len(stat_string) >= 1 else ""
             p_string += stat_string
+
+            b_string = f"{' ' if len(stat_string) >= 1 else ''}|{'C!' if self.db.balance == True else 'r_'}|n"
+            p_string += f"{b_string} "
 
             # Cap that bad boy off.
             p_string += "|x-|n "
 
         elif status == "chargen":
-            p_string = "|035" + ("-" * 80)
+            p_string = f"|035{'-' * 80}"
 
         return p_string
 
