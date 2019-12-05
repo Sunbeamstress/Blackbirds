@@ -1,6 +1,6 @@
 class BodyPart():
     "Represents one of various regions of the character's body. Stores data regarding coverage, customized description, tattoos, injuries, and other identifiers."
-    def __init__(self, key = "body_part", aliases = [], fullname = "", plural_name = "", desc = "", can_be_missing = True, is_missing = False, is_optional = False, is_covered = False, is_prosthetic = False, is_inappropriate = False, is_heavy = False, can_be_injured = True, injury_level = 0):
+    def __init__(self, key = "body_part", aliases = [], fullname = "", plural_name = "", desc = "", can_be_missing = True, is_missing = False, is_optional = False, is_abstract = False, is_covered = False, is_prosthetic = False, is_inappropriate = False, is_heavy = False, can_be_injured = True, injury_level = 0):
         self.key = key
         self.aliases = aliases
         self._fullname = fullname
@@ -9,6 +9,7 @@ class BodyPart():
         self._can_be_missing = can_be_missing # If False, ignores all aspects of missing messages/mechanics.
         self._is_missing = is_missing # Is the body part omitted from the player?
         self._is_optional = is_optional # If true, the part will not be reported if missing.
+        self._is_abstract = is_abstract # Used for the 'general' body part, so you can't put clothes on it somehow.
         self._is_covered = is_covered # Is it covered by clothing or otherwise hidden?
         self._is_prosthetic = is_prosthetic # Does the player have a mechanical/false version?
         self._is_inappropriate = is_inappropriate # Will NPCs freak out if the player walks around with it exposed?

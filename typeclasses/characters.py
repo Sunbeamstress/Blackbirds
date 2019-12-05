@@ -10,13 +10,15 @@ from typeclasses.bodyparts import BodyPart
 from utilities.color import color_ramp
 from utilities.communication import ProcessSpeech
 from utilities.display import header, divider, column, bullet
-from utilities.string import an, capital, plural, message_token_pluralize, message_token_capitalize, jright
+from utilities.string import an, capital, plural, message_token_pluralize, message_token_capitalize, jright, num_word
 import utilities.directions as dirs
 from world.names import CURRENCY, CURRENCY_FULL
 
 class Character(DefaultCharacter):
     def at_object_creation(self):
         self.db.surname = ""
+        self.db.prefix = ""
+        self.db.suffix = ""
         self.db.age = 18
         self.db.app_age = 18
         self.db.identity = ""
@@ -43,12 +45,13 @@ class Character(DefaultCharacter):
 
         # Body system. Stores coverage, descriptions, and more.
         self.db.body = {}
+        self.db.body["general"] = BodyPart(key = "general", aliases = ["self", "base", "basic"], plural_name = "general", can_be_missing = False, can_be_injured = False, is_abstract = True)
         self.db.body["hair"] = BodyPart(key = "hair", plural_name = "hair", can_be_missing = False, can_be_injured = False)
         self.db.body["left_eye"] = BodyPart(key = "left_eye", aliases = ["leye"], fullname = "left eye")
         self.db.body["right_eye"] = BodyPart(key = "right_eye", aliases = ["reye"], fullname = "right eye")
         self.db.body["face"] = BodyPart(key = "face", can_be_missing = False)
         self.db.body["neck"] = BodyPart(key = "neck", aliases = ["throat"], can_be_missing = False)
-        self.db.body["chest"] = BodyPart(key = "chest", can_be_missing = False)
+        self.db.body["chest"] = BodyPart(key = "chest", aliases = ["breast", "breasts"], can_be_missing = False)
         self.db.body["nipples"] = BodyPart(key = "nipples", plural_name = "nipples", can_be_injured = False)
         self.db.body["stomach"] = BodyPart(key = "stomach", can_be_missing = False)
         self.db.body["upper_back"] = BodyPart(key = "upper_back", fullname = "upper back", can_be_missing = False)
@@ -67,6 +70,7 @@ class Character(DefaultCharacter):
         self.db.body["lower_right_leg"] = BodyPart(key = "lower_right_leg", fullname = "lower right leg")
         self.db.body["left_foot"] = BodyPart(key = "left_foot", fullname = "left foot")
         self.db.body["right_foot"] = BodyPart(key = "right_foot", fullname = "right foot")
+        self.db.bodypart_names = self.build_bodypart_names()
 
         # Combat/RP-based statuses.
         self.db.balance = True # This being non-persistent is deliberate.
@@ -86,31 +90,7 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        self.db.body = {}
-        self.db.body["hair"] = BodyPart(key = "hair", plural_name = "hair", can_be_missing = False, can_be_injured = False)
-        self.db.body["left_eye"] = BodyPart(key = "left_eye", aliases = ["leye"], fullname = "left eye")
-        self.db.body["right_eye"] = BodyPart(key = "right_eye", aliases = ["reye"], fullname = "right eye")
-        self.db.body["face"] = BodyPart(key = "face", can_be_missing = False)
-        self.db.body["neck"] = BodyPart(key = "neck", aliases = ["throat"], can_be_missing = False)
-        self.db.body["chest"] = BodyPart(key = "chest", can_be_missing = False)
-        self.db.body["nipples"] = BodyPart(key = "nipples", plural_name = "nipples", can_be_injured = False)
-        self.db.body["stomach"] = BodyPart(key = "stomach", can_be_missing = False)
-        self.db.body["upper_back"] = BodyPart(key = "upper_back", fullname = "upper back", can_be_missing = False)
-        self.db.body["lower_back"] = BodyPart(key = "lower_back", fullname = "lower back", can_be_missing = False)
-        self.db.body["upper_left_arm"] = BodyPart(key = "upper_left_arm", fullname = "upper left arm")
-        self.db.body["lower_left_arm"] = BodyPart(key = "lower_left_arm", fullname = "lower left arm")
-        self.db.body["upper_right_arm"] = BodyPart(key = "upper_right_arm", fullname = "upper right arm")
-        self.db.body["lower_right_arm"] = BodyPart(key = "lower_right_arm", fullname = "lower right arm")
-        self.db.body["left_hand"] = BodyPart(key = "left_hand", fullname = "left hand")
-        self.db.body["right_hand"] = BodyPart(key = "right_hand", fullname = "right hand")
-        self.db.body["genitals"] = BodyPart(key = "genitals", plural_name = "genitalia", is_inappropriate = True)
-        self.db.body["buttocks"] = BodyPart(key = "buttocks", plural_name = "buttocks", can_be_missing = False)
-        self.db.body["upper_left_leg"] = BodyPart(key = "upper_left_leg", fullname = "upper left leg")
-        self.db.body["lower_left_leg"] = BodyPart(key = "lower_left_leg", fullname = "lower left leg")
-        self.db.body["upper_right_leg"] = BodyPart(key = "upper_right_leg", fullname = "upper right leg")
-        self.db.body["lower_right_leg"] = BodyPart(key = "lower_right_leg", fullname = "lower right leg")
-        self.db.body["left_foot"] = BodyPart(key = "left_foot", fullname = "left foot")
-        self.db.body["right_foot"] = BodyPart(key = "right_foot", fullname = "right foot")
+        self.db.bodypart_names = self.build_bodypart_names()
 
     def at_before_say(self, message, **kwargs):
         return message
@@ -126,45 +106,66 @@ class Character(DefaultCharacter):
         # Passed before the desc appears.
         pass
 
+    @property
+    def precision_information(self):
+        return self.db.species.precision_information
+
+    def compare_height(self, looker):
+        l_h, s_h = looker.db.height, self.db.height
+        h_perc = (l_h * 100) / s_h
+        if h_perc >= 200:
+            return "utterly dwarfed by"
+        elif h_perc >= 175:
+            return "far smaller than"
+        elif h_perc >= 150:
+            return "much shorter than"
+        elif h_perc >= 125:
+            return "visibly shorter than"
+        elif 80 < h_perc < 125: # This feels dirty
+            return "about the same height as"
+        elif h_perc <= 80:
+            return "visibly taller than"
+        elif h_perc <= 60:
+            return "much taller than"
+        elif h_perc <= 40:
+            return "far larger than"
+        elif h_perc <= 20:
+            return "monstrous compared to"
+
+        return None
+
     def return_appearance(self, looker = None, **kwargs):
         if not looker:
             return ""
 
-        # Grab the looker's height, and target's height.
-        l_h, s_h = looker.db.height, self.db.height
-        h_comp = "about the same height as"
-        # Get what percentage of height the looker is compared to the target.
-        h_perc = (l_h * 100) / s_h
-        # Looker is taller.
-        if h_perc >= 200:
-            h_comp = "utterly dwarfed by"
-        elif h_perc >= 175:
-            h_comp = "far smaller than"
-        elif h_perc >= 150:
-            h_comp = "much shorter than"
-        elif h_perc >= 125:
-            h_comp = "visibly shorter than"
-        # Looker is shorter.
-        elif h_perc <= 80:
-            h_comp = "visibly taller than"
-        elif h_perc <= 60:
-            h_comp = "much taller than"
-        elif h_perc <= 40:
-            h_comp = "far larger than"
-        elif h_perc <= 20:
-            h_comp = "monstrous compared to"
+        # Determine whether or not the character is augmented or otherwise privy to precise measurements.
+        # Current use cases are for Idols, Blackbirds, and admin players.
+        precise = self.precision_information
 
-        string  = f"|xYou know this one as {capital(self.nickname(looker))}. {capital(self.they())} {self.pluralize('appear')} to be {an(self.age_description())} {self.species()}.|n"
-        string += f"\n|x{capital(self.they())} {self.pluralize('are')} {self.height_description()} for {self.their()} kind, {h_comp} you.|n"
-        string += "\n"
-        # string += f"\n\n{self.description()}"
+        # Build the necessary description components for the header.
+        age_string = f"Heuristic analysis suggests {self.they('are')} {an(self.species())}, {self.age} years of age." if precise \
+            else f"{capital(self.they('appear'))} to be {an(self.age_description())} {self.species()}."
+        h_string = f"approximately {self.height}cm tall" if precise \
+            else f"{self.height_description()} for {self.their()} kind"
+        h_comp = "about the same height as"
+        if precise:
+            h_comp = "precisely as tall as" if looker.height == self.height \
+                else f"{abs(looker.height - self.height)} {'taller' if self.height > looker.height else 'shorter'} than"
+        else:
+            h_comp = self.compare_height(looker)
+
+        # Display the description header.
+        string  = f"You know this person as {capital(self.nickname(looker))}. {age_string}"
+        string += f"\n{capital(self.they('are'))} {h_string}, {h_comp} you."
+
+        # Build a mass description from body parts.
+        b_string = "\n\n"
         for b_part in self.db.body:
-            string += f"\n|m{jright(self.db.body[b_part].key, 20)}|n |c|||n {self.db.body[b_part].fullname}"
+            b_string += f"{' ' if self.db.body[b_part].key != 'general' else ''}{self.bodypart_desc(b_part)}"
+
+        string += b_string
 
         return string
-
-    def return_precise_appearance(self, looker = None, **kwargs):
-        pass
 
     def echo(self, string, prompt = False, error = False):
         # At this moment, simply a lazy method wrapper that sends a message to the object,
@@ -179,29 +180,60 @@ class Character(DefaultCharacter):
     def error_echo(self, string, prompt = False):
         self.echo(string, prompt = prompt, error = True)
 
+    @property
     def hp(self):
         return self.db.hp["current"]
 
+    @property
     def max_hp(self):
         return self.db.hp["max"]
 
+    @property
     def en(self):
         return self.db.en["current"]
 
+    @property
     def max_en(self):
         return self.db.en["max"]
 
+    @property
     def sc(self):
         return self.db.sc["current"]
 
+    @property
     def max_sc(self):
         return self.db.sc["max"]
 
+    @property
     def xp(self):
         return self.db.xp["current"]
 
+    @property
     def max_xp(self):
         return self.db.xp["max"]
+
+    @property
+    def prone(self):
+        return self.db.prone
+
+    @property
+    def prefix(self):
+        return self.db.prefix if self.db.prefix else ""
+
+    @property
+    def suffix(self):
+        if not self.db.suffix:
+            return ""
+
+        return f"{' ' if self.db.suffix[0] in (',', chr(39)) else ''}{self.db.suffix}"
+
+    @property
+    def height(self):
+        return self.db.height
+
+    @property
+    def age(self):
+        return self.db.age
 
     def in_chargen(self):
         c = self.location.__class__.__name__
@@ -224,19 +256,19 @@ class Character(DefaultCharacter):
             # Core stats.
             for stat in ["hp", "en"]:
                 m_cur, m_max = getattr(self, stat), getattr(self, "max_" + stat)
-                c = color_ramp(m_cur(), m_max(), cap = True)
+                c = color_ramp(m_cur, m_max, cap = True)
                 c_string = "".join(c)
-                s_string = f"|013{'0' * (3 - len(str(m_cur())))}|n|{c_string}{str(m_cur())}|n"
+                s_string = f"|013{'0' * (3 - len(str(m_cur)))}|n|{c_string}{str(m_cur)}|n"
                 p_string += f"|x{stat.upper()}|c|||n{s_string} "
 
             # Experience.
-            p_string += f"|504XP|c|||n|202{'0' * (len(str(self.max_xp())) - len(str(self.xp())))}|505{self.xp()}|n "
+            p_string += f"|504XP|c|||n|202{'0' * (len(str(self.max_xp)) - len(str(self.xp)))}|505{self.xp}|n "
 
             # Scars.
-            p_string += f"|411SC|r|||n|R{'*' * self.sc()}|n " if self.sc() > 0 else ""
+            p_string += f"|411SC|r|||n|R{'*' * self.sc}|n " if self.sc > 0 else ""
 
             # Statuses.
-            stat_string += "|cp|n" if self.db.prone > 0 else ""
+            stat_string += "|cp|n" if self.prone > 0 else ""
 
             stat_string += "" if len(stat_string) >= 1 else ""
             p_string += stat_string
@@ -448,7 +480,8 @@ class Character(DefaultCharacter):
     def species(self):
         return self.db.species.name if self.db.species else "Unknown"
 
-    def they(self):
+    def they(self, word = None):
+        return f"{self.db.pronoun_they} {self.pluralize(word)}" if word else self.db.pronoun_they
         return self.db.pronoun_they
 
     def them(self):
@@ -463,12 +496,15 @@ class Character(DefaultCharacter):
     def pronouns(self):
         return f"{self.they()}, {self.them()}, {self.their()}, {self.theirs()}"
 
+    @property
     def rubric(self):
         return self.account.db.rubric
 
+    @property
     def neon(self):
         return self.db.neon
 
+    @property
     def money(self):
         return self.db.money
 
@@ -478,13 +514,13 @@ class Character(DefaultCharacter):
         full_name = f"{self.name} {self.db.surname}" if self.db.surname else self.name
         full_age = f"{self.db.app_age} |x(|n{self.db.age}|x)|n" if self.db.app_age != self.db.age else self.db.age
 
-        hp_string = "|013%s|055%s |013%s|055%s|n" % ("0" * (4 - len(str(self.hp()))), self.hp(), "0" * (4 - len(str(self.max_hp()))), self.max_hp())
-        en_string = "|013%s|055%s |013%s|055%s|n" % ("0" * (4 - len(str(self.en()))), self.en(), "0" * (4 - len(str(self.max_en()))), self.max_en())
-        xp_string = "|202%s|505%s |202%s|505%s|n" % ("0" * (4 - len(str(self.xp()))), self.xp(), "0" * (4 - len(str(self.max_xp()))), self.max_xp())
-        sc_string = "|200%s|511%s |200%s|511%s|n" % ("0" * (4 - len(str(self.sc()))), self.sc(), "0" * (4 - len(str(self.max_sc()))), self.max_sc())
+        hp_string = "|013%s|055%s |013%s|055%s|n" % ("0" * (4 - len(str(self.hp))), self.hp, "0" * (4 - len(str(self.max_hp))), self.max_hp)
+        en_string = "|013%s|055%s |013%s|055%s|n" % ("0" * (4 - len(str(self.en))), self.en, "0" * (4 - len(str(self.max_en))), self.max_en)
+        xp_string = "|202%s|505%s |202%s|505%s|n" % ("0" * (4 - len(str(self.xp))), self.xp, "0" * (4 - len(str(self.max_xp))), self.max_xp)
+        sc_string = "|200%s|511%s |200%s|511%s|n" % ("0" * (4 - len(str(self.sc))), self.sc, "0" * (4 - len(str(self.max_sc))), self.max_sc)
 
         string = ""
-        string += f"Infiltration Unit |W{full_name}|n, Prefect Initiate"
+        string += f"{self.prefix}|W{full_name}|n{self.suffix}"
         string += "\n" + divider()
         string += "\n|cCharacter Information|n"
 
@@ -505,9 +541,9 @@ class Character(DefaultCharacter):
 
         string += "\n\n|cAssets & Money|n"
         string += "\n" + bullet("You do not own any buildings.")
-        string += "\n" + bullet(f"You have accumulated |C{self.rubric():,}|n Rubric.")
-        string += "\n" + bullet(f"You have accumulated |M{self.neon():,}|n Neon.")
-        string += "\n" + bullet(f"|yYour {CURRENCY_FULL} stands at |Y{self.money():.3f} {CURRENCY}|y.|n", color = "320")
+        string += "\n" + bullet(f"You have accumulated |C{self.rubric:,}|n Rubric.")
+        string += "\n" + bullet(f"You have accumulated |M{self.neon:,}|n Neon.")
+        string += "\n" + bullet(f"|yYour {CURRENCY_FULL} stands at |Y{self.money:.3f} {CURRENCY}|y.|n", color = "320")
 
         string += "\n" + divider()
         string += "\nType |Rab|n to see your learned abilities."
@@ -623,3 +659,39 @@ class Character(DefaultCharacter):
 
     def height_description(self):
         return self.db.species.height_description(self.db.height)
+
+    def build_bodypart_names(self):
+        "Used to update the list of valid body part aliases the character has. Can change based on removal/additions of body parts."
+        b_tbl = {}
+        for b_part in self.db.body:
+            b_tbl[b_part] = b_part
+            for a in self.db.body[b_part].aliases:
+                b_tbl[a] = b_part
+
+        return b_tbl
+
+    def _valid_bodypart(self, b_part):
+        if len(self.db.bodypart_names) < 1:
+            return False
+
+        if b_part in self.db.bodypart_names:
+            b_part = self.db.bodypart_names[b_part]
+
+        try:
+            b = self.db.body[b_part]
+            return b_part
+        except KeyError:
+            return None
+
+    def has_bodypart(self, b_part):
+        if not self._valid_bodypart(b_part):
+            return False
+
+        if self.db.body[b_part].is_missing:
+            return False
+
+        return True
+
+    def bodypart_desc(self, b_part):
+        b_part = self._valid_bodypart(b_part)
+        return "" if not b_part else self.db.body[b_part].desc

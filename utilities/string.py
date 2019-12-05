@@ -64,6 +64,10 @@ def ord(string):
     inf = inflect.engine()
     return inf.ordinal(string)
 
+def num_word(n):
+    inf = inflect.engine()
+    return inf.number_to_words(n)
+
 def wrap(string, width = 80, initial_indent = 0, subsequent_indent = 0):
     str_list = string.split()
     str_list.insert(0, " " * initial_indent)

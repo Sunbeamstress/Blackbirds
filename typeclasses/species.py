@@ -36,6 +36,9 @@ class Species():
         self.has_plant_appendages = False
         self.can_eat_anything = False
 
+        # Other conventions.
+        self.precision_information = False
+
         # Misc.
         self.playable = True
         self.chargen_documentation = None
@@ -187,6 +190,7 @@ class Idol(Species):
         self.can_drink = False
         self.can_sleep = False
         self.can_reproduce = False
+        self.precision_information = True
         self.chargen_documentation = "A warhost of Humanlike automata, numerous enough to comprise a race of their own. With shells of stone, steel, and/or false flesh, no two Idols are the same. Though the great majority of activated Idols were built for killing, the softer, more graceful shapes of others suggest that they may have once belonged to a noble social strata, in an era that time forgot.\n\n  |xHeight |c|||n |W120|ncm |c-|n |W300|ncm |c(|W4|n ft |c-|n |W10|n ft|c)|n\n     |xAge |c|||n     |W1|n |c-|n |W1000|n\n\n  |c-|n Suffer numerous ability restrictions, but gain access to exclusive\n    Idol-based abilities.\n  |c-|n Receive much more detailed information when looking at things.\n  |c-|n Do not need to eat, drink, or sleep, but must maintain their fuel levels.\n  |c-|n Can passively regenerate fuel with the right parts, albeit slowly.\n  |c-|n Do not suffer any fatigue-based penalties, so long as their energy levels\n    are maintained.\n  |c-|n Can obtain and swap components.\n  |c-|n May or may not be anatomically correct.\n\n  |c-|n A difficult species to play; must be unlocked after 200 hours of play time."
 
     def at_look(ply, target = None, **kwargs):
@@ -233,5 +237,6 @@ class Blackbird(Species):
         self.has_bioluminescence = True
         self.has_plant_appendages = True
         self.can_eat_anything = True
+        self.precision_information = True
         self.playable = False
         self.chargen_documentation = "A mutant strain; a forbidden breed."
