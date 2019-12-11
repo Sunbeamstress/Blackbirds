@@ -4,7 +4,7 @@
 
 ### The Walking God, The Road More Traveled, The Secret and Profane
 
-- **Appearance:** Appears either as a very tall, dark, old man with a massive beard and green hunter's cloak, or as a clutch of evergreen trees, capped with snow. His human form has ragged boots with no soles.
+- **Appearance:** Appears either as a very dark and misshapen old man, with a beardlike growth extruding from 'his' face, and a green cloak that melds seamlessly with his flesh - like the god is emulating a woodland traveler. Otherwise, he presents as a clutch of evergreen trees, capped with snow. His 'human' form has ragged boots with no soles.
 - **Origin:** Was spawned when Man laid the first highway.
 - **Powers:** Spatial distortion, finding food, impossibly good but short-lived stealth.
 
@@ -29,7 +29,7 @@
 ### (????)
 
 - **Appearance:** ????
-- **Origin:** The first-ever recorded instance of Man attempting to spawn a God. Spawned from the construction of the Tidal Steps, the ages-old staircase plummeting from a lofty seaside cliff into the Kono Brightside Sea.
+- **Origin:** The first-ever recorded instance of Man attempting to spawn a God. Spawned from the construction of the Tidal Steps, the ages-old staircase plummeting from a lofty seaside cliff into the Kono Brightside Sea. It was intended to exist as a sort of architectural god, supporting the wealth and power of a now-dead kingdom, but instead thrives on cruelty and malice.
 - **Powers:** ????
 
 ## **DESERT:** ????
@@ -47,3 +47,11 @@
 - **Appearance:** ????
 - **Origin:** Spawned during the War of Gorgons.
 - **Powers:** ????
+
+## **GLUTTONY:** Grottle
+
+### All-Eater, Mother/Father Vast, The Transcendent Belly
+
+- **Appearance:** A great chasm in the nearest wall, floor, or ceiling, ringed with bulbous, fleshy lips and immense shark's teeth. It is one of the few gods that can speak in a sensible tongue, but has a thick accent.
+- **Origin:** ???? predates the Fae Age. The ritual from which it spawned is not well understood, but is generally agreed to be a massive-scale cannibalistic sacrifice.
+- **Powers:** Regenerates its worshippers' endurance levels, but requires the sacrifice of lots and lots of food.

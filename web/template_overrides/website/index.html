@@ -1,0 +1,48 @@
+{% extends "website/base.html" %}
+
+{% block titleblock %}Home{% endblock %}
+
+{% block header_ext %}
+{% endblock %}
+
+{% block content %}
+<h1>Blackbirds</h1>
+<span class="glitch-text">{{game_slogan}}</span>
+
+<p>
+    A new and brutal world, built on the ruins of giants. Play as a denizen of the land of Ninesilver and survive the State of Brillante, the seat of the Saint Iris Tribe.
+</p>
+
+<p>
+    Github: <a href="https://github.com/Earthcrusher/Blackbirds">https://github.com/Earthcrusher/Blackbirds</a>
+</p>
+
+<h1>Accounts</h1>
+<p>
+    There's currently <strong>{{num_accounts_connected}}</strong> connected out of a total of <strong>{{num_accounts_registered}}</strong> account{{num_accounts_registered|pluralize}} registered.
+</p>
+
+<p>
+    Of these, <strong>{{num_accounts_registered_recent}}</strong> were created this week, and <strong>{{num_accounts_connected_recent}}</strong> have connected within the last seven days.
+</p>
+
+<h1>Recently Connected</h1>
+<ul>
+    {% for account in accounts_connected_recent %}
+        <li>{{account.username}}&mdash;<em>{{account.last_login|timesince}} ago</em></li>
+    {% endfor %}
+</ul>
+
+<h1>Database Stats</h1>
+<ul>
+    <li>{{num_accounts_registered}} account{{num_accounts_registered|pluralize}} (+ {{num_characters}} character{{num_characters|pluralize}})</li>
+    <li>{{num_rooms}} room{{num_rooms|pluralize}} (+ {{num_exits}} exits)</li>
+    <li>{{num_others}} other objects</li>
+</ul>
+
+<h1>Evennia</h1>
+<p>
+    <a href="http://evennia.com">Evennia</a> is an open-source MUD server built in <a href="http://python.org">Python</a>, on top of the <a href="http://twistedmatrix.com">Twisted</a> and <a href="http://djangoproject.com">Django</a> frameworks. This combination of technologies allows for the quick and easy creation of the game of your dreams - as simple or as complex as you like.
+</p>
+
+{% endblock %}

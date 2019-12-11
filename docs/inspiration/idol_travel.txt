@@ -1,0 +1,32 @@
+Junction 7. (Subterranean Brillante, Kono Brightside Sea) [v18901]
+Sounds echo for ages in this tremendous chamber, its quickstone walls marred with age-old legends of warning and hazard. From sheared or ill-maintained pipes, constant dripstreams of rust-colored water glitter beneath the haze of still functional emergency lights. From a central platform depends a number of railed tracks, each track sending triple beams of steel into the yawning dark of their adjoining tunnels.
+
+Your systems indicate you may TRANSIT here.
+H|225 M|700 x - 
+
+--> transit
+                          : : : |  |  |  |  |  | : : :
+
+                               Loud Winter Transit
+                                   JUNCTION-7
+
+        You are to report to work, machine. Select your designated site.
+
+                               1 | JUNCTION-1
+                               2 | JUNCTION-2
+                               3 | JUNCTION-3
+                               4 | [OFFLINE]
+                               5 | [OFFLINE]
+                               6 | [OFFLINE]
+                               7 | JUNCTION-7
+                               8 | [OFFLINE]
+
+ WARNING: You have exceeded your scheduled labor start time by 37,889,712,407s.
+
+                          : : : |  |  |  |  |  | : : :
+H|225 M|700 x - 
+
+--> 3
+You step onto the railway leading to Junction 3.
+With no concerted act of will on your part, your body rapidly disassembles and reconfigures itself, warping into a freakish, low-slung shape far out of the possibility of the humans it was based upon. In this new shape, your 'feet', now magnetic calipers, intimately grasp the track. Without warning, you are shunted along the rail at awesome speeds, plummeting into a long and endless darkness on your way to the Fairyweather Junction.
+H|225 M|700 x - 

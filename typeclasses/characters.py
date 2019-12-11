@@ -45,6 +45,29 @@ class Character(DefaultCharacter):
 
         # Body system. Stores coverage, descriptions, and more.
         self.db.body = {}
+        self.build_body()
+
+        # Combat/RP-based statuses.
+        self.db.balance = True # This being non-persistent is deliberate.
+        self.db.balance_time = 0
+        self.db.prone = 0 # 1 for seated, 2 for lying down
+
+        # Anatomy.
+        self.db.has_breasts = True
+        self.db.has_genitals = True
+        self.db.can_carry_child = True
+        self.db.exoskeletal_level = 0
+        self.db.has_four_arms = False
+
+        # Descriptions.
+        self.db.fang_desc = "fangs"
+        self.db.tail_desc = "feline"
+        self.db.bioluminescence_desc = "white"
+
+    def update(self):
+        self.db.bodypart_names = self.build_bodypart_names()
+
+    def build_body(self):
         self.db.body["general"] = BodyPart(key = "general", aliases = ["self", "base", "basic"], plural_name = "general", can_be_missing = False, can_be_injured = False, is_abstract = True)
         self.db.body["hair"] = BodyPart(key = "hair", plural_name = "hair", can_be_missing = False, can_be_injured = False)
         self.db.body["left_eye"] = BodyPart(key = "left_eye", aliases = ["leye"], fullname = "left eye")
@@ -70,26 +93,6 @@ class Character(DefaultCharacter):
         self.db.body["lower_right_leg"] = BodyPart(key = "lower_right_leg", fullname = "lower right leg")
         self.db.body["left_foot"] = BodyPart(key = "left_foot", fullname = "left foot")
         self.db.body["right_foot"] = BodyPart(key = "right_foot", fullname = "right foot")
-        self.db.bodypart_names = self.build_bodypart_names()
-
-        # Combat/RP-based statuses.
-        self.db.balance = True # This being non-persistent is deliberate.
-        self.db.balance_time = 0
-        self.db.prone = 0 # 1 for seated, 2 for lying down
-
-        # Anatomy.
-        self.db.has_breasts = True
-        self.db.has_genitals = True
-        self.db.can_carry_child = True
-        self.db.exoskeletal_level = 0
-        self.db.has_four_arms = False
-
-        # Descriptions.
-        self.db.fang_desc = "fangs"
-        self.db.tail_desc = "feline"
-        self.db.bioluminescence_desc = "white"
-
-    def update(self):
         self.db.bodypart_names = self.build_bodypart_names()
 
     def at_before_say(self, message, **kwargs):
