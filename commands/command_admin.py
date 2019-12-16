@@ -25,7 +25,6 @@ from typeclasses.accounts import Account
 from typeclasses.areas import Area
 from typeclasses.characters import Character
 from typeclasses.environments import Environment
-from typeclasses.exits import Exit
 from typeclasses.species import Species, Human, Carven, Sacrilite, Luum, Idol
 from typeclasses.zones import Zone
 
@@ -62,7 +61,7 @@ class CmdUpdate(Command):
         ply = self.caller
 
         obj_type = self.word(1)
-        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "species", "exits")
+        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "species")
 
         if not obj_type:
             ply.error_echo("You must specify a Python class to update. Valid classes are:")
@@ -94,9 +93,6 @@ class CmdUpdate(Command):
         elif obj_type == "species":
             for o in Species.objects.all():
                 o.update()
-        elif obj_type == "exits":
-            for o in Exit.objects.all():
-                o.update()
         else:
             ply.error_echo("You must specify a Python class to update. Valid classes are:")
             for o in valid_objs:
@@ -113,7 +109,7 @@ class CmdList(Command):
         ply = self.caller
         obj_type = self.word(1)
         obj_list = []
-        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "species", "exits")
+        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "species")
 
         if obj_type not in valid_objs:
             ply.error_echo("You must specify a valid Python class to list. Valid classes are:")
@@ -271,6 +267,11 @@ class CmdDelete(Command):
 
         if not tar:
             self.error_echo("There doesn't appear to be anything by that name to delete.")
+            return
+
+        if tar.__class__.__name__ == "Exit":
+            self.echo(f"You delete object #{tar.id}.")
+            tar.delete()
             return
 
         tar.location = ply.search(settings.DELETION_ROOM, global_search = True)

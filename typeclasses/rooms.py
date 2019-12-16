@@ -11,7 +11,6 @@ import utilities.directions as dirs
 from typeclasses.environments import Environment
 from typeclasses.areas import Area
 from typeclasses.zones import Zone
-from typeclasses.exits import Exit
 from world.map import Map
 
 class Room(DefaultRoom):
@@ -82,18 +81,30 @@ class Room(DefaultRoom):
         self.db.symbol_override = False
 
     def update(self):
-        self.db.fullname = ""
+        self.db.exits = {}
+        for d in dirs.DIRECTION_MAP:
+            self.reset_exit(d)
 
     def get_exits(self):
         exit_list = []
-        for dir, obj in self.db.exits.items():
-            if obj != None:
+
+        if not self.db.exits:
+            return []
+
+        for dir in self.db.exits:
+            if self.db.exits[dir]["dest"] != None:
                 exit_list.append(dir)
 
         return exit_list
 
     def has_exit(self, dir):
-        return True if self.db.exits[dir] != None else False
+        return True if self.db.exits[dir]["dest"] != None else False
+
+    def reset_exit(self, dir):
+        self.db.exits[dir] = {"dest": None, "visible": True, "door": False, "locked": False}
+
+    def exit_destination(self, dir):
+        return self.db.exits[dir]["dest"] if self.has_exit(dir) else None
 
     def create_exit(self, dir, dest, oneway = False):
         err_msg = "|xCould not create a new exit. %s|n"
@@ -106,7 +117,7 @@ class Room(DefaultRoom):
 
         # Check if destination is valid room.
         if not dest:
-            err_msg = err_msg % "There is no room in that direction to link to."
+            err_msg = err_msg % "That doesn't seem to be a valid room to link to."
             return False, err_msg
 
         # If exit is not one-way, make sure the other room doesn't already have the opposite exit.
@@ -116,14 +127,10 @@ class Room(DefaultRoom):
                 err_msg = err_msg % f"That room already has a {opp_dir}ward exit."
                 return False, err_msg
 
-        self.db.exits[dir] = Exit()
-        self.db.exits[dir].source = self
-        self.db.exits[dir].destination = dest.id
+        self.db.exits[dir]["dest"] = dest.key
 
         if not oneway and opp_dir:
-            dest.db.exits[opp_dir] = Exit()
-            dest.db.exits[opp_dir].source = dest
-            dest.db.exits[opp_dir].destination = self
+            dest.db.exits[opp_dir]["dest"] = self.key
 
         return True, ""
 
@@ -135,19 +142,15 @@ class Room(DefaultRoom):
             err_msg = err_msg % f"There is no {dir}ward exit."
             return False, err_msg
 
-        dest = self.db.exits[dir].destination
+        dest = self.exit_destination(dir)
 
         if dest and not oneway:
             opp_dir = dirs.opposite_direction(dir)
             if dest.has_exit(opp_dir):
-                dest.db.exits[opp_dir].delete()
+                dest.reset_exit(opp_dir)
 
-        self.db.exits[dir].delete()
+        self.reset_exit(dir)
         return True, ""
-
-    def get_exit_dest(self, dir):
-        exit = self.db.exits[dir]
-        return exit.get_destination() if exit else None
 
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.

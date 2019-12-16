@@ -6,7 +6,6 @@ All commands related to getting or altering information about rooms.
 from commands.command import Command
 from typeclasses.environments import Environment
 from typeclasses.zones import Zone
-from typeclasses.exits import Exit
 from utilities.display import header, divider
 from utilities.string import jleft, jright
 import utilities.directions as dirs
