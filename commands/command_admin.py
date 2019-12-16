@@ -25,7 +25,7 @@ from typeclasses.accounts import Account
 from typeclasses.areas import Area
 from typeclasses.characters import Character
 from typeclasses.environments import Environment
-from typeclasses.species import Species, Human, Carven, Sacrilite, Luum, Idol
+from typeclasses.species import Species, Human, Carven, Sacrilite, Luum, Idol, Blackbird
 from typeclasses.zones import Zone
 
 class CmdReload(Command):
@@ -164,6 +164,9 @@ class CmdSpeciesChange(Command):
         elif species == "idol":
             ply.db.species = Idol()
             ply.echo("Species changed to Idol.")
+        elif species == "blackbird":
+            ply.db.species = Blackbird()
+            ply.echo("Species changed to Blackbird.")
         else:
             ply.error_echo("That is not a valid species name.")
 
