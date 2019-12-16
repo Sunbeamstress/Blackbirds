@@ -1,17 +1,21 @@
 # Evennia modules.
 from evennia import DefaultRoom
+from evennia.objects.models import ObjectDB
 from collections import defaultdict
 from evennia.utils.utils import (variable_from_module, lazy_property, make_iter, is_iter, list_to_string, to_str)
 
 # Blackbirds modules.
 from commands.default_cmdsets import ChargenCmdSet
 from utilities.display import header, divider
+from utilities.room import get_room
 from utilities.string import jleft, jright, punctuate
 import utilities.directions as dirs
 from typeclasses.environments import Environment
 from typeclasses.areas import Area
 from typeclasses.zones import Zone
 from world.map import Map
+
+_ScriptDB = None
 
 class Room(DefaultRoom):
     """
@@ -29,20 +33,7 @@ class Room(DefaultRoom):
         self.db.y = 0
         self.db.z = 0
 
-        self.db.exits = {
-            "northwest": None,
-            "north": None,
-            "northeast": None,
-            "west": None,
-            "east": None,
-            "southwest": None,
-            "south": None,
-            "southeast": None,
-            "up": None,
-            "down": None,
-            "in": None,
-            "out": None
-        }
+        self.build_exits()
 
         self.db.fullname = ""
         self.db.desc = ""
@@ -80,33 +71,97 @@ class Room(DefaultRoom):
         self.db.symbol = None
         self.db.symbol_override = False
 
-    def update(self):
+    def build_exits(self):
         self.db.exits = {}
-        for d in dirs.DIRECTION_MAP:
-            self.reset_exit(d)
+        self.reset_exit("northwest")
+        self.reset_exit("north")
+        self.reset_exit("northeast")
+        self.reset_exit("west")
+        self.reset_exit("east")
+        self.reset_exit("southwest")
+        self.reset_exit("south")
+        self.reset_exit("southeast")
+        self.reset_exit("up")
+        self.reset_exit("down")
+        self.reset_exit("in")
+        self.reset_exit("out")
 
-    def get_exits(self):
+    def update(self):
+        pass
+
+    def delete(self):
+        global _ScriptDB
+        if not _ScriptDB:
+            from evennia.scripts.models import ScriptDB as _ScriptDB
+
+        if not self.pk or not self.at_object_delete():
+            # This object has already been deleted, or the pre-delete check returned False.
+            return False
+
+        # Halt any running scripts on this room.
+        for script in _ScriptDB.objects.get_all_scripts_on_obj(self):
+            script.stop()
+
+        # Destroy any exits to this room, if any.
+        for e in self.get_exits():
+            dest_room = get_room(self.db.exits[e]['dest'])
+            if dest_room:
+                opp_e = dirs.opposite_direction(e)
+                dest_room.reset_exit(opp_e)
+
+        # Remove this room from its zone.
+        if self.db.zone:
+            self.db.zone.remove_room(self)
+
+        # Clear out any non-exit objects located within the object
+        self.clear_contents()
+        self.attributes.clear()
+        self.nicks.clear()
+        self.aliases.clear()
+
+        # Perform the deletion of the object
+        super().delete()
+        return True
+
+    def _valid_exit(self, dir):
+        if not self.db.exits[dir]:
+            return False
+
+        if self.db.exits[dir] == None:
+            return False
+
+        if self.db.exits[dir]["dest"] == None:
+            return False
+
+        return True
+
+    def get_exits(self, visible_only = False):
         exit_list = []
 
         if not self.db.exits:
             return []
 
         for dir in self.db.exits:
-            if self.db.exits[dir]["dest"] != None:
-                exit_list.append(dir)
+            if not self._valid_exit(dir):
+                continue
+
+            if visible_only and self.db.exits[dir]["visible"] != True:
+                continue
+
+            exit_list.append(dir)
 
         return exit_list
 
     def has_exit(self, dir):
-        return True if self.db.exits[dir]["dest"] != None else False
+        return self._valid_exit(dir)
 
     def reset_exit(self, dir):
-        self.db.exits[dir] = {"dest": None, "visible": True, "door": False, "locked": False}
+        self.db.exits[dir] = {"dest": None, "visible": True, "door": False, "locked": False, "accessible": True}
 
     def exit_destination(self, dir):
         return self.db.exits[dir]["dest"] if self.has_exit(dir) else None
 
-    def create_exit(self, dir, dest, oneway = False):
+    def create_exit(self, dir, dest):
         err_msg = "|xCould not create a new exit. %s|n"
         opp_dir = None
 
@@ -120,17 +175,13 @@ class Room(DefaultRoom):
             err_msg = err_msg % "That doesn't seem to be a valid room to link to."
             return False, err_msg
 
-        # If exit is not one-way, make sure the other room doesn't already have the opposite exit.
-        if not oneway:
-            opp_dir = dirs.opposite_direction(dir)
-            if dest.has_exit(opp_dir):
-                err_msg = err_msg % f"That room already has a {opp_dir}ward exit."
-                return False, err_msg
+        opp_dir = dirs.opposite_direction(dir)
+        if dest.has_exit(opp_dir):
+            err_msg = err_msg % "The specified room already has an exit leading in the other direction."
+            return False, err_msg
 
         self.db.exits[dir]["dest"] = dest.key
-
-        if not oneway and opp_dir:
-            dest.db.exits[opp_dir]["dest"] = self.key
+        dest.db.exits[opp_dir]["dest"] = self.key
 
         return True, ""
 
@@ -142,7 +193,7 @@ class Room(DefaultRoom):
             err_msg = err_msg % f"There is no {dir}ward exit."
             return False, err_msg
 
-        dest = self.exit_destination(dir)
+        dest = get_room(self.exit_destination(dir))
 
         if dest and not oneway:
             opp_dir = dirs.opposite_direction(dir)
@@ -162,7 +213,7 @@ class Room(DefaultRoom):
 
         # Grab all accessible objects in room.
         visible = (con for con in self.contents if con != looker and con.access(looker, "view"))
-        exit_list = self.get_exits()
+        exit_list = self.get_exits(visible_only = True)
         players, things = [], []
 
         for con in visible:
@@ -206,10 +257,13 @@ class Room(DefaultRoom):
         if self.db.water_level > 0:
             string += "\n  %s" % self.get_water_level_string()
 
+        exit_prepend = ""
+        if looker.account.check_permstring("Developer"):
+            exit_prepend = f"|124[{self.name}]|n "
         if exit_list:
-            string += "\n\n|235You see exits leading " + list_to_string(exit_list) + "|n."
+            string += f"\n\n{exit_prepend}|235You see exits leading {list_to_string(exit_list)}|n."
         else:
-            string += "\n\n|235You see no exits.|n"
+            string += f"\n\n{exit_prepend}|235You see no exits.|n"
 
         return string
 
@@ -324,6 +378,10 @@ class Room(DefaultRoom):
 
     def environment_color(self):
         return self.db.environment.color() if self.db.environment else "500"
+
+    @property
+    def coordinates(self):
+        return f"x{self.db.x}, y{self.db.y}, z{self.db.z}"
 
 
 class ChargenRoom(Room):

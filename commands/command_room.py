@@ -1,19 +1,21 @@
-"""
-All commands related to getting or altering information about rooms.
-"""
+# Evennia modules.
+from evennia.utils import create
 
 # Blackbirds modules.
 from commands.command import Command
+from server.conf import settings
 from typeclasses.environments import Environment
 from typeclasses.zones import Zone
+from utilities.directions import valid_direction, coord_shift
 from utilities.display import header, divider
+from utilities.room import sanitize_roomname, inc_roomname, roomname_exists
 from utilities.string import jleft, jright
 import utilities.directions as dirs
 
 VALID_ROOM_VALUES = ("temperature", "illumination", "water_level")
 VALID_ROOM_FLAGS = ("indoors", "darkness", "natural", "public", "shop", "house", "battleground", "craft_hall", "chapel", "bank")
 
-def roominfo_entry(attr_name, nice_value, var_name, type_reminder, cust_str_color = "W"):
+def room_info_entry(attr_name, nice_value, var_name, type_reminder, cust_str_color = "W"):
     translated_value = "|c---|n"
 
     if type(nice_value) is bool:
@@ -36,9 +38,9 @@ def roominfo_entry(attr_name, nice_value, var_name, type_reminder, cust_str_colo
     string += " |x[%s]|n" % type_reminder
     return string
 
-def RoomInfo(ply, tar_room = None):
+def room_info(ply, tar_room = None):
     # add logic to search for and get info on tar_room instead here
-    r_name = tar_room.name
+    r_name = tar_room.fullname()
     r_id = tar_room.id
     r_id_str = "#" + str(tar_room.id)
 
@@ -49,63 +51,121 @@ def RoomInfo(ply, tar_room = None):
 
     string = header(f"{r_id_str}, {r_name}", color = "y")
 
-    string += roominfo_entry("Name", r_name, "name", "str")
-    string += roominfo_entry("Zone", r_zone, "zone", "id")
-    string += roominfo_entry("Environment", env_name, "environment", "id", env_color)
-    string += roominfo_entry("Temperature", tar_room.db.temperature, "temperature", "num")
-    string += roominfo_entry("Indoors", tar_room.db.indoors, "indoors", "bool")
-    string += roominfo_entry("Illumination", tar_room.db.illumination, "illumination", "0-15")
-    string += roominfo_entry("Water Level", tar_room.db.water_level, "water_level", "0-15")
+    string += room_info_entry("Name", tar_room.name, "name", "str")
+    string += room_info_entry("Zone", r_zone, "zone", "id")
+    string += room_info_entry("Environment", env_name, "environment", "id", env_color)
+    string += room_info_entry("Insulated", tar_room.db.insulated, "insulated", "bool")
+    string += room_info_entry("Temperature", tar_room.db.temperature, "temperature", "num")
+    string += room_info_entry("Indoors", tar_room.db.indoors, "indoors", "bool")
+    string += room_info_entry("Illumination", tar_room.db.illumination, "illumination", "0-15")
+    string += room_info_entry("Water Level", tar_room.db.water_level, "water_level", "0-15")
 
     string += "\n"
 
-    string += roominfo_entry("Darkness", tar_room.db.darkness, "darkness", "bool")
-    string += roominfo_entry("Natural", tar_room.db.natural, "natural", "bool")
-    string += roominfo_entry("Public", tar_room.db.public, "public", "bool")
-    string += roominfo_entry("Shop", tar_room.db.shop, "shop", "bool")
-    string += roominfo_entry("House", tar_room.db.house, "house", "bool")
-    string += roominfo_entry("Battleground", tar_room.db.battleground, "battleground", "bool")
-    string += roominfo_entry("Craft Hall", tar_room.db.craft_hall, "craft_hall", "bool")
-    string += roominfo_entry("Chapel", tar_room.db.chapel, "chapel", "bool")
-    string += roominfo_entry("Bank", tar_room.db.bank, "bank", "bool")
+    string += room_info_entry("Darkness", tar_room.db.darkness, "darkness", "bool")
+    string += room_info_entry("Natural", tar_room.db.natural, "natural", "bool")
+    string += room_info_entry("Public", tar_room.db.public, "public", "bool")
+    string += room_info_entry("Shop", tar_room.db.shop, "shop", "bool")
+    string += room_info_entry("House", tar_room.db.house, "house", "bool")
+    string += room_info_entry("Battleground", tar_room.db.battleground, "battleground", "bool")
+    string += room_info_entry("Craft Hall", tar_room.db.craft_hall, "craft_hall", "bool")
+    string += room_info_entry("Chapel", tar_room.db.chapel, "chapel", "bool")
+    string += room_info_entry("Bank", tar_room.db.bank, "bank", "bool")
 
     string += "\n"
 
-    string += roominfo_entry("Powered", tar_room.db.powered, "powered", "bool")
-    string += roominfo_entry("Power Sink", tar_room.db.power_sink, "power_sink", "bool")
-    string += roominfo_entry("Radio Tower", tar_room.db.radio_tower, "radio_tower", "bool")
-    string += roominfo_entry("Neon Well", tar_room.db.neon_well, "neon_well", "bool")
+    string += room_info_entry("Powered", tar_room.db.powered, "powered", "bool")
+    string += room_info_entry("Power Sink", tar_room.db.power_sink, "power_sink", "bool")
+    string += room_info_entry("Radio Tower", tar_room.db.radio_tower, "radio_tower", "bool")
+    string += room_info_entry("Neon Well", tar_room.db.neon_well, "neon_well", "bool")
 
     string += "\n"
 
-    string += roominfo_entry("Player Owned", tar_room.db.player_owned, "player_owned", "bool")
-    string += roominfo_entry("Owning Player", tar_room.db.player_owner_id, "player_owner_id", "bool")
+    string += room_info_entry("Player Owned", tar_room.db.player_owned, "player_owned", "bool")
+    string += room_info_entry("Owning Player", tar_room.db.player_owner_id, "player_owner_id", "bool")
 
     string += "\n" + divider(color = "y")
 
     ply.echo(string)
 
-def RoomRename(ply, tar_room = None, new_name = None):
+def room_create(ply, dir = None):
+    # Get information from the player's current room.
+    orig = ply.location
+    r_name = inc_roomname(orig.name)
+    r_zone = orig.db.zone
+    r_env = orig.db.environment
+    r_powned = orig.db.player_owned
+    r_pid = orig.db.player_owner_id
+    r_x, r_y, r_z = orig.db.x, orig.db.y, orig.db.z
+
+    # Make sense of our supplied direction.
+    dir = valid_direction(dir)
+
+    if dir and orig.has_exit(dir):
+        ply.error_echo("This room already has an exit in that direction.")
+        return
+
+    # Create the room.
+    typeclass = settings.BASE_ROOM_TYPECLASS
+    new_room = create.create_object(typeclass, r_name, report_to = ply)
+    if r_zone:
+        new_room.db.zone = r_zone
+        r_zone.add_room(new_room)
+    new_room.db.environment = r_env
+    new_room.db.player_owned = r_powned
+    new_room.db.player_owner_id = r_pid
+
+    dir_append = ""
+    if dir:
+        # Manipulate coordinates if a direction is supplied.
+        new_x, new_y, new_z = coord_shift(dir)
+        r_x += new_x
+        r_y += new_y
+        r_z += new_z
+
+        # Build the appropriate exits.
+        orig.create_exit(dir, new_room)
+        dir_append = f", {dir} from your current location"
+
+    new_room.db.x, new_room.db.y, new_room.db.z = r_x, r_y, r_z
+
+    ply.echo(f"You created a new room, {r_name}{dir_append} ({new_room.coordinates}).")
+
+def room_shortname(ply, tar_room = None, new_name = None):
+    if not new_name or new_name == "":
+        ply.error_echo("You must specify an ID for the room.")
+        return
+
+    previous_name = tar_room.name
+    new_name = sanitize_roomname(new_name)
+
+    if roomname_exists(new_name):
+        ply.error_echo("That room ID is already in use.")
+        return
+
+    tar_room.name = new_name
+    ply.echo(f"You change the ID of the current room from |x{previous_name}|n to |x{new_name}|n.")
+
+def room_rename(ply, tar_room = None, new_name = None):
     if not new_name or new_name == "":
         ply.error_echo("You must specify a name for the room.")
         return
 
-    r_id = tar_room.id
-    r_id_str = "#" + str(tar_room.id)
+    r_id = tar_room.name
     previous_name = tar_room.db.fullname
     tar_room.db.fullname = new_name
-    ply.echo(f"Room {r_id_str}'s name has been changed from {previous_name} to {tar_room.fullname()}.")
+    ply.echo(f"Room {r_id}'s name has been changed from {previous_name} to {tar_room.fullname()}.")
 
-def RoomRedescribe(ply, tar_room = None, new_desc = None):
+def room_redescribe(ply, tar_room = None, new_desc = None):
     if tar_room:
         if new_desc.lower() in ("none", "clear", "empty", "erase", "wipe"):
             tar_room.db.desc = ""
             ply.echo("Room description cleared.")
         else:
-            tar_room.db.desc = description
-            ply.echo(f"Room description changed. The room will now be described as:|n\n{tar_room.description()}")
+            tar_room.db.desc = new_desc
+            ply.echo(f"Room description changed. The room will now be described as:|n\n|x{tar_room.description()}|n")
 
-def RoomEnvironment(ply, tar_room = None, new_env = None):
+def room_environment(ply, tar_room = None, new_env = None):
     if not new_env:
         ply.error_echo("You must specify an environment by number. See |Renvironment list|n for all current environments.")
         return
@@ -127,18 +187,18 @@ def RoomEnvironment(ply, tar_room = None, new_env = None):
     r_name = tar_room.name
     ply.echo(f"You set room #{r_id}, {r_name}, to use the |{tar_room.environment_color()}{tar_room.environment()}|n environment.")
 
-def RoomCreateExit(ply, tar_room = None, dir = None, dest = None):
+def room_create_exit(ply, tar_room = None, dir = None, dest = None):
     if not dir:
-        ply.error_echo("|xYou must specify a direction.|n")
+        ply.error_echo("You must specify a direction.")
         return
 
     if not dirs.valid_direction(dir):
-        ply.error_echo("|xYou must supply a valid direction.|n")
+        ply.error_echo("You must supply a valid direction.")
         return
 
     destination = ply.search(dest, global_search = True)
     if not destination:
-        ply.error_echo("|xThat does not appear to be a valid room.|n")
+        ply.error_echo("That does not appear to be a valid room.")
         return
 
     full_dir = dirs.valid_direction(dir)
@@ -149,13 +209,13 @@ def RoomCreateExit(ply, tar_room = None, dir = None, dest = None):
 
     ply.echo(f"You create a {full_dir}ward exit to room {dest}, {destination.name}.")
 
-def RoomDeleteExit(ply, tar_room = None, dir = None):
+def room_delete_exit(ply, tar_room = None, dir = None):
     if not dir:
-        ply.error_echo("|xYou must specify a direction.|n")
+        ply.error_echo("You must specify a direction.")
         return
 
     if not dirs.valid_direction(dir):
-        ply.error_echo("|xYou must supply a valid direction.|n")
+        ply.error_echo("You must supply a valid direction.")
         return
 
     full_dir = dirs.valid_direction(dir)
@@ -166,7 +226,24 @@ def RoomDeleteExit(ply, tar_room = None, dir = None):
 
     ply.echo(f"You delete the {full_dir}ward exit.")
 
-def RoomZone(ply, tar_room = None, zone = None):
+def room_shift(ply, tar_room = None, dir = None):
+    if not dir:
+        ply.error_echo("You must specify a direction.")
+        return
+
+    if not dirs.valid_direction(dir):
+        ply.error_echo("You must supply a valid direction.")
+        return
+
+    full_dir = dirs.valid_direction(dir)
+    r_x, r_y, r_z = coord_shift(dir)
+
+    tar_room.db.x += r_x
+    tar_room.db.y += r_y
+    tar_room.db.z += r_z
+    ply.echo(f"You shift the room to the {dir} ({tar_room.coordinates}).")
+
+def room_zone(ply, tar_room = None, zone = None):
     if not zone:
         ply.error_echo("You must specify a zone.")
         return
@@ -185,7 +262,7 @@ def RoomZone(ply, tar_room = None, zone = None):
 
     ply.echo(f"Set the room's zone to |W{tar_zone.name}|n.")
 
-def RoomValue(ply, tar_room = None, val_name = None, val = None):
+def room_value(ply, tar_room = None, val_name = None, val = None):
     if not val_name:
         ply.error_echo("Which room property are you trying to modify?")
         return
@@ -214,7 +291,7 @@ def RoomValue(ply, tar_room = None, val_name = None, val = None):
     setattr(tar_room.db, val_name, val)
     ply.echo(f"You set {tar_room.name}'s {val_name} to {str(val)}.")
 
-def RoomFlag(ply, tar_room = None, flag_name = None, flag = None):
+def room_flag(ply, tar_room = None, flag_name = None, flag = None):
     flag = flag.lower()
 
     if not flag_name:
@@ -301,24 +378,30 @@ class CmdRoom(Command):
 
         # Determine valid subcommand by argument.
         if sub_cmd == "info":
-            RoomInfo(ply, tar_room)
-        elif sub_cmd == "name" or sub_cmd == "rename":
-            RoomRename(ply, tar_room, args)
-        elif sub_cmd == "desc" or sub_cmd == "description":
-            RoomRedescribe(ply, tar_room, args)
-        elif sub_cmd == "env" or sub_cmd == "environment":
-            RoomEnvironment(ply, tar_room, args)
+            room_info(ply, tar_room)
+        elif sub_cmd in ("create", "make", "new"):
+            room_create(ply, args)
+        elif sub_cmd in ("id", "shortname", "godname"):
+            room_shortname(ply, tar_room, args)
+        elif sub_cmd in ("name", "rename"):
+            room_rename(ply, tar_room, args)
+        elif sub_cmd in ("desc", "description"):
+            room_redescribe(ply, tar_room, args)
+        elif sub_cmd in ("env", "environment"):
+            room_environment(ply, tar_room, args)
         elif sub_cmd == "link":
-            RoomCreateExit(ply, tar_room, self.word(2 + shift), self.word(3 + shift))
+            room_create_exit(ply, tar_room, self.word(2 + shift), self.word(3 + shift))
         elif sub_cmd == "unlink":
-            RoomDeleteExit(ply, tar_room, args)
+            room_delete_exit(ply, tar_room, args)
+        elif sub_cmd in ("move", "shift"):
+            room_shift(ply, tar_room, args)
         elif sub_cmd == "zone":
-            RoomZone(ply, tar_room, args)
+            room_zone(ply, tar_room, args)
         elif sub_cmd in VALID_ROOM_VALUES:
             # Generic function to set numeric room values.
-            RoomValue(ply, tar_room, sub_cmd, args)
+            room_value(ply, tar_room, sub_cmd, args)
         elif sub_cmd in VALID_ROOM_FLAGS:
             # Generic function to toggle boolean room values.
-            RoomFlag(ply, tar_room, sub_cmd, args)
+            room_flag(ply, tar_room, sub_cmd, args)
         else:
             self.get_syntax()

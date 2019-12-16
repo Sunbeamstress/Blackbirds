@@ -58,6 +58,7 @@ class Zone(DefaultObject):
 
     def clear_rooms(self):
         for room in self.db.rooms:
-            room.db.zone = None
+            if room != None: # In case of malformed entries.
+                room.db.zone = None
 
         self.db.rooms = []

@@ -63,7 +63,7 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        self.build_body()
+        pass
 
     def build_body(self):
         self.db.body = {}

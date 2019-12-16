@@ -1,5 +1,5 @@
 # Python modules.
-import inspect, sys, inflect
+import inspect, sys, inflect, re
 
 # Evennia modules.
 from evennia.server.sessionhandler import SESSION_HANDLER
@@ -17,6 +17,7 @@ from utilities.classes import class_from_name
 from utilities.debugging import debug_echo
 from utilities.display import notify, bullet, header, divider, gecho
 from utilities.menu import Menu
+from utilities.room import inc_roomname, get_room
 
 from server.conf import settings
 
@@ -136,10 +137,16 @@ class CmdTest(Command):
     locks = "perm(Admin)"
 
     def func(self):
-        ab_list = [ab for ab in Ability.__subclasses__()]
-        for ab in ab_list:
-            a = ab()
-            self.echo(f"\n|W{a.name}|n\n{a.key}\n|x{a._description}|n\n")
+        ply = self.caller
+        arg = self.words(1)
+
+        # ab_list = [ab for ab in Ability.__subclasses__()]
+        # for ab in ab_list:
+            # a = ab()
+            # self.echo(f"\n|W{a.name}|n\n{a.key}\n|x{a._description}|n\n")
+
+        roomname = ply.location.name
+        ply.echo(inc_roomname(roomname))
 
 class CmdSpeciesChange(Command):
     key = "specieschange"
@@ -272,8 +279,8 @@ class CmdDelete(Command):
             self.error_echo("There doesn't appear to be anything by that name to delete.")
             return
 
-        if tar.__class__.__name__ == "Exit":
-            self.echo(f"You delete object #{tar.id}.")
+        if tar.__class__.__name__ == "Room":
+            self.echo(f"You delete {tar.__class__.__name__} #{tar.id}.")
             tar.delete()
             return
 

@@ -203,7 +203,7 @@ class Object(DefaultObject):
         errtxt = _("Couldn't perform move ('%s'). Contact an admin.")
 
         if not destination:
-            self.echo("|xYou can't seem to figure out how to get there.|n")
+            self.error_echo(f"You can't seem to figure out how to get there.")
             return False
 
         if move_hooks:
