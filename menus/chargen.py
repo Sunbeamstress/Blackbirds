@@ -8,7 +8,7 @@ from utilities.characters import name_is_taken
 from utilities.string import jleft, jright, capital, sanitize, an
 from world.names import CURRENCY_FULL
 
-_SPAWN_ROOM = settings.SPAWN_ROOM
+_SPAWN_ROOM = settings.SPAWN_LOCATION
 
 def anatomy_display(text, val):
     conv_val = "|WYes|n" if val == True else "|xNo|n"
