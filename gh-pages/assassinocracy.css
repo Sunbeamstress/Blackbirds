@@ -1,0 +1,41 @@
+/* assassinocracy.css, 2019, by Alexander Divine */
+
+@font-face {
+    font-family: 'Nouveau_IBM';
+    src: url('nouveau_ibm.eot');
+    src: url('nouveau_ibm.eot?#iefix') format('embedded-opentype'),
+         url('nouveau_ibm.woff') format('woff'),
+         url('nouveau_ibm.ttf') format('truetype'),
+         url('nouveau_ibm.svg#Nouveau_IBM') format('svg');
+  }
+
+body {
+    font-family: 'Nouveau_IBM', monospace;
+    font-size: 16px;
+    background-color: #000080;
+    color: #FFFFFF;
+}
+
+h1 {
+    font-weight: normal;
+    background-color: #000000;
+    color: #C0C0C0;
+    padding: 6px;
+}
+
+h2 {
+    font-weight: normal;
+    background-color: #000000;
+    color: #C0C0C0;
+}
+
+i {
+    font-style: normal;
+    color: #FF00FF;
+}
+
+hr {
+    background-color: #000000;
+    height: 3px;
+    border: none;
+}
