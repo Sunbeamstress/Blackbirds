@@ -7,4 +7,4 @@ Scholars tend to argue over which bit of recovered war history was most signific
 Those Idols who were able to make a full recovery were instrumental in the early days of Man's resurgence, essentially kick-starting technology by instructing them how to use simple machines to automate tasks such as sawing logs, or hammering at the forge.
 
 ### The Earthcrusher
-The big mixer. The end-all event. A cataclysm of impossible proportions. The term can refer either to the event itself, or its evidence: the two-kilometer ferrous slug, still buried in the center of the King's Bleeding Heart. Whatever it was, it's the reason the continent has all those lovely spiraling lines.
+The big mixer. The end-all event. A cataclysm of impossible proportions. The term can refer either to the event itself, or its evidence: the two-kilometer ferrous slug still buried in the center of the King's Bleeding Heart. Whatever it was, it's the reason the continent has all those lovely spiraling lines.
