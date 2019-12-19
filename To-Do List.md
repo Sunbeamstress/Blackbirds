@@ -8,7 +8,7 @@
    - [x] Players
    - [x] Accounts
    - [ ] Rooms
-   - [ ] All sessions (game-wide emotes)
+   - [x] All sessions (game-wide emotes)
 - [ ] Standardize prompt, ensure it displays after literally everything.
    - [x] Make the prompt display actual useful data once character creation is fleshed out.
 
@@ -20,10 +20,10 @@
 - [x] ~~Area handling through JSON.~~
 - [x] ~~Zone handling through JSON.~~
 - [x] Environment handling through JSON.
-- [ ] Exit standardizing and room displaying.
-   - [x] Rewrite of Exit class from the ground up.
+- [x] Exit standardizing and room displaying.
+   - [x] ~~Rewrite of Exit class from the ground up.~~
    - [x] Commands to create/delete exits.
-   - [x] ~~Determine whether or not to continue using actual exit class - all required use cases might be covered by simple dictionary.~~
+   - [x] Determine whether or not to continue using actual exit class - all required use cases might be covered by simple dictionary.
    - [ ] Support for:
       - [ ] One-way Exits
       - [ ] Secret Exits
@@ -60,11 +60,11 @@
 
 ## Cleanup, Maintenance
 - [x] Fix dumb, inconsistent method name casing (AutoPunc, etc.)
-- [ ] Look up how database migration works.
+- [x] Look up how database migration works.
 
 ## Evennia System Message Replacements
 - [ ] Invalid commands.
-- [ ] System reloads.
+- [x] System reloads.
 
 ## Characters
 
@@ -72,34 +72,51 @@
    - [x] First and last name.
    - [x] Age.
    - [x] ~~Age of appearance, in case you take good or bad care of yourself.~~ (will be handled by mechanics)
-   - [ ] An "identity" ("intro" in other RPIs). The string we see if we don't know your name.
-   - [ ] **Big Decision**: Haven-style descriptions, with body parts, etc.?
-      - [ ] Fields for each body part (lower face, stomach, groin, etc.).
+   - [x] An "identity" ("intro" in other RPIs). The string we see if we don't know your name.
+   - [x] **Big Decision**: Haven-style descriptions, with body parts, etc.?
+      - [x] Fields for each body part (lower face, stomach, groin, etc.).
       - [ ] Ability to describe each, freely and on the fly.
    - [x] No coded sex/gender (sorry, chuds). You determine your biology.
       - [x] Pronouns. As much as I'd love to make them freeform, for grammatical purposes, limited to he/she/they.
          * This will be given the name of "sex" or "gender" in the code to make it easy to remember.
-      - [ ] Detector in our echo class that looks for verbs after "they" pronouns and depluralizes them.
+      - [x] Detector in our echo class that looks for verbs after "they" pronouns and depluralizes them.
          * ~~Will likely have to hand-code a big dictionary of depluralizations; and try to rely on a generic fallback if the word isn't found.~~
          * lmao nevermind python rules
       - [x] Specify body parts, such as breasts, that might appear in a slot-based description system.
          * This isn't Haven, no need to code in penises or vaginas. Just write whatever's there.
    - [x] Species. Choices pending establishment of setting. ~~Tempted to go human-only, probably won't.~~
-   - [ ] Species-based anatomy.
-      - [x] Reproductive ability.
+   - [x] Species-based anatomy.
+      - [x] ~~Reproductive ability.~~
       - [x] Two or four arms.
       - [ ] Idol treads/traction.
    - [x] ~~Archetype, a la Haven. Not quite a "class" but serves the same purpose.~~ Not needed at this time.
    - [x] ~~Background - poverty, child of politician, that sort of thing.~~
       * Could influence starting money, allow/deny certain skills at chargen.
 
-- [ ] Make a nice little tour for them to get acquainted.
+### Character Generation
+- [ ] Create a simple and effective tour to work players through the character creation process.
+   - [x] Species selection.
+   - [ ] Personal information - name, age, pronouns, etc.
+      - [x] Check for duplicate names.
+      - [x] Check for invalid names.
+      - [x] Forbid ages/heights out of species-based ranges.
+      - [ ] Make sure to check for validity again if the player returns to the first menu and changes their species.
+   - [ ] Anatomical selection.
+      - [x] Breasts - cosmetic option that changes the name of your "upper chest" slot.
+      - [x] ~~Reproduction?~~ Discarded as we won't be doing succession/child rearing mechanics
+      - [ ] Species features: horns, extra arms, etc.
+      - [ ] Human half-breed support for species features.
+   - [ ] Introduction to identities and descriptions.
+      - [ ] Allow the player to define their identity (intro).
+      - [ ] Give the player fields to define their body part descriptions.
+   - [ ] Primer to abilities, and a leeway period of free learning/unlearning.
+   - [ ] Dump the player out into the wild to fend for themselves like a shaky newborn foal.
 
 ### Abilities
 
 - [ ] Implement abilities.
-   - [ ] Define ability and ability tree classes.
-      - [ ] Implementation question: store each player's individual ability as its own object, or use a dictionary stored on the player?
+   - [x] Define ability and ability tree classes.
+      - [x] Implementation question: store each player's individual ability as its own object, or use a dictionary stored on the player? (We went with dictionary)
    - [ ] Describe core ability trees and the individual abilities beneath them.
       - [ ] Implement logic to tally up total level in a tree, based on which abilities belong to it.
 
