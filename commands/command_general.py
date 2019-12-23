@@ -65,17 +65,18 @@ class CmdSay(Command):
 
     def func(self):
         ply = self.caller
+        speech = self.words(1)
 
-        if not self.args:
-            ply.echo("You must specify something to say!")
-            return
-
-        speech = self.args
         if not speech:
+            ply.error_echo("You must specify something to say!")
             return
 
         # Call any code that might fire before speaking - e.g. voice disguising, etc.
-        speech = ply.at_before_say(speech)
+        speech, proceed = ply.at_before_say(speech)
+
+        if proceed != True:
+            # Something is preventing the player from speaking; wrap it up here.
+            return
 
         # Process player speech.
         ply.at_say(speech, msg_self = True)
