@@ -109,8 +109,8 @@ class Character(DefaultCharacter):
         self.init_bodypart(key = "lower_left_leg", fullname = "lower left leg", aliases = ["lll"])
         self.init_bodypart(key = "upper_right_leg", fullname = "upper right leg", aliases = ["url"])
         self.init_bodypart(key = "lower_right_leg", fullname = "lower right leg", aliases = ["lrl"])
-        self.init_bodypart(key = "left_foot", fullname = "left foot", aliases = ["lf"])
-        self.init_bodypart(key = "right_foot", fullname = "right foot", aliases = ["rf"])
+        self.init_bodypart(key = "left_foot", fullname = "left foot", aliases = ["lf"], plural_name = "left feet")
+        self.init_bodypart(key = "right_foot", fullname = "right foot", aliases = ["rf"], plural_name = "right feet")
         self.init_bodypart(key = "bioluminescence", aliases = ["bio", "light", "biolight", "luminescence"], plural_name = "bioluminescence", can_be_missing = False, can_be_injured = False, is_abstract = True)
         self.db.bodypart_names = self.build_bodypart_names()
 
@@ -120,7 +120,10 @@ class Character(DefaultCharacter):
         self.db.body[i]["key"] = key
         self.db.body[i]["aliases"] = aliases
         self.db.body[i]["fullname"] = fullname
-        self.db.body[i]["plural_name"] = plural_name
+        if plural_name:
+            self.db.body[i]["plural_name"] = plural_name
+        else:
+            self.db.body[i]["plural_name"] = f"{self.db.body[i]['fullname']}s"
         self.db.body[i]["desc"] = desc # The player's customized description for this part.
         self.db.body[i]["can_be_missing"] = can_be_missing # If False, ignores all aspects of missing messages/mechanics.
         self.db.body[i]["is_missing"] = is_missing # Is the body part omitted from the player?
@@ -208,11 +211,7 @@ class Character(DefaultCharacter):
         string += f"\n{capital(self.they('are'))} {h_string}, {h_comp} you."
 
         # Build a mass description from body parts.
-        b_string = "\n\n"
-        for b_part in self.db.body:
-            b_string += f"{' ' if self.db.body[b_part]['key'] != 'general' else ''}{self.bodypart_desc(b_part)}"
-
-        string += b_string
+        string += "\n\n" + self.compiled_description
 
         return string
 
@@ -675,8 +674,8 @@ class Character(DefaultCharacter):
     def description(self):
         return self.db.desc if self.db.desc else "A strangely nondescript person."
 
-    def change_description(self, new_desc):
-        old_desc = self.db.desc
+    def change_description(self, bodypart, new_desc):
+        old_desc = self.db.body
         if new_desc in ("none", "clear", "empty", "erase", "wipe"):
             self.db.desc = ""
             self.echo(f"You clear your description.")
@@ -711,10 +710,11 @@ class Character(DefaultCharacter):
     def build_bodypart_names(self):
         "Used to update the list of valid body part aliases the character has. Can change based on removal/additions of body parts."
         b_tbl = {}
-        for b_part in self.db.body:
-            b_tbl[b_part] = b_part
-            for a in self.db.body[b_part]["aliases"]:
-                b_tbl[a] = b_part
+        for i in self.db.body:
+            b_tbl[self.db.body[i]["key"]] = i
+            b_tbl[self.db.body[i]["plural_name"]] = i
+            for a in self.db.body[i]["aliases"]:
+                b_tbl[a] = i
 
         return b_tbl
 
@@ -743,6 +743,15 @@ class Character(DefaultCharacter):
     def bodypart_desc(self, b_part):
         b_part = self._valid_bodypart(b_part)
         return "" if not b_part else self.db.body[b_part]["desc"]
+
+    @property
+    def compiled_description(self):
+        string = ""
+        for i in self.db.body:
+            d = self.db.body[i]["desc"]
+            string += f"{' ' if d else ''}{d}"
+
+        return string.strip()
 
     @property
     def bioluminescence_color_code(self):
