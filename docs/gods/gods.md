@@ -52,12 +52,12 @@ A god is sometimes referred to as 'he' or 'she' or a specific other pronoun. The
 - **Appearance:** Needless takes on the distorted shape of countless nude men and women with hunched backs, their limbs locked and melded together like melted tallow. Sometimes, it manifests itself as a descent where one should not be - in an otherwise featureless wall, or even in the boughs of a tree.
 - **Synopsis:** The first-ever recorded instance of Man attempting to spawn a god. Birthed from the construction of the Tidal Steps, the ages-old staircase plummeting from a lofty seaside cliff into the Kono Brightside Sea. It was intended to exist as a sort of architectural god, supporting the wealth and power of a now-dead kingdom, but instead thrives on cruelty and malice.
 
-## **WAR:** ????
+## **WAR:** The Stain
 
 ### Our Mother of Sorrow, Endhearth
 
 - **Appearance:** A sinewy, Humanlike being with splotchy red flesh, and a tremendous mass of "hair" that depends in blades. Sometimes makes her presence known as the throaty and lustful cries of an impossibly vast warhost.
-- **Synopsis:** The first time a group of people acted on the urges to exterminate another, ???? was there - far before the Fae Age, or the Ages before that. As one of the oldest gods, she displays considerable sentience, and presents a sorrowful and regretful demeanor. She is known to appear in war chambers and briefing rooms, weeping without sound as generals argue strategy.
+- **Synopsis:** The first time a group of people acted on the urges to exterminate another, the Stain was there - far before the Fae Age, or the Ages before that. As one of the oldest gods, she displays considerable sentience, and presents a sorrowful and regretful demeanor. She is known to appear in war chambers and briefing rooms, weeping without sound as generals argue strategy. The generals cannot see her, but the men they send to their deaths can.
 
 ## **GLUTTONY:** Grottle
 
