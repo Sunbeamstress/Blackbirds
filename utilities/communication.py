@@ -1,55 +1,9 @@
 from utilities.string import autoformat
-from typeclasses.colors import GameColors
 
-def ProcessSpeech(self, message, msg_self = None, msg_location = None, receivers = None, msg_receivers = None, **kwargs):
-    """
-    Display the actual say (or whisper) of self.
-
-    This hook should display the actual say/whisper of the object in its
-    location.  It should both alert the object (self) and its
-    location that some text is spoken.  The overriding of messages or
-    |mapping` allows for simple customization of the hook without
-    re-writing it completely.
-
-    Args:
-        message (str): The message to convey.
-        msg_self (bool or str, optional): If boolean True, echo |message` to self. If a string,
-            return that message. If False or unset, don't echo to self.
-        msg_location (str, optional): The message to echo to self's location.
-        receivers (Object or iterable, optional): An eventual receiver or receivers of the message
-            (by default only used by whispers).
-        msg_receivers(str): Specific message to pass to the receiver(s). This will parsed
-            with the {receiver} placeholder replaced with the given receiver.
-    Kwargs:
-        whisper (bool): If this is a whisper rather than a say. Kwargs
-            can be used by other verbal commands in a similar way.
-        mapping (dict): Pass an additional mapping to the message.
-
-    Notes:
-
-
-        Messages can contain {} markers. These are substituted against the values
-        passed in the |mapping` argument.
-
-            msg_self = 'You say: "{speech}"'
-            msg_location = '{object} says: "{speech}"'
-            msg_receivers = '{object} whispers: "{speech}"'
-
-        Supported markers by default:
-            {self}: text to self-reference with (default 'You')
-            {speech}: the text spoken/whispered by self.
-            {object}: the object speaking.
-            {receiver}: replaced with a single receiver only for strings meant for a specific
-                receiver (otherwise 'None').
-            {all_receivers}: comma-separated list of all receivers,
-                                if more than one, otherwise same as receiver
-            {location}: the location where object is.
-    """
-
+def process_speech(self, message, msg_self = None, msg_location = None, receivers = None, msg_receivers = None, **kwargs):
     message = autoformat(message)
     msg_type = "say"
-    colors = GameColors()
-    light, dark = colors.SPEECH_LIGHT, colors.SPEECH_DARK
+    light, dark = "C", "c"
 
     if kwargs.get("whisper", False):
         # Player is whispering.
