@@ -26,7 +26,7 @@ def autoformat(s, allow_breaks = True, allow_extra_spacing = False):
     s = s.replace("$p", "\n\n" if allow_breaks == True else "")
     s = s.replace("$n", "\n" if allow_breaks == True else "")
 
-    if allow_extra_spacing = False:
+    if allow_extra_spacing == False:
         s = " ".join(s.split())
 
     return s
