@@ -1,3 +1,6 @@
+# Python
+from datetime import datetime
+
 # Evennia modules.
 from evennia import DefaultRoom
 from evennia.objects.models import ObjectDB
@@ -241,6 +244,8 @@ class Room(DefaultRoom):
 
             if not self.db.insulated:
                 desc = f"{self.get_temperature_string()} {desc}"
+            if not self.db.indoors:
+                desc = f"{self.get_time_string()} {desc}"
 
             string += f"\n{desc}"
 
@@ -311,6 +316,25 @@ class Room(DefaultRoom):
             return "|521It feels very hot.|n"
         else:
             return "|510It's incredibly hot.|n"
+
+    def get_time_string(self):
+        now = datetime.now().time()
+        if now.hour == 0 and now.hour <4:
+            return "|510The moon hangs high in the sky.|n"
+        elif now.hour == 4 and now.hour <6:
+            return "|025A telltale bluish hue in the horizon tells of the oncoming dawn.|n"
+        elif now.hour == 6 and now.hour <10:
+            return "|510The sun begins to peek in the horizon.|n"
+        elif now.hour == 10 and now.hour <12:
+            return "|510Sunlight shines from the east as it slowly climbs to its peak.|n"
+        elif now.hour == 12 and now.hour <16:
+            return "|510The Delight hangs at its peak, causing shadows to grow short.|n"
+        elif now.hour == 16 and now.hour <18:
+            return "|510The sky begins to darken as the sun falls to the west.|n"
+        elif now.hour == 18 and now.hour <20:
+            return "|510A smattering of stars join the moon in the sky.|n"
+        elif now.hour == 20 and now.hour <23:
+            return "|510Moonlight shines down upon you.|n"
 
     def get_illumination_string(self):
         light = self.db.illumination
