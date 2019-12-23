@@ -174,6 +174,7 @@ def _init_halfbreed(caller, species):
         caller.db.species.has_fangs = True
         caller.db.species.fangs_optional = True
         caller.db.species.has_bioluminescence = True
+        caller.db.species.bioluminescence_optional = True
         caller.db.species.can_eat_anything = True
 
 def anatomy_selection(caller, **kwargs):
@@ -211,7 +212,9 @@ def anatomy_selection(caller, **kwargs):
         caller.db.fang_desc = "tusks" if caller.db.fang_desc == "fangs" else "fangs"
     elif anatomy == "tail":
         caller.db.has_tail = not caller.db.has_tail
-    elif anatomy == "bioluminescence":
+    elif anatomy == "bioluminescence_toggle":
+        caller.db.has_bioluminescence = not caller.db.has_bioluminescence
+    elif anatomy == "bioluminescence_color":
         c = caller.db.bioluminescence_desc
         if c == "white":
             caller.db.bioluminescence_desc = "blue"
@@ -300,14 +303,20 @@ def _chargen_select_species(caller, raw_string, **kwargs):
         caller.error_echo("Something went wrong with species selection! Please notify the admin.")
         return "chargen_base"
 
+    caller._reset_species_flags()
+
     if species == "Human":
         caller.db.species = Human()
     elif species == "Carven":
         caller.db.species = Carven()
+        caller.db.has_horns = True
     elif species == "Sacrilite":
         caller.db.species = Sacrilite()
+        caller.db.has_fangs = True
+        caller.db.has_tail = True
     elif species == "Luum":
         caller.db.species = Luum()
+        caller.db.has_bioluminescence = True
     elif species == "Idol":
         if caller.check_permstring("Developer"):
             caller.db.species = Idol()
@@ -403,14 +412,17 @@ def chargen_anatomy(caller, raw_string, **kwargs):
     if caller.db.species.has_fangs and caller.db.species.fangs_optional:
         options.append({"desc": anatomy_display("has fangs.", caller.db.has_fangs), "goto": (anatomy_selection, {"anatomy": "fangs_toggle"})})
 
-    if caller.db.species.has_fangs and caller.db.species.fang_choice:
+    if caller.db.has_fangs and caller.db.species.fang_choice:
         options.append({"desc": anatomy_display(f"fang style: |W{caller.db.fang_desc}|n.", None, bool = False), "goto": (anatomy_selection, {"anatomy": "fangs_style"})})
 
     if caller.db.species.has_tail and caller.db.species.tail_optional:
         options.append({"desc": anatomy_display("has a tail.", caller.db.has_tail), "goto": (anatomy_selection, {"anatomy": "tail"})})
 
-    if caller.db.species.has_bioluminescence:
-        options.append({"desc": anatomy_display(f"has |{caller.bioluminescence_color_code}{caller.db.bioluminescence_desc}|n bioluminescence.", None, bool = False), "goto": (anatomy_selection, {"anatomy": "bioluminescence"})})
+    if caller.db.species.has_bioluminescence and caller.db.species.bioluminescence_optional:
+        options.append({"desc": anatomy_display("has bioluminescence.", caller.db.has_bioluminescence), "goto": (anatomy_selection, {"anatomy": "bioluminescence_toggle"})})
+
+    if caller.db.has_bioluminescence:
+        options.append({"desc": anatomy_display(f"has |{caller.bioluminescence_color_code}{caller.db.bioluminescence_desc}|n bioluminescence.", None, bool = False), "goto": (anatomy_selection, {"anatomy": "bioluminescence_color"})})
 
     options.append({"key": "n", "desc": "Continue to |RTBD|n.", "goto": "chargen_anatomy"})
     options.append({"key": "r", "desc": "Return to character identity.", "goto": "chargen_identity"})

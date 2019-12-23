@@ -36,6 +36,7 @@ class Species():
         self.tail_optional = False
         self.has_claws = False
         self.has_bioluminescence = False
+        self.bioluminescence_optional = False
         self.has_plant_appendages = False
         self.can_eat_anything = False
 
@@ -260,6 +261,7 @@ class Blackbird(Species):
         self.tail_optional = True
         self.has_claws = True
         self.has_bioluminescence = True
+        self.bioluminescence_optional = True
         self.has_plant_appendages = True
         self.can_eat_anything = True
         self.precision_information = True

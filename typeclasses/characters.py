@@ -61,24 +61,16 @@ class Character(DefaultCharacter):
         self.db.has_horns = False
         self.db.has_tail = False
         self.db.is_halfbreed = False
-        self.halfbreed_family = "Carven"
+        self.db.has_bioluminescence = False
 
         # Descriptions.
+        self.db.halfbreed_family = "Carven"
         self.db.fang_desc = "fangs"
         self.db.tail_desc = "feline"
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        self.db.has_breasts = True
-        self.db.has_genitals = True
-        self.db.can_carry_child = True
-        self.db.exoskeletal_level = 0
-        self.db.has_four_arms = False
-        self.db.has_fangs = False
-        self.db.has_horns = False
-        self.db.has_tail = False
-        self.db.is_halfbreed = False
-        self.halfbreed_family = None
+        self.db.has_bioluminescence = False
 
     def build_body(self):
         self.db.body = {}
@@ -126,6 +118,14 @@ class Character(DefaultCharacter):
         self.db.body[key]["is_heavy"] = is_heavy # For 3rd/4th arms, tank treads, etc. Imposes balance penalties.
         self.db.body[key]["can_be_injured"] = can_be_injured # Self-explanatory. False for things like hair, etc.
         self.db.body[key]["injury_level"] = injury_level # How injured is it? [0 - 3]
+
+    def _reset_species_flags(self):
+        self.db.has_four_arms = False
+        self.db.has_fangs = False
+        self.db.has_horns = False
+        self.db.has_tail = False
+        self.db.is_halfbreed = False
+        self.db.has_bioluminescence = False
 
     def at_before_say(self, message, **kwargs):
         return message
