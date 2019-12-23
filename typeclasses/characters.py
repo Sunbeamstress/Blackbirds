@@ -6,6 +6,7 @@ from evennia import DefaultCharacter
 from evennia.utils import logger
 
 # Blackbirds modules.
+from typeclasses.species import Human
 from utilities.color import color_ramp
 from utilities.communication import ProcessSpeech
 from utilities.display import header, divider, column, bullet
@@ -26,7 +27,7 @@ class Character(DefaultCharacter):
         self.db.pronoun_them = "them"
         self.db.pronoun_their = "their"
         self.db.pronoun_theirs = "theirs"
-        self.db.species = None
+        self.db.species = Human()
 
         # Stats.
         self.db.hp = {"current": 20, "max": 20} # Hit points.
@@ -56,6 +57,11 @@ class Character(DefaultCharacter):
         self.db.can_carry_child = True
         self.db.exoskeletal_level = 0
         self.db.has_four_arms = False
+        self.db.has_fangs = False
+        self.db.has_horns = False
+        self.db.has_tail = False
+        self.db.is_halfbreed = False
+        self.halfbreed_family = "Carven"
 
         # Descriptions.
         self.db.fang_desc = "fangs"
@@ -63,7 +69,16 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        pass
+        self.db.has_breasts = True
+        self.db.has_genitals = True
+        self.db.can_carry_child = True
+        self.db.exoskeletal_level = 0
+        self.db.has_four_arms = False
+        self.db.has_fangs = False
+        self.db.has_horns = False
+        self.db.has_tail = False
+        self.db.is_halfbreed = False
+        self.halfbreed_family = None
 
     def build_body(self):
         self.db.body = {}
@@ -714,3 +729,24 @@ class Character(DefaultCharacter):
     def bodypart_desc(self, b_part):
         b_part = self._valid_bodypart(b_part)
         return "" if not b_part else self.db.body[b_part]["desc"]
+
+    @property
+    def bioluminescence_color_code(self):
+        if not self.db.bioluminescence_desc or self.db.bioluminescence_desc == "":
+            return "n"
+
+        c = self.db.bioluminescence_desc.lower()
+        if c == "white":
+            return "554"
+        elif c == "blue":
+            return "145"
+        elif c == "green":
+            return "153"
+        elif c == "gold":
+            return "540"
+        elif c == "violet":
+            return "525"
+        elif c == "red":
+            return "521"
+
+        return "n"

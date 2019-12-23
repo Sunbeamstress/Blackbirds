@@ -1,5 +1,3 @@
-from utilities.debugging import debug_echo
-
 class Species():
     def __init__(self):
         # Species-specific naming info.
@@ -17,20 +15,25 @@ class Species():
         self.max_neon = 0
 
         # Naming conventions.
-        self.requires_surname = None
-        self.unusual_names = None
+        self.requires_surname = True
+        self.unusual_names = False
 
         # Anatomy.
+        self.can_halfbreed = False
         self.can_eat = True
         self.can_drink = True
         self.can_sleep = True
         self.can_reproduce = True
         self.can_reproduce_asexually = False
         self.has_horns = False
+        self.horns_optional = False
         self.has_exoskeleton = False
         self.can_be_fourarmed = False
         self.has_fangs = False
+        self.fang_choice = False
+        self.fangs_optional = False
         self.has_tail = False
+        self.tail_optional = False
         self.has_claws = False
         self.has_bioluminescence = False
         self.has_plant_appendages = False
@@ -103,9 +106,17 @@ class Human(Species):
         self.max_height = 215
         self.min_temp = 10
         self.max_temp = 43
-        self.requires_surname = True
-        self.unusual_names = False
-        self.chargen_documentation = "Humans, sometimes archaically referred to as Man, are a prolific, versatile people, the very species which gave rise to the term 'humanoid'. Though they are found predominantly along coastlines, mountains, woods, and plains, they are comfortable in a wide variety of temperatures and environments, and can be found living almost anywhere.\n\n  |xHeight |c|||n |W120|ncm |c-|n |W215|ncm |c(|W4|n ft |c-|n |W7|n ft|c)|n\n     |xAge |c|||n    |W18|n |c-|n |W100|n\n\n  |c-|n Can survive in a broad range of temperatures, but suffer greatly at either\n    extreme.\n  |c-|n Can start as a half-breed, choosing another species from which to draw\n    minor benefits.\n  |c-|n A half-breed Human counts as either species for the purposes of some\n    ability checks.\n  |c-|n Are not subject to certain prejudices amidst the state of Brillante.\n\n  |c-|n Excellent for beginners, or for testing character builds."
+        self.can_halfbreed = True
+        self.chargen_documentation = {
+            "synopsis": "Humans, sometimes archaically referred to as Man, are a prolific, versatile people, the very species which gave rise to the term 'humanoid'. Though they are found predominantly along coastlines, mountains, woods, and plains, they are comfortable in a wide variety of temperatures and environments, and can be found living almost anywhere.",
+            "qualities": [
+                "Can survive in a broad range of temperatures, but suffers greatly at either extreme.",
+                "Can start as a half-breed, choosing another species from which to draw minor features.",
+                "A half-breed Human counts as either species for the purposes of some ability checks.",
+                "Are not subject to certain prejudices common in the State of Brillante."
+            ],
+            "difficulty": "Excellent for beginners, or for testing character builds."
+        }
 
 class Carven(Species):
     def __init__(self):
@@ -121,11 +132,17 @@ class Carven(Species):
         self.min_temp = 20
         self.max_temp = 60
         self.requires_surname = False
-        self.unusual_names = False
         self.has_horns = True
         self.has_exoskeleton = True
         self.can_be_fourarmed = True
-        self.chargen_documentation = "Carven are a people spawned from Ninesilver's great deserts, adapted to hot climates, and were the predominant species in the state of Brillante before its occupation. They are characterized by the rapid mutant growth of their bone and chitin, leading to horns, spines, and other appendages in their young teen years, and encrustations of sharp bone over their limbs in middle adulthood.\n\n  |xHeight |c|||n |W150|ncm |c-|n |W215|ncm |c(|W5|n ft |c-|n |W7|n ft|c)|n\n     |xAge |c|||n    |W18|n |c-|n |W170|n\n\n  |c-|n Can choose a variety of horns.\n  |c-|n Gains exoskeletal growth based on age, which must be treated or worn away.\n  |c-|n Comfortable in warm weather, and can never feel too hot.\n  |c-|n Cannot move as quickly in cold weather, and will suffer greatly.\n  |c-|n Can be given two or four arms.\n  |c-|n Four-armed Carven are cumbersone, but fearsomely strong.\n\n  |c-|n A good choice for seasoned players, especially those who enjoy battle."
+        self.chargen_documentation = {
+            "synopsis": "Carven are a people spawned from Ninesilver's great deserts, adapted to hot climates, and were the predominant species in the state of Brillante before its occupation. They are characterized by the rapid mutant growth of their bone and chitin, leading to horns, spines, and other appendages in their young teen years, and encrustations of sharp bone over their limbs in middle adulthood.",
+            "qualities": [
+                "Comfortable in warm weather, and can never feel too hot.",
+                "Cannot move as quickly in cold weather, and will suffer greatly.",
+            ],
+            "difficulty": "A good choice for seasoned players, especially those who enjoy battle."
+        }
 
 class Sacrilite(Species):
     def __init__(self):
@@ -140,12 +157,18 @@ class Sacrilite(Species):
         self.max_height = 245
         self.min_temp = -40
         self.max_temp = 32
-        self.requires_surname = True
-        self.unusual_names = False
         self.has_fangs = True
+        self.fang_choice = True
         self.has_tail = True
         self.has_claws = True
-        self.chargen_documentation = "Originating from the taigas of Lightningshield, the Sacrilites are a hardy and cunning people, with thick, furry body hair. They are often likened to predatory cats, for their claws, fur, and elongated ears. Though they can live comfortably indoors or in the shade of Brillante, their homes are in the mountains, and they can roam nude in the snow without a hint of discomfort.\n\n  |xHeight |c|||n |W150|ncm |c-|n |W245|ncm |c(|W5|n ft |c-|n |W9|n ft|c)|n\n     |xAge |c|||n    |W18|n |c-|n |W65|n\n\n  |c-|n Can be given fangs or tusks.\n  |c-|n Their claws make versatile tools for hunting and rending.\n  |c-|n Can climb trees and scale buildings.\n  |c-|n Comfortable in cool weather, and can never feel too cold.\n  |c-|n Can choose heat-, motion-, or night-vision, each with their own benefits\n    and drawbacks.\n\n  |c-|n Recommended for players with a little experience."
+        self.chargen_documentation = {
+            "synopsis": "Originating from the taigas of Lightningshield, the Sacrilites are a hardy and cunning people, with thick, furry body hair. They are often likened to predatory cats, for their claws, fur, and elongated ears. Though they can live comfortably indoors or in the shade of Brillante, their homes are in the mountains, and they can roam nude in the snow without a hint of discomfort.",
+            "qualities": [
+                "Comfortable in cool weather, and can never feel too cold.",
+                "Can choose heat-, motion-, or night-vision, each with their own benefits and drawbacks.",
+            ],
+            "difficulty": "Recommended for players with a little experience."
+        }
 
 class Luum(Species):
     def __init__(self):
@@ -162,13 +185,21 @@ class Luum(Species):
         self.max_temp = 50
         self.max_neon = 5
         self.requires_surname = False
-        self.unusual_names = False
         self.can_reproduce_asexually = True
         self.has_fangs = True
+        self.fangs_optional = True
         self.has_bioluminescence = True
         self.has_plant_appendages = True
         self.can_eat_anything = True
-        self.chargen_documentation = "The people of Colossus Grove, the seaforest. The Luum have coal-colored flesh, set aglow with bioluminescence. Draped in naturally-occuring blossoms and vines, they are like nothing so much as spirits of the deepest woods, brought into humanoid shape. Owing to the peculiar biome from which they evolved, they are incidentally quite comfortable in real oceanic environs.\n\n  |xHeight |c|||n |W60|ncm |c-|n |W335|ncm |c(|W2|n ft |c-|n |W11|n ft|c)|n\n     |xAge |c|||n   |W18|n |c-|n |W1000|n\n\n  |c-|n Restricted from certain intensely physical abilities.\n  |c-|n Can choose the color and vibrance of their biolight.\n  |c-|n Can choose certain extraneous appendages, such as vines or thorns.\n  |c-|n Can see perfectly in the dark.\n  |c-|n Can briefly survive Neon-rich environs.\n  |c-|n Can reproduce asexually.\n  |c-|n Can eat almost anything, but must eat often.\n\n  |c-|n Good for players who want a challenge and don't mind limited options."
+        self.chargen_documentation = {
+            "synopsis": "The people of Colossus Grove, the seaforest. The Luum have coal-colored flesh, set aglow with bioluminescence. Draped in naturally-occuring blossoms and vines, they are like nothing so much as spirits of the deepest woods, brought into humanoid shape. Owing to the peculiar biome from which they evolved, they are incidentally quite comfortable in water, as well.",
+            "qualities": [
+                "Too delicate for certain intensely physical abilities.",
+                "Can choose certain extraneous appendages, such as vines or thorns.",
+                "Can briefly survive Neon-rich environs.",
+            ],
+            "difficulty": "Good for players who want a challenge and don't mind limited options."
+        }
 
 class Idol(Species):
     def __init__(self):
@@ -191,22 +222,16 @@ class Idol(Species):
         self.can_sleep = False
         self.can_reproduce = False
         self.precision_information = True
-        self.chargen_documentation = "A warhost of Humanlike automata, numerous enough to comprise a race of their own. With shells of stone, steel, and/or false flesh, no two Idols are the same. Though the great majority of activated Idols were built for killing, the softer, more graceful shapes of others suggest that they may have once belonged to a noble social strata, in an era that time forgot.\n\n  |xHeight |c|||n |W120|ncm |c-|n |W300|ncm |c(|W4|n ft |c-|n |W10|n ft|c)|n\n     |xAge |c|||n     |W1|n |c-|n |W1000|n\n\n  |c-|n Suffer numerous ability restrictions, but gain access to exclusive\n    Idol-based abilities.\n  |c-|n Receive much more detailed information when looking at things.\n  |c-|n Do not need to eat, drink, or sleep, but must maintain their fuel levels.\n  |c-|n Can passively regenerate fuel with the right parts, albeit slowly.\n  |c-|n Do not suffer any fatigue-based penalties, so long as their energy levels\n    are maintained.\n  |c-|n Can obtain and swap components.\n  |c-|n May or may not be anatomically correct.\n\n  |c-|n A difficult species to play; must be unlocked after 200 hours of play time."
-
-    def at_look(ply, target = None, **kwargs):
-        if not target.access(self, "view"):
-            try:
-                return "Could not view '%s'." % target.get_display_name(self, **kwargs)
-            except AttributeError:
-                return "Could not view '%s'." % target.key
-
-        description = target.return_appearance(self, **kwargs)
-
-        # the target's at_desc() method.
-        # this must be the last reference to target so it may delete itself when acted on.
-        target.at_desc(looker = self, **kwargs)
-
-        return description
+        self.chargen_documentation = {
+            "synopsis": "A warhost of Humanlike automata, numerous enough to comprise a race of their own. With shells of stone, steel, and/or false flesh, no two Idols are the same. Though the great majority of activated Idols were built for killing, the softer, more graceful shapes of others suggest that they may have once belonged to a noble social strata, in an era that time forgot.",
+            "qualities": [
+                "Were built in another time and age, and cannot utilize many common abilities - but make up for it with capabilities of their own.",
+                "Do not need to eat, drink, or sleep, but must maintain their energy levels.",
+                "Do not suffer any fatigue-based penalties, so long as their energy levels are maintained.",
+                "Can obtain and swap components."
+            ],
+            "difficulty": "A difficult species to play; must be unlocked with Rubric."
+        }
 
 class Blackbird(Species):
     def __init__(self):
@@ -223,20 +248,30 @@ class Blackbird(Species):
         self.max_neon = 9999
         self.requires_surname = False
         self.unusual_names = True
-        self.can_eat = True
-        self.can_drink = True
-        self.can_sleep = True
-        self.can_reproduce = True
         self.can_reproduce_asexually = True
         self.has_horns = True
+        self.horns_optional = True
         self.has_exoskeleton = True
         self.can_be_fourarmed = True
         self.has_fangs = True
+        self.fang_choice = True
+        self.fangs_optional = True
         self.has_tail = True
+        self.tail_optional = True
         self.has_claws = True
         self.has_bioluminescence = True
         self.has_plant_appendages = True
         self.can_eat_anything = True
         self.precision_information = True
         self.playable = False
-        self.chargen_documentation = "A mutant strain; a forbidden breed."
+        self.chargen_documentation = {
+            "synopsis": "A coven of mysterious ageless beings. In accordance with folklore, they were once mercenaries, scientists, capitalists, and thieves, the very first to strike it rich in the Neon Drive. What they did with that Neon, and why it did it to them, will likely never be known. Each of them is a terrifying force of nature, a living planetary will; they do as they please and are not beholden to laws, social mores, or even physical force.",
+            "qualities": [
+                "Stricken with ghost-white skin and black hair.",
+                "Linked, somehow, to the stream of time itself.",
+                "In all places and at all times.",
+                "Invisible and impossible to touch.",
+                "Never without a blade.",
+            ],
+            "difficulty": "The world will bend easily beneath your talons, but keeping your mind intact will prove to be a nightmare."
+        }

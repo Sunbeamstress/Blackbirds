@@ -43,7 +43,7 @@ def bullet(string, width = 80, color = "c", indent = 1):
     if not string:
         return prefix
 
-    string = wrap(prefix + string, initial_indent = 1, subsequent_indent = 3)
+    string = wrap(prefix + string, initial_indent = indent, subsequent_indent = 2 + indent)
 
     return string
 
