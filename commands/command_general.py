@@ -4,7 +4,7 @@ from evennia.utils import utils
 
 from commands.command import Command
 from utilities.string import (jleft, jright)
-from utilities.display import header, divider
+from utilities.display import header, divider, color_chart
 
 class CmdLook(Command):
     """
@@ -204,3 +204,12 @@ class CmdWho(Command):
         self.msg("\n\n  |W%s|n |xunique account%s logged in.|n" % (naccounts, "" if naccounts == 1 else "s"))
 
         self.msg(divider(color = "m"))
+
+class CmdColors(Command):
+    key = "color"
+    aliases = ["colors"]
+
+    def func(self):
+        ply = self.caller
+
+        ply.echo(color_chart())
