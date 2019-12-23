@@ -8,7 +8,7 @@ from evennia.utils import logger
 # Blackbirds modules.
 from typeclasses.species import Human
 from utilities.color import color_ramp
-from utilities.communication import ProcessSpeech
+from utilities.communication import process_speech
 from utilities.display import header, divider, column, bullet
 from utilities.string import an, capital, plural, message_token_pluralize, message_token_capitalize, jright, num_word
 import utilities.directions as dirs
@@ -141,11 +141,11 @@ class Character(DefaultCharacter):
         self.db.is_halfbreed = False
         self.db.has_bioluminescence = False
 
-    def at_before_say(self, message, **kwargs):
-        return message
+    def at_before_say(self, message, proceed = True, **kwargs):
+        return message, proceed
 
     def at_say(self, message, msg_self = None, msg_location = None, receivers = None, msg_receivers = None, **kwargs):
-        ProcessSpeech(self, message, msg_self, msg_location, receivers, msg_receivers, **kwargs)
+        process_speech(self, message, msg_self, msg_location, receivers, msg_receivers, **kwargs)
 
     def at_after_say(self, string):
         # Any processing to be done after saying something.
