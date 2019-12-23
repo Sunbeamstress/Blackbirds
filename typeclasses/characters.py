@@ -10,7 +10,7 @@ from typeclasses.species import Human
 from utilities.color import color_ramp
 from utilities.communication import process_speech
 from utilities.display import header, divider, column, bullet
-from utilities.string import an, capital, plural, message_token_pluralize, message_token_capitalize, jright, num_word
+from utilities.string import an, capital, plural, message_token_pluralize, message_token_capitalize, jright, num_word, autoformat
 import utilities.directions as dirs
 from world.names import CURRENCY, CURRENCY_FULL
 
@@ -78,8 +78,7 @@ class Character(DefaultCharacter):
         self.init_bodypart(key = "hair", plural_name = "hair", can_be_missing = False, can_be_injured = False)
         if self.db.has_horns:
             self.init_bodypart(key = "horns", aliases = ["horn"], plural_name = "horns")
-        self.init_bodypart(key = "left_eye", aliases = ["leye"], fullname = "left eye")
-        self.init_bodypart(key = "right_eye", aliases = ["reye"], fullname = "right eye")
+        self.init_bodypart(key = "eye")
         self.init_bodypart(key = "face", can_be_missing = False)
         self.init_bodypart(key = "neck", aliases = ["throat"], can_be_missing = False)
         if self.db.has_breasts:
@@ -90,28 +89,20 @@ class Character(DefaultCharacter):
         self.init_bodypart(key = "stomach", aliases = ["tummy", "belly", "gut", "stummy"], can_be_missing = False)
         self.init_bodypart(key = "upper_back", fullname = "upper back", aliases = ["ub"], can_be_missing = False)
         self.init_bodypart(key = "lower_back", fullname = "lower back", aliases = ["lb"], can_be_missing = False)
-        self.init_bodypart(key = "upper_left_arm", fullname = "upper left arm", aliases = ["ula"])
-        self.init_bodypart(key = "lower_left_arm", fullname = "lower left arm", aliases = ["lla"])
-        self.init_bodypart(key = "upper_right_arm", fullname = "upper right arm", aliases = ["ura"])
-        self.init_bodypart(key = "lower_right_arm", fullname = "lower right arm", aliases = ["lra"])
+        self.init_bodypart(key = "upper_arms", fullname = "upper arms", aliases = ["ua", "upperarms"])
+        self.init_bodypart(key = "lower_arms", fullname = "lower arms", aliases = ["la", "lowerarms"])
         if self.db.has_four_arms:
-            self.init_bodypart(key = "upper_sinister_arm", fullname = "upper sinistral arm", aliases = ["usa"])
-            self.init_bodypart(key = "lower_sinister_arm", fullname = "lower sinistral arm", aliases = ["lsa"])
-            self.init_bodypart(key = "upper_dexter_arm", fullname = "upper dextral arm", aliases = ["uda"])
-            self.init_bodypart(key = "lower_dexter_arm", fullname = "lower dextral arm", aliases = ["lda"])
-        self.init_bodypart(key = "left_hand", fullname = "left hand", aliases = ["lh"])
-        self.init_bodypart(key = "right_hand", fullname = "right hand", aliases = ["rh"])
+            self.init_bodypart(key = "extra_arms", fullname = "extra arms", aliases = ["ea", "extraarms"], is_heavy = True)
+        self.init_bodypart(key = "hands")
         if self.db.has_tail:
             self.init_bodypart(key = "tail")
-        self.init_bodypart(key = "genitals", aliases = ["groin", "loins", "penis", "vagina", "cock", "pussy"], plural_name = "genitalia", is_inappropriate = True)
+        self.init_bodypart(key = "genitals", aliases = ["groin", "loins", "penis", "vagina", "cock", "dick", "pussy"], plural_name = "genitalia", is_inappropriate = True)
         self.init_bodypart(key = "buttocks", aliases = ["butt", "booty", "ass", "derriere"], plural_name = "buttocks", can_be_missing = False)
-        self.init_bodypart(key = "upper_left_leg", fullname = "upper left leg", aliases = ["ull"])
-        self.init_bodypart(key = "lower_left_leg", fullname = "lower left leg", aliases = ["lll"])
-        self.init_bodypart(key = "upper_right_leg", fullname = "upper right leg", aliases = ["url"])
-        self.init_bodypart(key = "lower_right_leg", fullname = "lower right leg", aliases = ["lrl"])
-        self.init_bodypart(key = "left_foot", fullname = "left foot", aliases = ["lf"], plural_name = "left feet")
-        self.init_bodypart(key = "right_foot", fullname = "right foot", aliases = ["rf"], plural_name = "right feet")
-        self.init_bodypart(key = "bioluminescence", aliases = ["bio", "light", "biolight", "luminescence"], plural_name = "bioluminescence", can_be_missing = False, can_be_injured = False, is_abstract = True)
+        self.init_bodypart(key = "upper_leg", fullname = "upper legs", aliases = ["ul"])
+        self.init_bodypart(key = "lower_leg", fullname = "lower legs", aliases = ["ll"])
+        self.init_bodypart(key = "feet")
+        if self.db.has_bioluminescence:
+            self.init_bodypart(key = "bioluminescence", aliases = ["bio", "light", "biolight", "luminescence"], plural_name = "bioluminescence", can_be_missing = False, can_be_injured = False, is_abstract = True)
         self.db.bodypart_names = self.build_bodypart_names()
 
     def init_bodypart(self, key = "body_part", aliases = [], fullname = "", plural_name = "", desc = "", can_be_missing = True, is_missing = False, is_optional = False, is_abstract = False, is_covered = False, is_prosthetic = False, is_inappropriate = False, is_heavy = False, can_be_injured = True, injury_level = 0):
@@ -119,11 +110,11 @@ class Character(DefaultCharacter):
         self.db.body[i] = {}
         self.db.body[i]["key"] = key
         self.db.body[i]["aliases"] = aliases
-        self.db.body[i]["fullname"] = fullname
+        self.db.body[i]["fullname"] = fullname if fullname else key
         if plural_name:
             self.db.body[i]["plural_name"] = plural_name
         else:
-            self.db.body[i]["plural_name"] = f"{self.db.body[i]['fullname']}s"
+            self.db.body[i]["plural_name"] = f"{self.db.body[i]['fullname']}{'s' if self.db.body[i]['fullname'][-1:] != 's' else ''}"
         self.db.body[i]["desc"] = desc # The player's customized description for this part.
         self.db.body[i]["can_be_missing"] = can_be_missing # If False, ignores all aspects of missing messages/mechanics.
         self.db.body[i]["is_missing"] = is_missing # Is the body part omitted from the player?
@@ -675,16 +666,17 @@ class Character(DefaultCharacter):
         return self.db.desc if self.db.desc else "A strangely nondescript person."
 
     def change_description(self, bodypart, new_desc):
-        old_desc = self.db.body
+        bname = self.bodypart_name(bodypart)
+        old_desc = self.bodypart_desc(bodypart)
         if new_desc in ("none", "clear", "empty", "erase", "wipe"):
-            self.db.desc = ""
-            self.echo(f"You clear your description.")
+            self.bodypart_set_desc(bodypart, "")
+            self.echo(f"You clear the description of your {bname}.")
         else:
-            self.db.desc = new_desc
-            self.echo(f"Your description has been changed to:\n|x{self.description()}|n")
+            self.bodypart_set_desc(bodypart, autoformat(new_desc, allow_breaks = False))
+            self.echo(f"|xYour {bname} will now be described as:|n\n{self.bodypart_desc(bodypart)}")
 
         if old_desc:
-            self.echo(f"\n\nYour old description was:\n|x{old_desc}|n")
+            self.echo(f"\n\n|xIts old description was:|n\n{old_desc}")
 
     def identity(self):
         return self.db.identity if self.db.identity else "an unremarkable person"
@@ -720,7 +712,7 @@ class Character(DefaultCharacter):
 
     def _valid_bodypart(self, b_part):
         if len(self.db.bodypart_names) < 1:
-            return False
+            return None
 
         if b_part in self.db.bodypart_names:
             b_part = self.db.bodypart_names[b_part]
@@ -732,17 +724,28 @@ class Character(DefaultCharacter):
             return None
 
     def has_bodypart(self, b_part):
-        if not self._valid_bodypart(b_part):
+        if self._valid_bodypart(b_part) == None:
             return False
+
+        b_part = self._valid_bodypart(b_part)
 
         if self.db.body[b_part]["is_missing"]:
             return False
 
         return True
 
+    def bodypart_name(self, b_part):
+        b_part = self._valid_bodypart(b_part)
+        return "" if b_part == None else self.db.body[b_part]["fullname"]
+
     def bodypart_desc(self, b_part):
         b_part = self._valid_bodypart(b_part)
-        return "" if not b_part else self.db.body[b_part]["desc"]
+        return "" if b_part == None else self.db.body[b_part]["desc"]
+
+    def bodypart_set_desc(self, b_part, string):
+        b_part = self._valid_bodypart(b_part)
+        if b_part != None:
+            self.db.body[b_part]["desc"] = string
 
     @property
     def compiled_description(self):

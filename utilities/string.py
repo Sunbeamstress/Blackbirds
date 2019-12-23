@@ -16,20 +16,18 @@ def punctuate(s):
 
     return s
 
-def autoformat(s):
-    """
-    Rudimentary formatting of speech and emoting.
-
-    Capitalizes the first letter of the string, and intelligently auto-punctuates the end.
-    """
-
+def autoformat(s, allow_breaks = True, allow_extra_spacing = False):
+    "Applies certain grammatical rules to strings. Enforces a capitalized opening, automatic punctuation on the end, and performs other duties such as adding/removing paragraphs or breaking up unwanted spacing."
     s = ansi.strip_ansi(s)
 
     s = capital(s)
     s = punctuate(s)
 
-    s = s.replace("$p", "\n\n")
-    s = s.replace("$n", "\n")
+    s = s.replace("$p", "\n\n" if allow_breaks == True else "")
+    s = s.replace("$n", "\n" if allow_breaks == True else "")
+
+    if allow_extra_spacing = False:
+        s = " ".join(s.split())
 
     return s
 
@@ -116,3 +114,7 @@ def message_token_capitalize(string):
             string = string.replace(word, capital(tar_word))
 
     return string
+
+def truncate(string, length):
+    string = str(string)
+    return string if len(string) <= length else f"{string[:length - 3]}..."
