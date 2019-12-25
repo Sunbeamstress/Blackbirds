@@ -76,18 +76,7 @@ class Room(DefaultRoom):
 
     def build_exits(self):
         self.db.exits = {}
-        self.reset_exit("northwest")
-        self.reset_exit("north")
-        self.reset_exit("northeast")
-        self.reset_exit("west")
-        self.reset_exit("east")
-        self.reset_exit("southwest")
-        self.reset_exit("south")
-        self.reset_exit("southeast")
-        self.reset_exit("up")
-        self.reset_exit("down")
-        self.reset_exit("in")
-        self.reset_exit("out")
+        _ = [self.reset_exit(dir) for dir in ("northwest", "north", "northeast", "west", "east", "southwest", "south", "southeast", "up", "down", "in", "out")]
 
     def update(self):
         pass
