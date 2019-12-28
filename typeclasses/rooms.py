@@ -288,7 +288,7 @@ class Room(DefaultRoom):
         if self.db.desc and self.db.desc != "":
             return self.db.desc
 
-        return "The space around you cannot be made sense of - the only concession to the mortal mind is that amidst the inchoate and swirling static that surrounds you, the visual noise underfoot is as solid as stone, serving as a \"floor.\" All around you is a relentless buzzing of junk data, and with it, the sound of an impossibly vast ocean, churning and hissing away into eternity."
+        return "|xThe space around you cannot be made sense of - the only concession to the mortal mind is that amidst the inchoate and swirling static that surrounds you, the visual noise underfoot is as solid as stone, serving as a \"floor.\" All around you is a relentless buzzing of junk data, and with it, the sound of an impossibly vast ocean, churning and hissing away into eternity.|n"
 
     def get_temperature_string(self, ply):
         temp = self.db.temperature
