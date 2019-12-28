@@ -10,7 +10,7 @@ from evennia.utils.utils import (variable_from_module, lazy_property, make_iter,
 # Blackbirds modules.
 from commands.default_cmdsets import ChargenCmdSet
 from utilities.display import header, divider
-from utilities.room import get_room
+from utilities.room import get_room, get_room_id
 from utilities.string import jleft, jright, punctuate
 import utilities.directions as dirs
 from typeclasses.environments import Environment
@@ -172,8 +172,16 @@ class Room(DefaultRoom):
             err_msg = err_msg % "The specified room already has an exit leading in the other direction."
             return False, err_msg
 
-        self.db.exits[dir]["dest"] = dest.key
-        dest.db.exits[opp_dir]["dest"] = self.key
+        d_id = get_room_id(dest)
+        s_id = get_room_id(self)
+
+        # Final failsafe - ensure we pulled up a valid room ID.
+        if d_id == False or s_id == False:
+            err_msg = err_msg % "Unable to produce a valid room ID."
+            return False, err_msg
+
+        self.db.exits[dir]["dest"] = d_id
+        dest.db.exits[opp_dir]["dest"] = s_id
 
         return True, ""
 
@@ -371,6 +379,10 @@ class Room(DefaultRoom):
         return self.db.zone.area_fullname()
 
     def set_zone(self, tar_zone):
+        if self.db.zone:
+            z = self.db.zone
+            z.remove_room(self)
+
         self.db.zone = tar_zone
 
     def zone(self):

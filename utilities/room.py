@@ -12,6 +12,12 @@ def get_room(name):
 
     return False
 
+def get_room_id(name):
+    "Similar to get_room, but returns its internal database ID. Needed for cases in which the room's data may change but references need to remain the same."
+    r = get_room(name)
+    if r:
+        return f"#{r.id}"
+
 def sanitize_roomname(name):
     "Removes all invalid characters from a room's name, and makes it lowercase for good measure."
     name = re.sub(r"\W+", "", name)

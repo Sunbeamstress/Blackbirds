@@ -8,7 +8,7 @@ from typeclasses.environments import Environment
 from typeclasses.zones import Zone
 from utilities.directions import valid_direction, coord_shift
 from utilities.display import header, divider
-from utilities.room import sanitize_roomname, inc_roomname, roomname_exists
+from utilities.room import get_room, get_room_id, sanitize_roomname, inc_roomname, roomname_exists
 from utilities.string import jleft, jright
 import utilities.directions as dirs
 
@@ -92,7 +92,6 @@ def room_create(ply, dir = None):
     # Get information from the player's current room.
     orig = ply.location
     r_name = inc_roomname(orig.name)
-    r_zone = orig.db.zone
     r_env = orig.db.environment
     r_powned = orig.db.player_owned
     r_pid = orig.db.player_owner_id
@@ -108,9 +107,9 @@ def room_create(ply, dir = None):
     # Create the room.
     typeclass = settings.BASE_ROOM_TYPECLASS
     new_room = create.create_object(typeclass, r_name, report_to = ply)
-    if r_zone:
-        new_room.db.zone = r_zone
-        r_zone.add_room(new_room)
+    if orig.db.zone:
+        new_room.db.zone = orig.db.zone
+        new_room.db.zone.add_room(new_room)
     new_room.db.environment = r_env
     new_room.db.player_owned = r_powned
     new_room.db.player_owner_id = r_pid
@@ -196,7 +195,10 @@ def room_create_exit(ply, tar_room = None, dir = None, dest = None):
         ply.error_echo("You must supply a valid direction.")
         return
 
-    destination = ply.search(dest, global_search = True)
+    if dest.isnumeric():
+        dest = "#" + dest
+
+    destination = get_room(dest)
     if not destination:
         ply.error_echo("That does not appear to be a valid room.")
         return
