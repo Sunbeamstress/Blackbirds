@@ -13,7 +13,7 @@ from utilities.string import jleft, jright
 import utilities.directions as dirs
 
 VALID_ROOM_VALUES = ("temperature", "illumination", "water_level")
-VALID_ROOM_FLAGS = ("indoors", "darkness", "natural", "public", "shop", "house", "battleground", "craft_hall", "chapel", "bank")
+VALID_ROOM_FLAGS = ("indoors", "darkness", "natural", "public", "shop", "house", "battleground", "craft_hall", "chapel", "bank", "insulated")
 
 def room_info_entry(attr_name, nice_value, var_name, type_reminder, cust_str_color = "W"):
     translated_value = "|c---|n"
