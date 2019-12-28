@@ -50,13 +50,13 @@ class Map():
         self.x_range = int((self.max_width - 1) / 2)
         self.y_range = int((self.max_height - 1) / 2)
 
-        # Coordinate handling
+        # Coordinate handling.
         self.orig_x = caller.x()
         self.orig_y = caller.y()
         self.orig_z = caller.z()
         self.min_x = (self.orig_x - self.x_range)
-        self.max_x = (self.orig_x + self.x_range) + 1
-        self.min_y = (self.orig_y - self.y_range) - 1
+        self.max_x = (self.orig_x + self.x_range)
+        self.min_y = (self.orig_y - self.y_range)
         self.max_y = (self.orig_y + self.y_range)
 
         # Stores the actual appearance of the map.
@@ -70,23 +70,23 @@ class Map():
 
         g_list = {}
         # We create the table upside down, since higher y coordinates should be 'northward'.
-        for y in range(self.max_y, self.min_y, -1):
+        for y in range(self.max_y, self.min_y - 1, -1):
             g_list[y + 0.5] = {}
             g_list[y] = {}
-            for x in range(self.min_x, self.max_x):
+            for x in range(self.min_x, self.max_x + 1):
                 g_list[y + 0.5][x - 0.5] = " "
                 g_list[y + 0.5][x] = "   "
                 g_list[y][x - 0.5] = " "
                 g_list[y][x] = "   "
             g_list[y + 0.5][self.max_x + 0.5] = " "
-            g_list[y][self.max_x + 0.5] = "   "
 
         g_list[self.min_y - 0.5] = {}
-        for x in range(self.min_x, self.max_x):
+        for x in range(self.min_x, self.max_x + 1):
             g_list[self.min_y - 0.5][x - 0.5] = " "
             g_list[self.min_y - 0.5][x] = "   "
         g_list[self.min_y - 0.5][self.max_x + 0.5] = " "
 
+        debug_echo(f"Grid generated with min_y of {self.min_y} and max_y of {self.max_y}.")
         return g_list
 
     def _get_zone_rooms(self, id):
@@ -107,15 +107,14 @@ class Map():
 
     def _populate_grid(self):
         # Fill grid with appropriate rooms.
-        for y in range(self.min_y, self.max_y):
-            for x in range(self.min_x, self.max_x):
+        for y in range(self.min_y, self.max_y + 1):
+            for x in range(self.min_x, self.max_x + 1):
                 if y in self.rooms.keys() and x in self.rooms[y]:
                     # Iterate over the room's exits to tag appropriate exit nodes with a symbol.
                     for e_dir in self.rooms[y][x].get_exits():
                         shift_y, shift_x = 0, 0
                         if e_dir in DIR_SHIFT:
                             shift_y, shift_x = DIR_SHIFT[e_dir][0], DIR_SHIFT[e_dir][1]
-                            # if shift_y != 0 and shift_x != 0:
                             sym = DIR_SYM[e_dir]
                             self.grid[y + shift_y][x + shift_x] = f"|w{sym}|n"
 
@@ -145,5 +144,3 @@ class Map():
             string_row = ""
 
         return string_header + string + string_footer
-        # return string_header + string + string_footer + "\n\n" + str(self.grid)
-        # return str(self.grid)
