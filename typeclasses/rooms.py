@@ -279,7 +279,7 @@ class Room(DefaultRoom):
 
         r_env = "|%s%s|n" % (self.environment_color(), self.environment_short())
 
-        return f"|y{punctuate(r_name)}|n |213(|n|525{r_zone}, {r_area}|n|213)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n"
+        return f"|y{punctuate(r_name)}|n\n|213(|n|525{r_zone}, {r_area}|n|213)|n |x[|n{r_env}|x]|n |213(v|n|202{r_id_zeroes}|n|525{r_id}|n|213)|n"
 
     def fullname(self):
         return self.db.fullname if self.db.fullname else "Empty Room"
