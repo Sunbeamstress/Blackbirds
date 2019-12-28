@@ -86,7 +86,6 @@ class Map():
             g_list[self.min_y - 0.5][x] = "   "
         g_list[self.min_y - 0.5][self.max_x + 0.5] = " "
 
-        debug_echo(f"Grid generated with min_y of {self.min_y} and max_y of {self.max_y}.")
         return g_list
 
     def _get_zone_rooms(self, id):

@@ -151,7 +151,7 @@ def room_rename(ply, tar_room = None, new_name = None):
         return
 
     r_id = tar_room.name
-    previous_name = tar_room.db.fullname
+    previous_name = tar_room.db.fullname if tar_room.db.fullname else "|xnothing|n"
     tar_room.db.fullname = new_name
     ply.echo(f"Room {r_id}'s name has been changed from {previous_name} to {tar_room.fullname()}.")
 
