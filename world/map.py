@@ -96,7 +96,7 @@ class Map():
         r_list = {}
         for room in zone.rooms():
             y, x, z = room.db.y, room.db.x, room.db.z
-            if self.min_y < y < self.max_y and self.min_x < x < self.max_x and room.db.z == self.caller.z():
+            if self.min_y < y < self.max_y and self.min_x < x < self.max_x and room.db.z == self.caller.z() and room.db.hidden == False:
                 if y not in r_list.keys():
                     r_list[y] = {}
 
@@ -110,7 +110,7 @@ class Map():
             for x in range(self.min_x, self.max_x + 1):
                 if y in self.rooms.keys() and x in self.rooms[y]:
                     # Iterate over the room's exits to tag appropriate exit nodes with a symbol.
-                    for e_dir in self.rooms[y][x].get_exits():
+                    for e_dir in self.rooms[y][x].get_exits(visible_only = True):
                         shift_y, shift_x = 0, 0
                         if e_dir in DIR_SHIFT:
                             shift_y, shift_x = DIR_SHIFT[e_dir][0], DIR_SHIFT[e_dir][1]

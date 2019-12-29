@@ -13,7 +13,7 @@ from utilities.string import jleft, jright
 import utilities.directions as dirs
 
 VALID_ROOM_VALUES = ("temperature", "illumination", "water_level")
-VALID_ROOM_FLAGS = ("indoors", "darkness", "natural", "public", "shop", "house", "battleground", "craft_hall", "chapel", "bank", "insulated")
+VALID_ROOM_FLAGS = ("indoors", "darkness", "natural", "public", "shop", "house", "battleground", "craft_hall", "chapel", "bank", "insulated", "hidden")
 
 def room_info_entry(attr_name, nice_value, var_name, type_reminder, cust_str_color = "W"):
     translated_value = "|c---|n"
@@ -54,6 +54,7 @@ def room_info(ply, tar_room = None):
     string += room_info_entry("Name", tar_room.name, "name", "str")
     string += room_info_entry("Zone", r_zone, "zone", "id")
     string += room_info_entry("Environment", env_name, "environment", "id", env_color)
+    string += room_info_entry("Hidden", tar_room.db.hidden, "hidden", "bool")
     string += room_info_entry("Insulated", tar_room.db.insulated, "insulated", "bool")
     string += room_info_entry("Temperature", tar_room.db.temperature, "temperature", "num")
     string += room_info_entry("Indoors", tar_room.db.indoors, "indoors", "bool")

@@ -71,15 +71,17 @@ class Room(DefaultRoom):
         self.db.player_owned = False # Does a player own this room?
         self.db.player_owner_id = None # Who owns the room, if so?
 
+        # Room attributes - mapping
         self.db.symbol = None
         self.db.symbol_override = False
+        self.db.hidden = False
+
+    def update(self):
+        self.db.hidden = False
 
     def build_exits(self):
         self.db.exits = {}
         _ = [self.reset_exit(dir) for dir in ("northwest", "north", "northeast", "west", "east", "southwest", "south", "southeast", "up", "down", "in", "out")]
-
-    def update(self):
-        pass
 
     def delete(self):
         global _ScriptDB
@@ -137,7 +139,7 @@ class Room(DefaultRoom):
             if not self._valid_exit(dir):
                 continue
 
-            if visible_only and self.db.exits[dir]["visible"] != True:
+            if visible_only and (self.db.exits[dir]["visible"] != True or get_room(self.db.exits[dir]["dest"]).db.hidden == True):
                 continue
 
             exit_list.append(dir)
