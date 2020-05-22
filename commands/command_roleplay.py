@@ -21,6 +21,12 @@ class CmdEmote(Command):
     aliases = [":", "em", "me", "emote"]
     locks = "cmd:all()"
 
+    def __init__(self):
+        super().__init__()
+        self.uses_balance = True
+        self.needs_balance = True
+        self.balance_time = 1
+
     def parse(self):
         """
         Custom parse the cases where the emote
@@ -77,6 +83,32 @@ class CmdEmote(Command):
 
             em_msg = ''.join(new_em_msg)
 
+        # Give out XP/Rubric, if applicable.
+        self.grant_rewards(em_msg)
 
+        # Send the message out!
         ply.echo("|xYou emote:|n")
-        self.caller.location.msg_contents(text=(em_msg, {"type": "pose"}), from_obj=self.caller)
+        ply.location.echo(em_msg, type = "emote", origin = ply)
+
+    def grant_rewards(self, msg):
+        ply = self.caller
+        room = ply.room
+        ply_list = [con for con in room.contents if con != looker and con.has_account]
+        ply_count = len(ply_list)
+        ply_targets = 0
+
+        if len(msg) < 16:
+            return
+
+        # XP Formula:
+        # 1 XP per character in emote
+        xp_score = len(msg)
+        # A bonus of 5% of the base value, multiplied by how many players are in the room.
+        xp_ply_count_bonus = (xp_score * 0.05) * ply_count
+        # A bonus of 15% of the base value for each unique player targetted in the emote.
+        xp_ply_target_bonus = (xp_score * 0.15) * ply_targets
+
+        new_xp = xp_score + xp_ply_count_bonus + xp_ply_target_bonus
+
+        ply.db.xp.current += new_xp
+        ply.account.db.rubric += new_rb

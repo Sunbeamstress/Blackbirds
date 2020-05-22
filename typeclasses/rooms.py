@@ -205,6 +205,9 @@ class Room(DefaultRoom):
         self.reset_exit(dir)
         return True, ""
 
+    def echo(self, msg, type = None, origin = None):
+        self.msg_contents(text = (msg, {"type": type}), from_obj = origin)
+
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.
         pass

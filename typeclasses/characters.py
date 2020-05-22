@@ -3,6 +3,7 @@ import re, random
 
 # Evennia modules.
 from evennia import DefaultCharacter
+from evennia import TICKER_HANDLER as tickerhandler
 from evennia.utils import logger
 
 # Blackbirds modules.
@@ -47,7 +48,7 @@ class Character(DefaultCharacter):
         self.build_body()
 
         # Combat/RP-based statuses.
-        self.db.balance = True # This being non-persistent is deliberate.
+        self.db.balance = True
         self.db.balance_time = 0
         self.db.prone = 0 # 1 for seated, 2 for lying down
 
@@ -69,7 +70,8 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        self.db.has_bioluminescence = False
+        self.balance = True
+        self.balance_time = 0
 
     def build_body(self):
         # Goddamn what a mess
@@ -274,6 +276,17 @@ class Character(DefaultCharacter):
     def age(self):
         return self.db.age
 
+    def use_balance(self, t):
+        self.db.balance = False
+        self.db.balance_time = t
+        tickerhandler.add(self.db.balance_time, self.recover_balance)
+
+    def recover_balance(self):
+        tickerhandler.remove(self.db.balance_time, self.recover_balance)
+        self.db.balance = True
+        self.db.balance_time = 0
+        self.echo("|c(|C!|c)|n You can act again.", prompt = True)
+
     def in_chargen(self):
         c = self.location.__class__.__name__
         return c == "ChargenRoom"
@@ -343,6 +356,9 @@ class Character(DefaultCharacter):
     def can_move(self):
         if self.db.prone > 0:
             return False, "You'll need to get up, first."
+
+        if self.db.balance == False:
+            return False, "You're too off-balance to move."
 
         return True, ""
 

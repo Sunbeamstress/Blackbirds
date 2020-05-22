@@ -136,17 +136,17 @@ class CmdTest(Command):
     key = "test"
     locks = "perm(Admin)"
 
+    def __init__(self):
+        super().__init__()
+        self.uses_balance = True
+        self.needs_balance = True
+        self.balance_time = 2
+
     def func(self):
         ply = self.caller
         arg = self.words(1)
 
-        # ab_list = [ab for ab in Ability.__subclasses__()]
-        # for ab in ab_list:
-            # a = ab()
-            # self.echo(f"\n|W{a.name}|n\n{a.key}\n|x{a._description}|n\n")
-
-        roomname = ply.location.name
-        ply.echo(inc_roomname(roomname))
+        ply.echo("You test a command.")
 
 class CmdSpeciesChange(Command):
     key = "specieschange"

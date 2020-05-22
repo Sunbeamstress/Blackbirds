@@ -45,8 +45,18 @@ class Command(BaseCommand):
         self._syntax_post_note = None
         self._syntax_subcmds = {}
 
+        self.uses_balance = False
+        self.needs_balance = False
+        self.balance_time = 0
+        self.balance_mod = 0
+
     def at_pre_cmd(self):
-        # Space out everything between propmts - looks nice.
+        # Check to see if this command requires balance, first.
+        if self.needs_balance and not self.caller.db.balance:
+            self.caller.error_echo("You cannot act yet.", prompt = True)
+            return True
+
+        # Space out everything between prompts - looks nice.
         self.caller.echo("\n")
 
     def parse(self):
@@ -55,8 +65,16 @@ class Command(BaseCommand):
         self.cmd_word = cmd.copy()
 
     def at_post_cmd(self):
+        # Use balance, if applicable.
+        bt = self.balance_time + self.balance_mod
+        bt = 0 if bt < 0 else bt
+        if self.uses_balance and self.balance_time > 0:
+            self.caller.use_balance(self.balance_time)
+
         # Every command sends a prompt afterwards.
         self.caller.msg(prompt = self.caller.prompt())
+
+        self.balance_mod = 0
 
     def echo(self, string, prompt = False, error = False):
         ply = self.caller
