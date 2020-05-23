@@ -1,4 +1,5 @@
 from server.conf import settings
+from utilities.accounts import all_accounts
 
 typeclass = settings.BASE_CHARACTER_TYPECLASS
 
@@ -9,3 +10,6 @@ def name_is_taken(name):
         return True
 
     return False
+
+def all_characters():
+    return [acc.character for acc in all_accounts()]

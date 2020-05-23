@@ -26,9 +26,10 @@ from commands.command_environment import *
 from commands.command_area import *
 from commands.command_zone import *
 from commands.command_movement import *
-from commands.command_account import *
+from commands.command_account import CmdChar
 from commands.command_map import *
 from commands.command_chargen import *
+from commands.command_communication import *
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -88,6 +89,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdColors())
         self.add(CmdBody())
         self.add(CmdRelocate())
+        self.add(CmdNewbie())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"

@@ -29,6 +29,7 @@ from evennia.utils.utils import (lazy_property, to_str, make_iter, is_iter, vari
 # Blackbirds stuff.
 from server.conf import settings
 from utilities.display import header, divider
+from utilities.debugging import debug_echo
 from utilities.string import jleft, jright
 
 _MAX_NR_CHARACTERS = settings.MAX_NR_CHARACTERS
@@ -251,8 +252,11 @@ class Account(DefaultAccount):
                                   session=session), session=session)
 
     def echo(self, string, prompt = False, error = False):
-        # At this moment, simply a lazy method wrapper that sends a message to the object,
-        # then displays a prompt.
+        # If puppetting character/object, defer to its echo method if applicable.
+        if self.character:
+            _ = [ply.echo(string, prompt = prompt, error = error) for ply in self.character]
+            return
+
         if error == True:
             string = "|x" + string + "|n"
 

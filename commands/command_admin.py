@@ -138,15 +138,15 @@ class CmdTest(Command):
 
     def __init__(self):
         super().__init__()
-        self.uses_balance = True
-        self.needs_balance = True
-        self.balance_time = 2
+        self.uses_balance = False
+        self.needs_balance = False
+        self.balance_time = 0
 
     def func(self):
         ply = self.caller
         arg = self.words(1)
-
-        ply.echo("You test a command.")
+        acc = ply.account
+        debug_echo(str(acc.character))
 
 class CmdSpeciesChange(Command):
     key = "specieschange"
