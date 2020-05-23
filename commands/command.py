@@ -49,6 +49,8 @@ class Command(BaseCommand):
         self.needs_balance = False
         self.balance_time = 0
         self.balance_mod = 0
+        self.no_prespacing = False
+        self.no_prompt = False
 
     def at_pre_cmd(self):
         # Check to see if this command requires balance, first.
@@ -57,7 +59,8 @@ class Command(BaseCommand):
             return True
 
         # Space out everything between prompts - looks nice.
-        self.caller.echo("\n")
+        if not self.no_prespacing:
+            self.caller.echo("\n")
 
     def parse(self):
         # Process user's input, divide into words - used for various word-based getter functions below.
@@ -72,7 +75,8 @@ class Command(BaseCommand):
             self.caller.use_balance(self.balance_time)
 
         # Every command sends a prompt afterwards.
-        self.caller.msg(prompt = self.caller.prompt())
+        if not self.no_prompt:
+            self.caller.msg(prompt = self.caller.prompt())
 
         self.balance_mod = 0
 

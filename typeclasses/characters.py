@@ -185,7 +185,7 @@ class Character(DefaultCharacter):
 
         # Determine whether or not the character is augmented or otherwise privy to precise measurements.
         # Current use cases are for Idols, Blackbirds, and admin players.
-        precise = self.precision_information
+        precise = looker.precision_information
 
         # Build the necessary description components for the header.
         age_string = f"Heuristic analysis suggests {self.they('are')} {an(self.species())}, {self.age} years of age." if precise \
@@ -200,7 +200,7 @@ class Character(DefaultCharacter):
             h_comp = self.compare_height(looker)
 
         # Display the description header.
-        string  = f"You know this person as {capital(self.nickname(looker))}. {age_string}"
+        string  = f"You know this person as {self.nickname(looker)}. {age_string}"
         string += f"\n{capital(self.they('are'))} {h_string}, {h_comp} you."
 
         # Build a mass description from body parts.
@@ -314,7 +314,8 @@ class Character(DefaultCharacter):
                 p_string += f"|x{stat.upper()}|c|||n{s_string} "
 
             # Experience.
-            p_string += f"|504XP|c|||n|202{'0' * (len(str(self.max_xp)) - len(str(self.xp)))}|505{self.xp}|n "
+            r_xp = round(self.xp)
+            p_string += f"|504XP|c|||n|202{'0' * (len(str(self.max_xp)) - len(str(r_xp)))}|505{r_xp}|n "
 
             # Scars.
             p_string += f"|411SC|r|||n|R{'*' * self.sc}|n " if self.sc > 0 else ""
@@ -570,7 +571,8 @@ class Character(DefaultCharacter):
 
         hp_string = "|013%s|055%s |013%s|055%s|n" % ("0" * (4 - len(str(self.hp))), self.hp, "0" * (4 - len(str(self.max_hp))), self.max_hp)
         en_string = "|013%s|055%s |013%s|055%s|n" % ("0" * (4 - len(str(self.en))), self.en, "0" * (4 - len(str(self.max_en))), self.max_en)
-        xp_string = "|202%s|505%s |202%s|505%s|n" % ("0" * (4 - len(str(self.xp))), self.xp, "0" * (4 - len(str(self.max_xp))), self.max_xp)
+        r_xp = round(self.xp)
+        xp_string = "|202%s|505%s |202%s|505%s|n" % ("0" * (4 - len(str(r_xp))), r_xp, "0" * (4 - len(str(self.max_xp))), self.max_xp)
         sc_string = "|200%s|511%s |200%s|511%s|n" % ("0" * (4 - len(str(self.sc))), self.sc, "0" * (4 - len(str(self.max_sc))), self.max_sc)
 
         string = ""
@@ -595,7 +597,7 @@ class Character(DefaultCharacter):
 
         string += "\n\n|cAssets & Money|n"
         string += "\n" + bullet("You do not own any buildings.")
-        string += "\n" + bullet(f"You have accumulated |C{self.rubric:,}|n Rubric.")
+        string += "\n" + bullet(f"You have accumulated |C{round(self.rubric):,}|n Rubric.")
         string += "\n" + bullet(f"You have accumulated |M{self.neon:,}|n Neon.")
         string += "\n" + bullet(f"|yYour {CURRENCY_FULL} stands at |Y{self.money:.3f} {CURRENCY}|y.|n", color = "320")
 

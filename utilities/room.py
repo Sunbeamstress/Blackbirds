@@ -50,3 +50,15 @@ def inc_roomname(name):
 
     # Voila! This is our new free name.
     return name + "_" + str(ext)
+
+def room_characters(name, hidden_check = False, looker = None):
+    room = get_room(name)
+    if not room:
+        return None
+
+    if hidden_check and looker != None:
+        ply_list = [con for con in room.contents if con != looker and con.has_account and con.access(looker, "view")]
+    else:
+        ply_list = [con for con in room.contents if con.has_account]
+
+    return ply_list

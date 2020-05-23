@@ -1,4 +1,5 @@
 from commands.command import Command
+from utilities.room import room_characters
 from utilities.string import autoformat
 
 class CmdEmote(Command):
@@ -26,6 +27,7 @@ class CmdEmote(Command):
         self.uses_balance = True
         self.needs_balance = True
         self.balance_time = 1
+        self.no_prompt = True
 
     def parse(self):
         """
@@ -88,27 +90,32 @@ class CmdEmote(Command):
 
         # Send the message out!
         ply.echo("|xYou emote:|n")
-        ply.location.echo(em_msg, type = "emote", origin = ply)
+        ply.location.echo(em_msg, type = "emote", origin = ply, prompt = True)
 
     def grant_rewards(self, msg):
         ply = self.caller
-        room = ply.room
-        ply_list = [con for con in room.contents if con != looker and con.has_account]
+        room = ply.location
+        ply_list = room_characters(room)
         ply_count = len(ply_list)
         ply_targets = 0
 
         if len(msg) < 16:
             return
 
+        if not ply_count or ply_count == 0:
+            return
+
         # XP Formula:
         # 1 XP per character in emote
         xp_score = len(msg)
-        # A bonus of 5% of the base value, multiplied by how many players are in the room.
-        xp_ply_count_bonus = (xp_score * 0.05) * ply_count
         # A bonus of 15% of the base value for each unique player targetted in the emote.
         xp_ply_target_bonus = (xp_score * 0.15) * ply_targets
 
-        new_xp = xp_score + xp_ply_count_bonus + xp_ply_target_bonus
+        new_xp = xp_score + xp_ply_target_bonus
 
-        ply.db.xp.current += new_xp
+        # Rubric is fixed currently at 1% of XP gain.
+        new_rb = new_xp * 0.01
+
+        ply.db.xp["current"] += new_xp
         ply.account.db.rubric += new_rb
+        ply.echo(f"|yYour emote generated {new_xp} experience and {new_rb} Rubric.|n")

@@ -263,6 +263,44 @@ class CmdGoto(Command):
         else:
             self.error_echo("Teleportation failed.")
 
+class CmdRelocate(Command):
+    key = "rel"
+    aliases = ["reloc", "relocate"]
+    locks = "perm(Admin)"
+
+    def func(self):
+        ply = self.caller
+        tar = self.word(1)
+        loc = self.word(2)
+
+        if loc in ("chargen", "intro", "newbie"):
+            loc = settings.START_LOCATION
+        elif loc in ("deletion", "trash"):
+            loc = settings.DELETION_ROOM
+        elif tar in ("admin", "satellite", "pools"):
+            loc = settings.ADMIN_ROOM
+
+        tar = ply.search(tar, global_search = True)
+        if not tar:
+            self.error_echo("No player by that name was found.")
+            return
+
+        if not tar.has_account:
+            self.error_echo("That is not a valid player.")
+            return
+
+        loc = ply.search(loc, global_search = True)
+        if not loc:
+            self.error_echo("No location by that name was found.")
+            return
+
+        # Continue as normal.
+        if tar.move_to(loc, quiet = True, move_msg = f"You find yourself flung instantly through time and space, arriving at {loc.fullname()}."):
+            ply.echo(f"You make a beckoning gesture at {tar}, flinging {tar.them()} through time and space to {loc.fullname()}.")
+            pass
+        else:
+            self.error_echo("Relocation failed.")
+
 class CmdDelete(Command):
     key = "delete"
     aliases = ["del"]

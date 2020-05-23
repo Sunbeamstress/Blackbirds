@@ -10,7 +10,8 @@ from evennia.utils.utils import (variable_from_module, lazy_property, make_iter,
 # Blackbirds modules.
 from commands.default_cmdsets import ChargenCmdSet
 from utilities.display import header, divider
-from utilities.room import get_room, get_room_id
+from utilities.emotes import msg_tokenize
+from utilities.room import get_room, get_room_id, room_characters
 from utilities.string import jleft, jright, punctuate
 import utilities.directions as dirs
 from typeclasses.environments import Environment
@@ -205,8 +206,17 @@ class Room(DefaultRoom):
         self.reset_exit(dir)
         return True, ""
 
-    def echo(self, msg, type = None, origin = None):
-        self.msg_contents(text = (msg, {"type": type}), from_obj = origin)
+    def echo(self, msg, type = None, origin = None, prompt = False):
+        if type == "emote":
+            # Snowflakey handling for emotes, to parse @tokens.
+            for ply in room_characters(self):
+                ply.echo(msg_tokenize(ply, msg), prompt = True)
+
+        else:
+            self.msg_contents(text = (msg, {"type": type}), from_obj = origin)
+            if prompt == True:
+                for ply in room_characters(self):
+                    ply.msg(prompt = ply.prompt())
 
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.
