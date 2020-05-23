@@ -3,6 +3,7 @@ from commands.command import Command
 
 # Blackbirds modules.
 from utilities.accounts import all_accounts
+from utilities.display import formatted_channel_msg
 from utilities.string import jleft, jright, truncate, autoformat
 
 class CmdNewbie(Command):
@@ -17,10 +18,9 @@ class CmdNewbie(Command):
 
     def func(self):
         msg = self.words(1)
-        ply = self.caller
+        acc = self.caller.account
+        acc_color = "Y" if acc.is_superuser else "w"
+
         ply_list = all_accounts()
-
-        form_msg = f'|y[Newbie]:|n {ply} says, "{autoformat(msg)}"'
-
         for p in ply_list:
-            p.echo(form_msg, prompt = True)
+            p.echo(formatted_channel_msg(chan = "Newbie", acc = acc, msg = autoformat(msg)), prompt = True)

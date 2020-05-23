@@ -117,3 +117,10 @@ def color_chart():
             formatted_chart += cellstring
 
     return formatted_chart
+
+def formatted_channel_msg(chan = None, acc = None, msg = None):
+    if not chan or not acc or not msg:
+        return
+
+    acc_color = "W" if acc.is_superuser else "x"
+    return f"|=j[|=o{chan}|=j]|n |{acc_color}{acc.name}:|n {msg}"
