@@ -7,6 +7,7 @@ from evennia import TICKER_HANDLER as tickerhandler
 from evennia.utils import logger
 
 # Blackbirds modules.
+from data import visibility as vis
 from typeclasses.species import Human
 from utilities.color import color_ramp
 from utilities.communication import process_speech
@@ -51,6 +52,7 @@ class Character(DefaultCharacter):
         self.db.balance = True
         self.db.balance_time = 0
         self.db.prone = 0 # 1 for seated, 2 for lying down
+        self.db.visibility = vis.NORMAL
 
         # Anatomy.
         self.db.has_breasts = True
@@ -70,8 +72,7 @@ class Character(DefaultCharacter):
         self.db.bioluminescence_desc = "white"
 
     def update(self):
-        self.balance = True
-        self.balance_time = 0
+        self.db.visibility = vis.NORMAL
 
     def build_body(self):
         # Goddamn what a mess
@@ -794,3 +795,7 @@ class Character(DefaultCharacter):
             return "521"
 
         return "n"
+
+    @property
+    def visibility(self):
+        return self.db.visibility

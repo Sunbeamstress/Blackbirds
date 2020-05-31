@@ -118,9 +118,10 @@ def color_chart():
 
     return formatted_chart
 
-def formatted_channel_msg(chan = None, acc = None, msg = None):
-    if not chan or not acc or not msg:
+def formatted_channel_msg(chan = None, speaker = None, msg = None):
+    if not chan or not speaker or not msg:
         return
 
-    acc_color = "W" if acc.is_superuser else "x"
-    return f"|=j[|=o{chan}|=j]|n |{acc_color}{acc.name}:|n {msg}"
+    acc = speaker.account
+    speaker_color = "W" if acc.is_superuser else "x"
+    return f"|=j[|=o{chan}|=j]|n |{speaker_color}{speaker}:|n {msg}"

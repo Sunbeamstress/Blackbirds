@@ -12,6 +12,8 @@ from abilities.misc import *
 
 from commands.command import Command
 
+from data import visibility as vis
+
 from utilities.abilities import ability_list
 from utilities.classes import class_from_name
 from utilities.debugging import debug_echo
@@ -345,3 +347,20 @@ class CmdInflect(Command):
             self.iecho(inf.plural(string))
         elif arg == "pluraladj" or arg == "plural_adj":
             self.iecho(inf.plural_adj(string))
+
+class CmdAdminHide(Command):
+    "Invisibility beyond anything even a Blackbird could inspire to. Silently phase in or out of perfect, total illusiveness."
+    key = "ahide"
+    aliases = ["adminhide"]
+    locks = "perm(Admin)"
+
+    def func(self):
+        ply = self.caller
+        s_level = ply.db.visibility
+
+        if s_level < vis.ADMIN:
+            ply.db.visibility = vis.ADMIN
+            ply.echo("You go totally invisible.")
+        else:
+            ply.db.visibility = vis.NORMAL
+            ply.echo("You emerge from your total invisibility.")

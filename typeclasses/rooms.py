@@ -9,6 +9,7 @@ from evennia.utils.utils import (variable_from_module, lazy_property, make_iter,
 
 # Blackbirds modules.
 from commands.default_cmdsets import ChargenCmdSet
+from data import visibility as vis
 from utilities.display import header, divider
 from utilities.emotes import msg_tokenize
 from utilities.room import get_room, get_room_id, room_characters
@@ -227,7 +228,7 @@ class Room(DefaultRoom):
             return ""
 
         # Grab all accessible objects in room.
-        visible = (con for con in self.contents if con != looker and con.access(looker, "view"))
+        visible = (con for con in self.contents if con != looker and con.access(looker, "view") and con.visibility == vis.NORMAL)
         exit_list = self.get_exits(visible_only = True)
         players, things = [], []
 

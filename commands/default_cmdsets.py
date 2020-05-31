@@ -89,7 +89,9 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdColors())
         self.add(CmdBody())
         self.add(CmdRelocate())
-        self.add(CmdNewbie())
+        self.add(CmdNewbieChannel())
+        self.add(CmdAdminHide())
+        self.add(CmdAdminChannel())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"
