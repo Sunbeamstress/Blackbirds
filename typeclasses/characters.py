@@ -799,3 +799,14 @@ class Character(DefaultCharacter):
     @property
     def visibility(self):
         return self.db.visibility
+
+    def damage(self, dmg, msg):
+        new_hp = self.db.hp["current"] - dmg
+        if new_hp < 0:
+            # well the character should die, but we haven't gotten that far yet
+            new_hp = 1
+
+        self.db.hp["current"] = new_hp
+        if msg:
+            self.echo(msg)
+        self.echo(f"|rYou take |R{dmg}|r damage.", prompt = True)

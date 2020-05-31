@@ -30,6 +30,7 @@ from commands.command_account import CmdChar
 from commands.command_map import *
 from commands.command_chargen import *
 from commands.command_communication import *
+from commands.command_combat_basic import CmdPunch
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -92,6 +93,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdNewbieChannel())
         self.add(CmdAdminHide())
         self.add(CmdAdminChannel())
+        self.add(CmdPunch())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"
