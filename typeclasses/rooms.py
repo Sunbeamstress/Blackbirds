@@ -58,9 +58,9 @@ class Room(DefaultRoom):
         self.db.public = False # Represents whether or not people will freak out about certain things (nudity, fighting, etc.)
         self.db.shop = False # The room contains goods for sale.
         self.db.house = False # The room is a house, dwelling, apartment, etc. Does not imply player ownership.
-        self.db.battleground = False # The room is open for PVP with no rules whatsoever.
-        self.db.craft_hall = False # You can customize and create goods in this room.
-        self.db.chapel = False # This room allows you to pray to deities, or make a pact with the Blackbirds.
+        self.db.warzone = False # The room is open for PVP with no rules whatsoever.
+        self.db.allows_crafting = False # You can customize and create goods in this room.
+        self.db.allows_worship = False # This room allows you to pray to deities, or make a pact with the Blackbirds.
         self.db.bank = False # You can WITHDRAW, DEPOSIT, LOAN, and check your BALANCE here.
 
         # Room flags - powernet
@@ -79,7 +79,7 @@ class Room(DefaultRoom):
         self.db.hidden = False
 
     def update(self):
-        self.db.hidden = False
+        pass
 
     def build_exits(self):
         self.db.exits = {}
@@ -257,7 +257,7 @@ class Room(DefaultRoom):
 
             if not self.db.insulated:
                 desc = f"{self.get_temperature_string(looker)} {desc}"
-            if not self.db.indoors:
+            if not self.db.indoors or (self.db.indoors and looker.precision_information):
                 desc = f"{self.get_time_string(looker)} {desc}"
 
             string += f"\n{desc}"
