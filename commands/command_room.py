@@ -176,7 +176,7 @@ def room_environment(ply, tar_room = None, new_env = None):
         ply.error_echo("You must enter a number.")
         return
 
-    env = ply.search("#" + new_env, global_search = True)
+    env = ply.search("#" + new_env, global_search = True, quiet = True)
     if not env:
         ply.error_echo("That is not a valid environment.")
         return
@@ -251,7 +251,7 @@ def room_zone(ply, tar_room = None, zone = None):
         ply.error_echo("You must specify a zone.")
         return
 
-    tar_zone = ply.search("#" + zone, global_search = True)
+    tar_zone = ply.search("#" + zone, global_search = True, quiet = True)
     if not tar_zone:
         ply.error_echo(f"No zone with the id {zone} could be found.")
         return

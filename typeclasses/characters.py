@@ -619,7 +619,7 @@ class Character(DefaultCharacter):
 
         return plural(string)
 
-    def message(self, self_m = None, target = None, tar_m = None, witness_m = None):
+    def message(self, self_m = None, target = None, tar_m = None, witness_m = None, prompt = True, witness_prompt = False):
         """A specifically formatted message that originates from the Character. Special tokens are used to populate data and facilitate the writing of combat or other game messages.
 
         self_m = The message the originating character sees.
@@ -636,9 +636,6 @@ class Character(DefaultCharacter):
         +word: The word is to be capitalized."""
 
         if self_m == None:
-            return
-
-        if target and tar_m == None:
             return
 
         if target:
@@ -660,11 +657,12 @@ class Character(DefaultCharacter):
             tar_m = message_token_capitalize(tar_m)
 
         if witness_m:
-            witness_m = witness_m.replace("TARGET_THEY", target.they())
-            witness_m = witness_m.replace("TARGET_THEM", target.them())
-            witness_m = witness_m.replace("TARGET_THEIR", target.their())
-            witness_m = witness_m.replace("TARGET_THEIRS", target.theirs())
-            witness_m = witness_m.replace("TARGET", target.name)
+            if target:
+                witness_m = witness_m.replace("TARGET_THEY", target.they())
+                witness_m = witness_m.replace("TARGET_THEM", target.them())
+                witness_m = witness_m.replace("TARGET_THEIR", target.their())
+                witness_m = witness_m.replace("TARGET_THEIRS", target.theirs())
+                witness_m = witness_m.replace("TARGET", target.name)
             witness_m = witness_m.replace("PLAYER_THEY", self.they())
             witness_m = witness_m.replace("PLAYER_THEM", self.them())
             witness_m = witness_m.replace("PLAYER_THEIR", self.their())
@@ -674,12 +672,13 @@ class Character(DefaultCharacter):
             witness_m = message_token_pluralize(witness_m, "#", target)
             witness_m = message_token_capitalize(witness_m)
 
-        self.echo(self_m, prompt = True)
+        self.echo(self_m, prompt = prompt)
         if tar_m:
-            target.echo(tar_m, prompt = True)
+            target.echo(tar_m, prompt = prompt)
         if witness_m:
-            # room.echo(witness_m, prompt = True)
-            pass
+            loc = self.location
+            if loc:
+                loc.echo(witness_m, origin = self, prompt = witness_prompt)
 
     def description(self):
         return self.db.desc if self.db.desc else "A strangely nondescript person."

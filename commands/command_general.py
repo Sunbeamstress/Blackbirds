@@ -41,7 +41,7 @@ class CmdLook(Command):
             if self.args.strip() == "me" or self.args.strip() == "self":
                 target = ply
             else:
-                target = ply.search(self.args)
+                target = ply.search(self.args, quiet = True)
             if not target:
                 return
 
@@ -213,3 +213,23 @@ class CmdColors(Command):
         ply = self.caller
 
         ply.echo(color_chart())
+
+class CmdDrop(Command):
+    key = "drop"
+
+    def func(self):
+        ply = self.caller
+        tar = self.words(1)
+
+        obj = ply.search(tar, global_search = False, quiet = True)[0]
+
+        if not obj:
+            ply.error_echo(f"You don't seem to have \"{tar}.\"")
+            return
+
+        if obj.location != ply:
+            ply.error_echo("You aren't carrying that on your person.")
+            return
+
+        obj.location = ply.location
+        ply.message(self_m = f"You drop {obj.name}.", witness_m = f"PLAYER !drop {obj.name}.", prompt = False)

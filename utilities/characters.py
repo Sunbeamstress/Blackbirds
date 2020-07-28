@@ -13,3 +13,15 @@ def name_is_taken(name):
 
 def all_characters():
     return [acc.character for acc in all_accounts()]
+
+def is_admin(ply = None):
+    if not ply:
+        return False
+
+    return ply.check_permstring("Admin")
+
+def is_builder(ply = None):
+    if not ply:
+        return False
+
+    return ply.check_permstring("Builder")

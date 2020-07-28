@@ -28,6 +28,7 @@ from typeclasses.accounts import Account
 from typeclasses.areas import Area
 from typeclasses.characters import Character
 from typeclasses.environments import Environment
+from typeclasses.objects import Object
 from typeclasses.species import Species, Human, Carven, Sacrilite, Luum, Idol, Blackbird
 from typeclasses.zones import Zone
 
@@ -112,7 +113,7 @@ class CmdList(Command):
         ply = self.caller
         obj_type = self.word(1)
         obj_list = []
-        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "species")
+        valid_objs = ("accounts", "rooms", "characters", "environments", "zones", "areas", "species", "objects")
 
         if obj_type not in valid_objs:
             ply.error_echo("You must specify a valid Python class to list. Valid classes are:")
@@ -130,7 +131,7 @@ class CmdList(Command):
         ply.echo(header(obj_type.capitalize()))
 
         for o in obj_list:
-            ply.echo(bullet(f"{o.name}"))
+            ply.echo(bullet(f"{o.name} ({o.location})"))
 
         ply.echo(divider())
 
@@ -245,7 +246,7 @@ class CmdGoto(Command):
         elif tar in ("admin", "satellite", "pools"):
             tar = settings.ADMIN_ROOM
 
-        dest = ply.search(tar, global_search = True)
+        dest = ply.search(tar, global_search = True, quiet = True)
         if not dest:
             self.error_echo("No player, object, or room by that name was found.")
             return
@@ -279,10 +280,10 @@ class CmdRelocate(Command):
             loc = settings.START_LOCATION
         elif loc in ("deletion", "trash"):
             loc = settings.DELETION_ROOM
-        elif tar in ("admin", "satellite", "pools"):
+        elif loc in ("admin", "satellite", "pools"):
             loc = settings.ADMIN_ROOM
 
-        tar = ply.search(tar, global_search = True)
+        tar = ply.search(tar, global_search = True, quiet = True)[0]
         if not tar:
             self.error_echo("No player by that name was found.")
             return
@@ -291,7 +292,7 @@ class CmdRelocate(Command):
             self.error_echo("That is not a valid player.")
             return
 
-        loc = ply.search(loc, global_search = True)
+        loc = ply.search(loc, global_search = True, quiet = True)[0]
         if not loc:
             self.error_echo("No location by that name was found.")
             return
@@ -313,7 +314,7 @@ class CmdDelete(Command):
         tar = self.word(1)
 
         # If the target is a player or object, send it to the deletion room. Everything else is removed the normal way.
-        tar = ply.search(tar, global_search = True)
+        tar = ply.search(tar, global_search = True, quiet = True)
 
         if not tar:
             self.error_echo("There doesn't appear to be anything by that name to delete.")

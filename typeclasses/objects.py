@@ -12,6 +12,7 @@ inheritance.
 """
 from evennia import DefaultObject
 from evennia.utils import logger
+import data.visibility as vis
 
 class Object(DefaultObject):
     """
@@ -200,7 +201,7 @@ class Object(DefaultObject):
             self.echo("%s%s" % (string, "" if err is None else " (%s)" % err))
             return
 
-        errtxt = _("Couldn't perform move ('%s'). Contact an admin.")
+        errtxt = "Couldn't perform move ('%s'). Contact an admin."
 
         if not destination:
             self.error_echo(f"You can't seem to figure out how to get there.")
@@ -261,3 +262,7 @@ class Object(DefaultObject):
                 error_msg(errtxt % "at_after_move", err)
                 return False
         return True
+
+    @property
+    def visibility(self):
+        return vis.NORMAL

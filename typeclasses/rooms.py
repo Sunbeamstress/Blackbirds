@@ -19,6 +19,7 @@ from typeclasses.environments import Environment
 from typeclasses.areas import Area
 from typeclasses.zones import Zone
 from world.map import Map
+from utilities.debugging import debug_echo
 
 _ScriptDB = None
 
@@ -80,6 +81,10 @@ class Room(DefaultRoom):
 
     def update(self):
         pass
+
+    @property
+    def characters(self):
+        return [obj for obj in self.contents if obj.has_account]
 
     def build_exits(self):
         self.db.exits = {}
@@ -210,14 +215,13 @@ class Room(DefaultRoom):
     def echo(self, msg, type = None, origin = None, prompt = False):
         if type == "emote":
             # Snowflakey handling for emotes, to parse @tokens.
-            for ply in room_characters(self):
+            for ply in self.characters:
                 ply.echo(msg_tokenize(ply, msg), prompt = True)
 
         else:
-            self.msg_contents(text = (msg, {"type": type}), from_obj = origin)
-            if prompt == True:
-                for ply in room_characters(self):
-                    ply.msg(prompt = ply.prompt())
+            viewers = [ply for ply in self.characters if (origin and ply != origin)]
+            for ply in viewers:
+                ply.echo(msg, prompt = ply.prompt())
 
     def at_desc(self, looker=None, **kwargs):
         # Seems to process things before the room is looked at.

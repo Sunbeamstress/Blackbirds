@@ -17,7 +17,7 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 from evennia import default_cmds, CmdSet
 
 from commands.command_roleplay import CmdEmote
-from commands.command_general import CmdLook, CmdSay, CmdSit, CmdStand, CmdLie, CmdWho, CmdColors
+from commands.command_general import CmdLook, CmdSay, CmdSit, CmdStand, CmdLie, CmdWho, CmdColors, CmdDrop
 from commands.command_character import CmdDescribe, CmdScore, CmdBody
 from commands.command_admin import CmdReload, CmdUpdate, CmdList, CmdTest, CmdSpeciesChange, CmdSetHp, CmdPronounChange, CmdGoto, CmdRelocate, CmdDelete, CmdInflect, CmdAdminHide
 from commands.command_room import CmdRoom
@@ -31,6 +31,7 @@ from commands.command_map import CmdMap
 from commands.command_chargen import CmdChargenBegin
 from commands.command_communication import CmdAdminChannel, CmdNewbieChannel
 from commands.command_combat_basic import CmdPunch
+from commands.command_admin_creation import CmdCreate, CmdCreation
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -94,6 +95,9 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(CmdAdminHide())
         self.add(CmdAdminChannel())
         self.add(CmdPunch())
+        self.add(CmdCreate())
+        self.add(CmdCreation())
+        self.add(CmdDrop())
 
 class AdminCmdSet(default_cmds.CharacterCmdSet):
     key = "DefaultAdmin"
