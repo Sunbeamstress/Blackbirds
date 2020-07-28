@@ -16,20 +16,20 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`.
 
 from evennia import default_cmds, CmdSet
 
-from commands.command_roleplay import *
-from commands.command_general import *
-from commands.command_character import *
-from commands.command_admin import *
-from commands.command_room import *
-from commands.command_ability import *
-from commands.command_environment import *
-from commands.command_area import *
-from commands.command_zone import *
-from commands.command_movement import *
+from commands.command_roleplay import CmdEmote
+from commands.command_general import CmdLook, CmdSay, CmdSit, CmdStand, CmdLie, CmdWho, CmdColors
+from commands.command_character import CmdDescribe, CmdScore, CmdBody
+from commands.command_admin import CmdReload, CmdUpdate, CmdList, CmdTest, CmdSpeciesChange, CmdSetHp, CmdPronounChange, CmdGoto, CmdRelocate, CmdDelete, CmdInflect, CmdAdminHide
+from commands.command_room import CmdRoom
+from commands.command_ability import CmdAbilities
+from commands.command_environment import CmdEnvironment, CmdEnvironments
+from commands.command_area import CmdArea, CmdAreas
+from commands.command_zone import CmdZone, CmdZones
+from commands.command_movement import CmdNorthwest, CmdNorth, CmdNortheast, CmdWest, CmdEast, CmdSouthwest, CmdSouth, CmdSoutheast, CmdUp, CmdDown, CmdIn, CmdOut
 from commands.command_account import CmdChar
-from commands.command_map import *
-from commands.command_chargen import *
-from commands.command_communication import *
+from commands.command_map import CmdMap
+from commands.command_chargen import CmdChargenBegin
+from commands.command_communication import CmdAdminChannel, CmdNewbieChannel
 from commands.command_combat_basic import CmdPunch
 
 
