@@ -6,10 +6,6 @@ A multiplayer text RPG by Earthcrusher (Brendon Hollesen).
 
 Blackbirds is a synthwave fantasy RPI MUD, an unholy marriage of high-tech 1980s kitsch with swords and sorcery. It's Patrick Nagel meets Gary Gygax. Taking place in the post-post-apocalyptic world of Ninesilver, players vie for control over Brillante, the crucible of modern civilization. It may not make complete sense unless you're a little genre savvy, but rest assured the setting is as unique as can be.
 
-## Discord
-
-You can join the official Blackbirds Discord at https://discord.gg/YrzGjMf. Not that there's much to see, but I don't mind you chatting with us!
-
 ## Reading Material
 
 - [Design Document](https://github.com/Earthcrusher/Blackbirds/blob/dev/Design%20Document.md).
